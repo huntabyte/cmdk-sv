@@ -1,6 +1,6 @@
 import { getContext, setContext } from 'svelte';
 import { commandScore } from '$lib/internal/command-score.js';
-import type { CommandProps, Context, Group, State, StateStore } from './types';
+import type { CommandProps, Context, Group, State, StateStore } from './types.js';
 import { get, writable } from 'svelte/store';
 import {
 	omit,
@@ -8,7 +8,8 @@ import {
 	toWritableStores,
 	isHTMLElement,
 	isUndefined,
-	kbd
+	kbd,
+	removeUndefined
 } from '$lib/internal/index.js';
 
 const NAME = 'Command';
@@ -30,7 +31,6 @@ const defaults = {
 	label: 'Command menu',
 	shouldFilter: true,
 	loop: false,
-	defaultValue: undefined,
 	onValueChange: undefined,
 	value: undefined,
 	filter: defaultFilter
@@ -44,12 +44,12 @@ export function getState() {
 	return getContext<StateStore>(STATE_NAME);
 }
 
-export function createGroup(forceVisible: boolean | undefined) {
+export function createGroup(alwaysRender: boolean | undefined) {
 	const id = generateId();
 
 	setContext<Group>(GROUP_NAME, {
 		id,
-		forceVisible: isUndefined(forceVisible) ? false : forceVisible
+		alwaysRender: isUndefined(alwaysRender) ? false : alwaysRender
 	});
 	return { id };
 }
@@ -61,8 +61,8 @@ export function getGroup() {
 }
 
 export function createCommand(props: CommandProps) {
-	const withDefaults = { ...defaults, ...props } satisfies CommandProps;
-	const defaultValue = props.value ? get(props.value) : props.defaultValue?.toLowerCase() ?? '';
+	const withDefaults = { ...defaults, ...removeUndefined(props) } satisfies CommandProps;
+	const defaultValue = props.value ?? '';
 
 	const state = writable<State>({
 		/** The value of the search query */
@@ -87,7 +87,7 @@ export function createCommand(props: CommandProps) {
 	const allIds = writable<Map<string, string>>(new Map()); // id → value
 	const commandEl = writable<HTMLDivElement | null>(null);
 
-	const options = toWritableStores(omit(withDefaults, 'value', 'defaultValue'));
+	const options = toWritableStores(omit(withDefaults, 'value'));
 	const { shouldFilter, loop, filter, label } = options;
 
 	const ids = {
