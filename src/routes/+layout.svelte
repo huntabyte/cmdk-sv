@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { ModeWatcher } from 'mode-watcher';
-	import '$lib/styles/app.postcss';
+	import '../styles/globals.postcss';
+	import '../styles/app.postcss';
 </script>
 
 <ModeWatcher />
