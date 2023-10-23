@@ -3,6 +3,8 @@
 	import { RaycastIcon, LinearIcon, VercelIcon, FramerIcon } from './icons';
 	import { kbd } from '$lib/internal';
 	import type { ComponentType } from 'svelte';
+	import { crossfade } from 'svelte/transition';
+	import { cubicInOut } from 'svelte/easing';
 
 	export let theme: Themes = 'raycast';
 	let showArrowKeyHint = false;
@@ -74,6 +76,11 @@
 			showArrowKeyHint = true;
 		}
 	}
+
+	const [send, receive] = crossfade({
+		duration: 250,
+		easing: cubicInOut
+	});
 </script>
 
 <div class="switcher" use:switcherAction>
@@ -86,7 +93,7 @@
 			<svelte:component this={icon} />
 			{key}
 			{#if isActive}
-				<div class="activeTheme" />
+				<div class="activeTheme" in:send={{ key: 'active' }} out:receive={{ key: 'active' }} />
 			{/if}
 		</button>
 	{/each}
