@@ -31,7 +31,7 @@
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
-		"@sveltejs/adapter-auto": "^2.1.0",
+		"@sveltejs/adapter-vercel": "^3.0.3",
 		"@sveltejs/kit": "^1.26.0",
 		"@sveltejs/package": "^2.2.2",
 		"@types/prismjs": "^1.26.2",
