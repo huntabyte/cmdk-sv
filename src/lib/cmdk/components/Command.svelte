@@ -3,7 +3,9 @@
 	import { createCommand } from '../command.js';
 	import type { CommandProps } from '../types.js';
 
-	type $$Props = CommandProps;
+	type $$Props = CommandProps & {
+		onKeydown?: (e: KeyboardEvent) => void;
+	};
 
 	export let label: $$Props['label'] = undefined;
 	export let shouldFilter: $$Props['shouldFilter'] = true;
@@ -11,6 +13,7 @@
 	export let value: $$Props['value'] = undefined;
 	export let onValueChange: $$Props['onValueChange'] = undefined;
 	export let loop: $$Props['loop'] = undefined;
+	export let onKeydown: ((e: KeyboardEvent) => void) | undefined = undefined;
 
 	const { commandEl, handleRootKeydown, ids } = createCommand({
 		label,
@@ -29,13 +32,19 @@
 	function rootAction(node: HTMLDivElement) {
 		commandEl.set(node);
 	}
+
+	function handleKeydown(e: KeyboardEvent) {
+		onKeydown?.(e);
+		if (e.defaultPrevented) return;
+		handleRootKeydown(e);
+	}
 </script>
 
 <!--  eslint-disable-next-line svelte/valid-compile -->
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <div
 	use:rootAction
-	on:keydown={handleRootKeydown}
+	on:keydown={handleKeydown}
 	role="application"
 	id={ids.root}
 	data-cmdk-root=""

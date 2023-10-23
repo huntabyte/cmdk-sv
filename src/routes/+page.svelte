@@ -7,7 +7,7 @@
 		ThemeSwitcher,
 		CodeBlock
 	} from '$docs/components';
-	import { RaycastCMDK, LinearCMDK } from '$docs/components/cmdk';
+	import { RaycastCMDK, LinearCMDK, VercelCMDK } from '$docs/components/cmdk';
 	import type { Themes } from '$docs/types';
 
 	let theme: Themes = 'raycast';
@@ -31,6 +31,8 @@
 				<RaycastCMDK />
 			{:else if theme === 'linear'}
 				<LinearCMDK />
+			{:else if theme === 'vercel'}
+				<VercelCMDK />
 			{/if}
 		</CMDKWrapper>
 		<ThemeSwitcher bind:theme />
