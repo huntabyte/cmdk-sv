@@ -7,7 +7,7 @@
 		ThemeSwitcher,
 		CodeBlock
 	} from '$docs/components';
-	import { RaycastCMDK } from '$docs/components/cmdk';
+	import { RaycastCMDK, LinearCMDK } from '$docs/components/cmdk';
 	import type { Themes } from '$docs/types';
 
 	let theme: Themes = 'raycast';
@@ -26,11 +26,13 @@
 				<GitHubButton />
 			</div>
 		</div>
-		{#if theme === 'raycast'}
-			<CMDKWrapper>
+		<CMDKWrapper>
+			{#if theme === 'raycast'}
 				<RaycastCMDK />
-			</CMDKWrapper>
-		{/if}
+			{:else if theme === 'linear'}
+				<LinearCMDK />
+			{/if}
+		</CMDKWrapper>
 		<ThemeSwitcher bind:theme />
 
 		<div aria-hidden class="line" />
