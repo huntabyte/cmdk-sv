@@ -47,7 +47,7 @@
 </script>
 
 <div class="vercel">
-	<Command.Root onKeydown={handleKeydown} bind:value={inputValue}>
+	<Command.Root onKeydown={handleKeydown}>
 		<div>
 			{#each pages as page}
 				<div data-cmdk-vercel-badge="">

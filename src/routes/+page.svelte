@@ -26,17 +26,25 @@
 				<GitHubButton />
 			</div>
 		</div>
-		<CMDKWrapper>
+		<div style:height="475px">
 			{#if theme === 'raycast'}
-				<RaycastCMDK />
+				<CMDKWrapper>
+					<RaycastCMDK />
+				</CMDKWrapper>
 			{:else if theme === 'linear'}
-				<LinearCMDK />
+				<CMDKWrapper>
+					<LinearCMDK />
+				</CMDKWrapper>
 			{:else if theme === 'vercel'}
-				<VercelCMDK />
+				<CMDKWrapper>
+					<VercelCMDK />
+				</CMDKWrapper>
 			{:else if theme === 'framer'}
-				<FramerCMDK />
+				<CMDKWrapper>
+					<FramerCMDK />
+				</CMDKWrapper>
 			{/if}
-		</CMDKWrapper>
+		</div>
 		<ThemeSwitcher bind:theme />
 
 		<div aria-hidden class="line" />
