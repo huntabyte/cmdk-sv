@@ -54,7 +54,7 @@
 				</div>
 			{/each}
 		</div>
-		<Command.Input autofocus placeholder="What do you need?" />
+		<Command.Input autofocus placeholder="What do you need?" bind:value={inputValue} />
 		<Command.List>
 			<Command.Empty>No results found.</Command.Empty>
 			{#if activePage === 'home'}
