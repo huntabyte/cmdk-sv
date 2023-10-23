@@ -13,10 +13,15 @@
 	import Logo from '$docs/components/logo.svelte';
 	import { Command } from '$lib';
 	import SubCommand from './sub-command.svelte';
+	import { onMount, tick } from 'svelte';
 	let value = 'linear';
 
 	let inputEl: HTMLInputElement | undefined;
 	let listEl: HTMLElement | undefined;
+
+	onMount(() => {
+		tick().then(() => inputEl?.focus());
+	});
 </script>
 
 <div class="raycast">

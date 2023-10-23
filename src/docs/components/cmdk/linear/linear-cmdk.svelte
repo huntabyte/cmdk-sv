@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ComponentType } from 'svelte';
+	import { onMount, type ComponentType, tick } from 'svelte';
 	import { Command } from '$lib';
 	import {
 		AssignToIcon,
@@ -55,12 +55,17 @@
 			shortcut: ['⇧', 'D']
 		}
 	];
+	let inputEl: HTMLInputElement;
+
+	onMount(() => {
+		tick().then(() => inputEl?.focus());
+	});
 </script>
 
 <div class="linear">
 	<Command.Root>
 		<div data-cmdk-linear-badge="">Issue - FUN-343</div>
-		<Command.Input autofocus placeholder="Type a command or search..." />
+		<Command.Input autofocus placeholder="Type a command or search..." bind:el={inputEl} />
 		<Command.List>
 			<Command.Empty>No results found.</Command.Empty>
 			{#each items as { label, shortcut, icon }}

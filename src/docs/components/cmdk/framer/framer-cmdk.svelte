@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Command } from '$lib';
-	import type { ComponentType } from 'svelte';
+	import { onMount, type ComponentType, tick } from 'svelte';
 	import {
 		AvatarIcon,
 		BadgeIcon,
@@ -14,7 +14,11 @@
 	import '$styles/cmdk/framer.postcss';
 
 	let value = 'Button';
+	let inputEl: HTMLInputElement;
 
+	onMount(() => {
+		tick().then(() => inputEl?.focus());
+	});
 	type Component = {
 		value: string;
 		subtitle: string;
@@ -64,7 +68,11 @@
 	<Command.Root bind:value>
 		<div data-cmdk-framer-header="">
 			<SearchIcon />
-			<Command.Input autofocus placeholder="Find components, packages, and interactions..." />
+			<Command.Input
+				autofocus
+				placeholder="Find components, packages, and interactions..."
+				bind:el={inputEl}
+			/>
 		</div>
 		<Command.List>
 			<div data-cmdk-framer-items="">
