@@ -69,7 +69,7 @@ export function createCommand(props: CommandProps) {
 		search: '',
 
 		/** The value of the selected command menu item */
-		value: defaultValue,
+		value: defaultValue.trim().toLowerCase(),
 
 		/** The filtered items */
 		filtered: {
