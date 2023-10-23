@@ -50,7 +50,7 @@
 			}
 		}
 
-		kbd {
+		& kbd {
 			font-family: var(--font-sans);
 			background: var(--gray3);
 			color: var(--gray11);
@@ -171,7 +171,7 @@
 			margin-top: 4px;
 		}
 
-		svg {
+		& svg {
 			width: 18px;
 			height: 18px;
 		}
@@ -215,7 +215,7 @@
 		justify-content: center;
 		color: #ffffff;
 
-		svg {
+		& svg {
 			width: 14px;
 			height: 14px;
 		}
@@ -242,12 +242,12 @@
 		right: 8px;
 		bottom: 8px;
 
-		svg {
+		& svg {
 			width: 14px;
 			height: 14px;
 		}
 
-		hr {
+		& hr {
 			height: 100%;
 			background: var(--gray6);
 			border: 0;
@@ -258,7 +258,7 @@
 		&:hover {
 			background: var(--gray4);
 
-			kbd {
+			& kbd {
 				background: var(--gray7);
 			}
 		}
@@ -271,7 +271,7 @@
 		margin: 4px 0;
 	}
 
-	*:not([hidden]) + [data-cmdk-group] {
+	& *:not([hidden]) + [data-cmdk-group] {
 		margin-top: 8px;
 	}
 
@@ -296,14 +296,14 @@
 		border-top: 1px solid var(--gray6);
 		border-radius: 0 0 12px 12px;
 
-		svg {
+		& svg {
 			width: 20px;
 			height: 20px;
 			filter: grayscale(1);
 			margin-right: auto;
 		}
 
-		hr {
+		& hr {
 			height: 12px;
 			width: 1px;
 			border: 0;
@@ -430,7 +430,7 @@
 			cursor: not-allowed;
 		}
 
-		svg {
+		& svg {
 			width: 16px;
 			height: 16px;
 		}
@@ -440,7 +440,7 @@
 			margin-left: auto;
 			gap: 2px;
 
-			kbd {
+			& kbd {
 				font-family: var(--font-sans);
 				background: var(--gray5);
 				color: var(--gray11);

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { styleToString } from '$lib/internal';
-	export let style: Record<string, string> = {};
+	export let style: Record<PropertyKey, string | number | undefined> = {};
 </script>
 
 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style={styleToString(style)}>

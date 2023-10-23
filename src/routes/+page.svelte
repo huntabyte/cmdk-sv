@@ -1,3 +1,35 @@
-<h1>Welcome to your library project</h1>
-<p>Create your package using @sveltejs/package and preview/showcase your work with SvelteKit</p>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import {
+		VersionBadge,
+		InstallButton,
+		GitHubButton,
+		CMDKWrapper,
+		ThemeSwitcher
+	} from '$docs/components';
+	import { RaycastCMDK } from '$docs/components/cmdk';
+	import type { Themes } from '$docs/types';
+
+	let theme: Themes = 'raycast';
+</script>
+
+<main class="main">
+	<div class="content">
+		<div class="meta">
+			<div class="info">
+				<VersionBadge />
+				<h1>⌘K-sv</h1>
+				<p>Fast, composable, unstyled command menu for Svelte.</p>
+			</div>
+			<div class="buttons">
+				<InstallButton />
+				<GitHubButton />
+			</div>
+		</div>
+		{#if theme === 'raycast'}
+			<CMDKWrapper>
+				<RaycastCMDK />
+			</CMDKWrapper>
+		{/if}
+		<ThemeSwitcher bind:theme />
+	</div>
+</main>
