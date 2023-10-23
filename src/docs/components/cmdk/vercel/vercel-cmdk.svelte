@@ -3,6 +3,7 @@
 	import { isHTMLElement, kbd } from '$lib/internal';
 	import Home from './home.svelte';
 	import Projects from './projects.svelte';
+	import '$styles/cmdk/vercel.postcss';
 
 	let inputValue: string;
 

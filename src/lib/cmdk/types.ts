@@ -69,14 +69,18 @@ type BaseCommandProps = {
 
 export type CommandProps = Expand<BaseCommandProps> & HTMLDivAttributes;
 
-export type ListProps = HTMLDivAttributes;
+export type ListProps = {
+	/**
+	 * The list element
+	 */
+	el?: HTMLElement;
+} & HTMLDivAttributes;
 
 export type InputProps = {
 	/**
-	 * Function called when the search value changes.
-	 * It receives the new value as an argument.
+	 * The list element
 	 */
-	onValueChange?: (search: string) => void;
+	el?: HTMLInputElement;
 } & HTMLInputAttributes;
 
 export type GroupProps = {
@@ -158,7 +162,7 @@ export type Context = {
 type UpdateState = <K extends keyof State>(
 	key: K,
 	value: State[K],
-	scrollIntoView?: boolean
+	preventScroll?: boolean
 ) => void;
 
 export type ConextStore = Writable<Context>;

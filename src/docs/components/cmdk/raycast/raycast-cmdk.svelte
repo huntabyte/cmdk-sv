@@ -2,7 +2,6 @@
 	import { mode } from 'mode-watcher';
 	import '$styles/cmdk/raycast.postcss';
 	import Item from './item.svelte';
-	import SubItem from './sub-item.svelte';
 	import {
 		LinearIcon,
 		FigmaIcon,
@@ -13,19 +12,19 @@
 	import { ClipboardIcon, HammerIcon, RaycastDarkIcon, RaycastLightIcon } from './icons';
 	import Logo from '$docs/components/logo.svelte';
 	import { Command } from '$lib';
+	import SubCommand from './sub-command.svelte';
 	let value = 'linear';
 
-	function focusAction(node: HTMLElement) {
-		node.focus();
-	}
+	let inputEl: HTMLInputElement | undefined;
+	let listEl: HTMLElement | undefined;
 </script>
 
 <div class="raycast">
 	<Command.Root bind:value>
 		<div data-cmdk-raycast-top-shine="" />
-		<Command.Input autofocus placeholder="Search for apps and commands..." />
+		<Command.Input autofocus placeholder="Search for apps and commands..." bind:el={inputEl} />
 		<hr data-cmdk-raycast-loader="" />
-		<Command.List>
+		<Command.List bind:el={listEl}>
 			<Command.Empty>No results found.</Command.Empty>
 			<Command.Group heading="Suggestions">
 				<Item value="Linear">
@@ -91,7 +90,10 @@
 				Open Application
 				<kbd>↵</kbd>
 			</button>
+
 			<hr />
+
+			<SubCommand {listEl} {inputEl} selectedValue={value} />
 		</div>
 	</Command.Root>
 </div>

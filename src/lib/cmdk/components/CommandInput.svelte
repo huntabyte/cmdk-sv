@@ -1,15 +1,17 @@
 <script lang="ts">
 	import { derived } from 'svelte/store';
 	import { ITEM_SELECTOR, VALUE_ATTR, getCtx, getState } from '../command.js';
-	import type { HTMLInputAttributes } from 'svelte/elements';
 	import { isBrowser, isHTMLInputElement } from '$lib/internal/index.js';
+	import type { InputProps } from '../types.js';
 
-	type $$Props = HTMLInputAttributes;
+	type $$Props = InputProps;
 
 	const { ids, commandEl } = getCtx();
 	const state = getState();
 	const search = derived(state, ($state) => $state.search);
 	const valueStore = derived(state, ($state) => $state.value);
+
+	export let el: HTMLElement | undefined = undefined;
 
 	export let value: $$Props['value'] = $search;
 
@@ -43,8 +45,9 @@
 		'aria-expanded': true,
 		'aria-controls': ids.list,
 		'aria-labelledby': ids.label,
-		'aria-activedescendant': $selectedItemId ?? undefined
+		'aria-activedescendant': $selectedItemId ?? undefined,
+		id: ids.input
 	};
 </script>
 
-<input {...attrs} bind:value on:change={handleInputChange} {...$$restProps} />
+<input bind:this={el} {...attrs} bind:value on:change={handleInputChange} {...$$restProps} />

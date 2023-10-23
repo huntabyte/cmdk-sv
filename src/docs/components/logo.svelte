@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { styleToString } from '$lib/internal';
 	export let size: string = '20px';
+	import '$styles/icons.postcss';
 </script>
 
 <div

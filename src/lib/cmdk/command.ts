@@ -1,4 +1,4 @@
-import { getContext, setContext } from 'svelte';
+import { getContext, setContext, tick } from 'svelte';
 import { commandScore } from '$lib/internal/command-score.js';
 import type { CommandProps, Context, Group, State, StateStore } from './types.js';
 import { get, writable } from 'svelte/store';
@@ -189,7 +189,7 @@ export function createCommand(props: CommandProps) {
 		updateState
 	};
 
-	function updateState<K extends keyof State>(key: K, value: State[K], scrollIntoView?: boolean) {
+	function updateState<K extends keyof State>(key: K, value: State[K], preventScroll?: boolean) {
 		const $shouldFilter = get(shouldFilter);
 		state.update((curr) => {
 			if (Object.is(curr[key], value)) return curr;
@@ -201,11 +201,9 @@ export function createCommand(props: CommandProps) {
 				const sortedState = sort(curr, $shouldFilter);
 				curr = sortedState;
 			} else if (key === 'value') {
-				if (!isUndefined(props.value)) {
-					const newValue = (value ?? '') as string;
-					props.onValueChange?.(newValue);
-				} else if (!scrollIntoView) {
-					scrollSelectedIntoView();
+				props.onValueChange?.(curr.value);
+				if (!preventScroll) {
+					tick().then(() => scrollSelectedIntoView());
 				}
 			}
 			return curr;
@@ -336,14 +334,17 @@ export function createCommand(props: CommandProps) {
 
 	function scrollSelectedIntoView() {
 		const item = getSelectedItem();
-		if (!item) return;
-		if (item.parentElement?.firstChild === item) {
-			item.closest(GROUP_SELECTOR)?.querySelector(GROUP_HEADING_SELECTOR)?.scrollIntoView({
-				block: 'nearest'
-			});
+		if (!item) {
+			return;
 		}
-
-		item.scrollIntoView({ block: 'nearest' });
+		if (item.parentElement?.firstChild === item) {
+			tick().then(() =>
+				item.closest(GROUP_SELECTOR)?.querySelector(GROUP_HEADING_SELECTOR)?.scrollIntoView({
+					block: 'nearest'
+				})
+			);
+		}
+		tick().then(() => item.scrollIntoView({ block: 'nearest' }));
 	}
 
 	function getValidItems(rootElement?: HTMLElement) {

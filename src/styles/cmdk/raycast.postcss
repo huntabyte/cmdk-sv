@@ -271,7 +271,7 @@
 		margin: 4px 0;
 	}
 
-	& *:not([hidden]) + [data-cmdk-group] {
+	*:not([hidden]) + [data-cmdk-group] {
 		margin-top: 8px;
 	}
 
@@ -382,6 +382,8 @@
 }
 
 .raycast-submenu {
+	z-index: 50;
+
 	[data-cmdk-root] {
 		display: flex;
 		flex-direction: column;

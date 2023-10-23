@@ -44,7 +44,6 @@
 	}
 
 	function handleItemClick() {
-		if (disabled) return;
 		select();
 		onSelect?.(value);
 	}

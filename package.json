@@ -41,9 +41,10 @@
 		"eslint": "^8.52.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte": "^2.34.0",
-		"mode-watcher": "^0.0.1",
-		"postcss": "^8.4.24",
+		"mode-watcher": "^0.0.2",
+		"postcss": "^8.4.31",
 		"postcss-load-config": "^4.0.1",
+		"postcss-preset-env": "^9.2.0",
 		"prettier": "^2.8.0",
 		"prettier-plugin-svelte": "^2.10.1",
 		"prism-svelte": "^0.5.0",
@@ -61,7 +62,7 @@
 	"types": "./dist/index.d.ts",
 	"type": "module",
 	"dependencies": {
-		"bits-ui": "^0.6.2",
+		"bits-ui": "^0.6.3",
 		"nanoid": "^5.0.2"
 	}
 }

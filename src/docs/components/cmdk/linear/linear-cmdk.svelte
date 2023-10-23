@@ -10,6 +10,7 @@
 		RemoveLabelIcon,
 		SetDueDateIcon
 	} from './icons/index.js';
+	import '$styles/cmdk/linear.postcss';
 
 	type Item = {
 		icon: ComponentType;
