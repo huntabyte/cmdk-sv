@@ -4,7 +4,8 @@
 		InstallButton,
 		GitHubButton,
 		CMDKWrapper,
-		ThemeSwitcher
+		ThemeSwitcher,
+		CodeBlock
 	} from '$docs/components';
 	import { RaycastCMDK } from '$docs/components/cmdk';
 	import type { Themes } from '$docs/types';
@@ -31,5 +32,8 @@
 			</CMDKWrapper>
 		{/if}
 		<ThemeSwitcher bind:theme />
+
+		<div aria-hidden class="line" />
+		<CodeBlock />
 	</div>
 </main>
