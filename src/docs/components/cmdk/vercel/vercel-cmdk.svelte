@@ -7,8 +7,8 @@
 	let inputValue: string;
 
 	let pages: string[] = ['home'];
-	const activePage = pages[pages.length - 1];
-	const isHome = activePage === 'home';
+	$: activePage = pages[pages.length - 1];
+	$: isHome = activePage === 'home';
 
 	function popPage() {
 		const next = [...pages];
