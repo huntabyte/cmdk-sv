@@ -4,7 +4,6 @@
 	import { code } from '$docs/code.js';
 
 	const highlighted = Prism.highlight(code, Prism.languages.svelte, 'svelte');
-	console.log(highlighted);
 </script>
 
 <div class="codeBlock">
