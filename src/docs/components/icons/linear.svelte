@@ -1,8 +1,9 @@
 <script lang="ts">
-	export let style: string = '';
+	import { styleToString } from '$lib/internal';
+	export let style: Record<string, string> = {};
 </script>
 
-<svg width="64" height="64" viewBox="0 0 64 64" fill="none" {style}>
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" style={styleToString(style)}>
 	<path
 		d="M0.403013 37.3991L26.6009 63.597C13.2225 61.3356 2.66442 50.7775 0.403013 37.3991Z"
 		fill="#5E6AD2"
