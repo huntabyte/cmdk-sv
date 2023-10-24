@@ -15,6 +15,16 @@
 	};
 </script>
 
-<div style:height="475px" out:flyAndScale={outConf} in:flyAndScale={inConf}>
-	<slot />
+<div style:position="relative" style:width="100%">
+	<div
+		style:height="475px"
+		style:width="100%"
+		style:position="absolute"
+		style:top="0"
+		style:left="0"
+		out:flyAndScale={outConf}
+		in:flyAndScale={inConf}
+	>
+		<slot />
+	</div>
 </div>
