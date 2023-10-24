@@ -10,7 +10,9 @@
 			<img src="/rauno.jpeg" alt="Avatar of Rauno" />
 			Rauno
 		</a>
-		- Ported to Svelte by
+	</div>
+	<div class="footerText">
+		Ported to Svelte by
 		<a href="https://twitter.com/huntabyte" target="_blank" rel="noopener noreferrer">
 			<img src="/huntabyte.png" alt="Avatar of Huntabyte" />
 			Huntabyte
