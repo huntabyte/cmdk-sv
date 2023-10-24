@@ -9,6 +9,8 @@
 	background: var(--lowContrast);
 	white-space: pre-wrap;
 	box-shadow: rgb(0 0 0 / 10%) 0px 5px 30px -5px;
+	display: flex;
+	flex-direction: column;
 
 	@media (prefers-color-scheme: dark) {
 		background: var(--grayA2);
@@ -39,6 +41,10 @@
 			background: var(--grayA5);
 			transform: scale(0.96);
 		}
+	}
+
+	.token {
+		padding-right: -1.25rem;
 	}
 }
 
@@ -73,49 +79,13 @@
  * @author ericwbailey
  */
 
-code[class*='language-'],
-pre[class*='language-'] {
-	color: var(--gray12);
-	background: none;
-	font-family: Menlo, monospace;
-	text-align: left;
-	white-space: pre;
-	word-spacing: normal;
-	word-break: normal;
-	word-wrap: normal;
-	line-height: 1.5;
-
-	-moz-tab-size: 2;
-	-o-tab-size: 2;
-	tab-size: 2;
-
-	-webkit-hyphens: none;
-	-moz-hyphens: none;
-	-ms-hyphens: none;
-	hyphens: none;
-}
-
-/* Code blocks */
-pre[class*='language-'] {
-	padding: 1em;
-	margin: 0.5em 0;
-	overflow: auto;
-	border-radius: 0.3em;
-}
-
-:not(pre) > code[class*='language-'],
-pre[class*='language-'] {
-	background: #2b2b2b;
-}
-
-/* Inline code */
-:not(pre) > code[class*='language-'] {
-	padding: 0.1em;
-	border-radius: 0.3em;
-	white-space: normal;
-}
-
 /* Not Mine */
+
+.token.class-name,
+.token.function,
+.token.tag {
+	color: var(--gray12);
+}
 
 .token.selector,
 .token.attr-name,
@@ -154,10 +124,4 @@ pre[class*='language-'] {
 .token.punctuation,
 .token.operator {
 	color: var(--gray9);
-}
-
-.token.class-name,
-.token.function,
-.token.tag {
-	color: var(--gray12);
 }
