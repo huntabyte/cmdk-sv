@@ -158,10 +158,6 @@
 			&::placeholder {
 				color: var(--gray9);
 			}
-
-			@media (prefers-color-scheme: dark) {
-				background: var(--gray3);
-			}
 		}
 
 		[data-cmdk-framer-radio] {
@@ -257,6 +253,16 @@
 
 		[data-cmdk-framer-item-subtitle] {
 			display: none;
+		}
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	.framer {
+		[data-cmdk-framer-right] {
+			& input[type='text'] {
+				background: var(--gray3);
+			}
 		}
 	}
 }

@@ -5,7 +5,8 @@
 		GitHubButton,
 		CMDKWrapper,
 		ThemeSwitcher,
-		CodeBlock
+		CodeBlock,
+		Footer
 	} from '$docs/components';
 	import { RaycastCMDK, LinearCMDK, VercelCMDK, FramerCMDK } from '$docs/components/cmdk';
 	import type { Themes } from '$docs/types';
@@ -50,4 +51,5 @@
 		<div aria-hidden class="line" />
 		<CodeBlock />
 	</div>
+	<Footer />
 </main>
