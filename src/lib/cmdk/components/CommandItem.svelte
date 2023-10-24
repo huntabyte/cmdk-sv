@@ -20,9 +20,7 @@
 	const trueAlwaysRender = alwaysRender ?? groupContext?.alwaysRender;
 
 	const render = derived(state, ($state) => {
-		if (trueAlwaysRender) return true;
-		if (context.filter() === false) return true;
-		if (!$state.search) return true;
+		if (trueAlwaysRender || context.filter() === false || !$state.search) return true;
 		const currentScore = $state.filtered.items.get(id);
 		if (isUndefined(currentScore)) return false;
 		return currentScore > 0;
