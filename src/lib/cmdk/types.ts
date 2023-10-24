@@ -27,6 +27,12 @@ export type DialogProps = DialogPrimitive.Props & {};
 
 type BaseCommandProps = {
 	/**
+	 * Controlled state store for the command menu.
+	 * Initialize state using the `createState` function.
+	 */
+	state?: Writable<State>;
+
+	/**
 	 * An accessible label for the command menu.
 	 * Not visible & only used for screen readers.
 	 */
@@ -137,11 +143,17 @@ export type CommandOptionStores = {
 };
 
 export type State = {
+	/** The value of the search query */
 	search: string;
+	/** The value of the selected command menu item */
 	value: string;
+	/** The filtered items */
 	filtered: {
+		/** The count of all visible items. */
 		count: number;
+		/** Map from visible item id to its search store. */
 		items: Map<string, number>;
+		/** Set of groups with at least one visible item. */
 		groups: Set<string>;
 	};
 };

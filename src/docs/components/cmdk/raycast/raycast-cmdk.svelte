@@ -14,8 +14,8 @@
 	import { Command } from '$lib';
 	import SubCommand from './sub-command.svelte';
 	import { onMount, tick } from 'svelte';
-	let value = 'linear';
 
+	let value = 'linear';
 	let inputEl: HTMLInputElement | undefined;
 	let listEl: HTMLElement | undefined;
 
@@ -32,31 +32,31 @@
 		<Command.List bind:el={listEl}>
 			<Command.Empty>No results found.</Command.Empty>
 			<Command.Group heading="Suggestions">
-				<Item value="Linear">
+				<Item value="linear">
 					<Logo>
 						<LinearIcon style={{ width: 12, height: 12 }} />
 					</Logo>
 					Linear
 				</Item>
-				<Item value="Figma">
+				<Item value="figma">
 					<Logo>
 						<FigmaIcon />
 					</Logo>
 					Figma
 				</Item>
-				<Item value="Slack">
+				<Item value="slack">
 					<Logo>
 						<SlackIcon />
 					</Logo>
 					Slack
 				</Item>
-				<Item value="YouTube">
+				<Item value="youtube">
 					<Logo>
 						<YouTubeIcon />
 					</Logo>
 					YouTube
 				</Item>
-				<Item value="Raycast">
+				<Item value="raycast">
 					<Logo>
 						<RaycastIcon />
 					</Logo>
@@ -64,19 +64,19 @@
 				</Item>
 			</Command.Group>
 			<Command.Group heading="Commands">
-				<Item isCommand value="Clipboard History">
+				<Item isCommand value="clipboard history">
 					<Logo>
 						<ClipboardIcon />
 					</Logo>
 					Clipboard History
 				</Item>
-				<Item isCommand value="Import Extension">
+				<Item isCommand value="import extension">
 					<Logo>
 						<HammerIcon />
 					</Logo>
 					Import Extension
 				</Item>
-				<Item isCommand value="Manage Extensions">
+				<Item isCommand value="manage extensions">
 					<Logo>
 						<HammerIcon />
 					</Logo>

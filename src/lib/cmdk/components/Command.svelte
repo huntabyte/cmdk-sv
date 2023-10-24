@@ -14,6 +14,7 @@
 	export let onValueChange: $$Props['onValueChange'] = undefined;
 	export let loop: $$Props['loop'] = undefined;
 	export let onKeydown: ((e: KeyboardEvent) => void) | undefined = undefined;
+	export let state: $$Props['state'] = undefined;
 
 	const { commandEl, handleRootKeydown, ids } = createCommand({
 		label,
@@ -26,7 +27,8 @@
 				onValueChange?.(next);
 			}
 		},
-		loop
+		loop,
+		state
 	});
 
 	function rootAction(node: HTMLDivElement) {

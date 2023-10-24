@@ -17,8 +17,10 @@ import Item from './components/CommandItem.svelte';
 import List from './components/CommandList.svelte';
 import Loading from './components/CommandLoading.svelte';
 import Separator from './components/CommandSeparator.svelte';
+import { createState } from './command.js';
 
 export {
+	// Components
 	Root,
 	Empty,
 	Group,
@@ -36,7 +38,7 @@ export {
 	List as CommandList,
 	Loading as CommandLoading,
 	Separator as CommandSeparator,
-	//
+	// Props
 	LoadingProps,
 	CommandProps,
 	EmptyProps,
@@ -44,5 +46,7 @@ export {
 	GroupProps,
 	ListProps,
 	InputProps,
-	SeparatorProps
+	SeparatorProps,
+	// helpers
+	createState
 };

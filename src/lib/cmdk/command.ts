@@ -27,15 +27,6 @@ export const VALUE_ATTR = `data-value`;
 const defaultFilter: (value: string, search: string) => number = (value, search) =>
 	commandScore(value, search);
 
-const defaults = {
-	label: 'Command menu',
-	shouldFilter: true,
-	loop: false,
-	onValueChange: undefined,
-	value: undefined,
-	filter: defaultFilter
-} satisfies CommandProps;
-
 export function getCtx() {
 	return getContext<Context>(NAME);
 }
@@ -60,27 +51,39 @@ export function getGroup() {
 	return context;
 }
 
-export function createCommand(props: CommandProps) {
-	const withDefaults = { ...defaults, ...removeUndefined(props) } satisfies CommandProps;
-	const defaultValue = props.value ?? '';
-
-	const state = writable<State>({
-		/** The value of the search query */
+export function createState(initialValues?: Partial<State>) {
+	const defaultState: State = {
 		search: '',
-
-		/** The value of the selected command menu item */
-		value: defaultValue.trim().toLowerCase(),
-
-		/** The filtered items */
+		value: '',
 		filtered: {
-			/** The count of all visible items. */
 			count: 0,
-			/** Map from visible item id to its search store. */
 			items: new Map(),
-			/** Set of groups with at least one visible item. */
 			groups: new Set()
 		}
-	});
+	};
+	const state = writable<State>(
+		initialValues ? { ...defaultState, ...removeUndefined(initialValues) } : defaultState
+	);
+	return state;
+}
+
+const defaults = {
+	label: 'Command menu',
+	shouldFilter: true,
+	loop: false,
+	onValueChange: undefined,
+	value: undefined,
+	filter: defaultFilter
+} satisfies CommandProps;
+
+export function createCommand(props: CommandProps) {
+	const withDefaults = { ...defaults, ...removeUndefined(props) } satisfies CommandProps;
+
+	const state =
+		props.state ??
+		createState({
+			value: withDefaults.value
+		});
 
 	const allItems = writable<Set<string>>(new Set()); // [...itemIds]
 	const allGroups = writable<Map<string, Set<string>>>(new Map()); // groupId → [...itemIds]
