@@ -31,6 +31,7 @@
 	<meta property="og:description" content={description} />
 	<meta property="og:site_name" content={title} />
 	<meta property="og:locale" content="EN_US" />
+	<meta property="og:url" content={siteUrl} />
 </svelte:head>
 
 <ModeWatcher />
