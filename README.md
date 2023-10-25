@@ -2,9 +2,9 @@
 <img src="./static/og.png" />
 </p>
 
-# ⌘K [![cmdk minzip package size](https://img.shields.io/bundlephobia/minzip/cmdk-sv)](https://www.npmjs.com/package/cmdk-sv?activeTab=code) [![cmdk package version](https://img.shields.io/npm/v/cmdk.svg?colorB=green)](https://www.npmjs.com/package/cmdk-sv)
+# ⌘K-sv [![cmdk minzip package size](https://img.shields.io/bundlephobia/minzip/cmdk-sv)](https://www.npmjs.com/package/cmdk-sv?activeTab=code) [![cmdk package version](https://img.shields.io/npm/v/cmdk.svg?colorB=green)](https://www.npmjs.com/package/cmdk-sv)
 
-A port of [cmdk](https://cmdk.paco.me) to Svelte.
+A port of [cmdk](https://cmdk.paco.me), to Svelte.
 
 ⌘K-sv is a command menu Svelte component that can also be used as an accessible combobox. You render items, it filters and sorts them automatically.
 
@@ -406,7 +406,7 @@ Render the items as they become available. Filtering and sorting will happen aut
 
 ### Use inside Popover
 
-We recommend using the [Bits UI popover](https://www.bits-ui.com/docs/components/popover) component. ⌘K relies on the Bits UI Dialog component, so this will reduce the number of dependencies you'll need.
+We recommend using the [Bits UI popover](https://www.bits-ui.com/docs/components/popover) component. ⌘K-sv relies on the Bits UI Dialog component, so this will reduce the number of dependencies you'll need.
 
 ```bash
 $ npm install bits-ui
