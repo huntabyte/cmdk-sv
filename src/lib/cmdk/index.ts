@@ -7,7 +7,8 @@ import type {
 	ListProps,
 	InputProps,
 	SeparatorProps,
-	DialogProps
+	DialogProps,
+	State
 } from './types.js';
 
 import Root from './components/Command.svelte';
@@ -53,5 +54,6 @@ export {
 	InputProps,
 	SeparatorProps,
 	// helpers
-	createState
+	createState,
+	State
 };

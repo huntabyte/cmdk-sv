@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Command } from '$lib';
+	import * as Command from '$lib';
 	import type { ItemProps } from '$lib/cmdk';
 	export let value: string;
 	export let isCommand: boolean = false;

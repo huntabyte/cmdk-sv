@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Command } from '$lib';
+	import * as Command from '$lib';
 	import { Popover } from 'bits-ui';
 	import { onMount, tick } from 'svelte';
 	import SubItem from './sub-item.svelte';

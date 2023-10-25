@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Command } from '$lib';
+	import * as Command from '$lib';
 	import { ContactIcon, DocsIcon, FeedbackIcon, PlusIcon, ProjectsIcon, TeamsIcon } from './icons';
 	import Item from './item.svelte';
 	export let searchProjects: () => void;
