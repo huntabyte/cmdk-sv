@@ -409,7 +409,7 @@ Render the items as they become available. Filtering and sorting will happen aut
 We recommend using the [Bits UI popover](https://www.bits-ui.com/docs/components/popover) component. ⌘K-sv relies on the Bits UI Dialog component, so this will reduce the number of dependencies you'll need.
 
 ```bash
-$ npm install bits-ui
+npm install bits-ui
 ```
 
 Render `Command` inside of the popover content:
