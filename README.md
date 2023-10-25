@@ -2,7 +2,7 @@
 <img src="./static/og.png" />
 </p>
 
-# ⌘K-sv [![cmdk-sv minzip package size](https://img.shields.io/bundlephobia/minzip/cmdk-sv)](https://www.npmjs.com/package/cmdk-sv?activeTab=code) [![cmdk package version](https://img.shields.io/npm/v/cmdk.svg?colorB=green)](https://www.npmjs.com/package/cmdk-sv)
+# ⌘K-sv [![cmdk-sv minzip package size](https://img.shields.io/bundlephobia/minzip/cmdk-sv)](https://www.npmjs.com/package/cmdk-sv?activeTab=code) [![cmdk package version](https://img.shields.io/npm/v/cmdk-sv.svg?colorB=green)](https://www.npmjs.com/package/cmdk-sv)
 
 A port of [cmdk](https://cmdk.paco.me), to Svelte.
 
