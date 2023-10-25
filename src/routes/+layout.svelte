@@ -16,7 +16,7 @@
 	<meta name="keywords" content={description} />
 	<meta name="author" content="huntabyte" />
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:site" content={siteUrl} />
+	<meta name="twitter:site" content="https://cmdk-sv.com" />
 	<meta name="twitter:title" content={title} />
 	<meta name="twitter:description" content={description} />
 	<meta name="twitter:image" content="https://cmdk-sv.com/og.png" />
