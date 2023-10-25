@@ -10,8 +10,9 @@ import {
 	CommandLoading,
 	CommandSeparator
 } from './cmdk/index.js';
+
 export * as Command from './cmdk/index.js';
-export * from './types.js';
+export type * from './cmdk/types.js';
 export { createState };
 
 export {
