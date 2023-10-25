@@ -6,7 +6,7 @@
 
 	const title = '⌘K-sv';
 	const description = 'Fast, composable, unstyled command menu for Svelte';
-	const siteUrl = 'https://cmdk-sv.com';
+	const siteUrl = 'https://www.cmdk-sv.com';
 </script>
 
 <svelte:head>
