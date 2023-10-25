@@ -44,8 +44,24 @@ Or in a dialog:
 
 ```svelte
 <script lang="ts">
-	// todo
+	import { Command } from 'cmdk-sv';
 </script>
+
+<Command.Dialog label="Command Menu">
+	<Command.Input />
+	<Command.List>
+		<Command.Empty>No results found.</Command.Empty>
+
+		<Command.Group heading="Letters">
+			<Command.Item>a</Command.Item>
+			<Command.Item>b</Command.Item>
+			<Command.Separator />
+			<Command.Item>c</Command.Item>
+		</Command.Group>
+
+		<Command.Item>Apple</Command.Item>
+	</Command.List>
+</Command.Dialog>
 ```
 
 ## Styling
@@ -54,30 +70,28 @@ Each part has a specific data-attribute (starting with `data-cmdk-`) that can be
 
 ### Command `[cmdk-root]`
 
-Render this to show the command menu inline, or use [Dialog](#dialog-cmdk-dialog-cmdk-overlay) to render in a elevated context. Can be controlled with the `value` and `onValueChange` props.
+Render this to show the command menu inline, or use [Dialog](#dialog-cmdk-dialog-cmdk-overlay) to render in a elevated context. Can be controlled by binding to the `value` prop.
 
-> **Note**
->
-> Values are always converted to lowercase and trimmed. Use `apple`, not `Apple`.
+```svelte
+<script lang="ts">
+	import { Command } from 'cmdk-sv';
 
-```tsx
-const [value, setValue] = React.useState('apple');
+	let value = 'apple';
+</script>
 
-return (
-	<Command value={value} onValueChange={setValue}>
-		<Command.Input />
-		<Command.List>
-			<Command.Item>Orange</Command.Item>
-			<Command.Item>Apple</Command.Item>
-		</Command.List>
-	</Command>
-);
+<Command.Root bind:value>
+	<Command.Input />
+	<Command.List>
+		<Command.Item>Orange</Command.Item>
+		<Command.Item>Apple</Command.Item>
+	</Command.List>
+</Command.Root>
 ```
 
 You can provide a custom `filter` function that is called to rank each item. Both strings are normalized as lowercase and trimmed.
 
-```tsx
-<Command
+```svelte
+<Command.Root
 	filter={(value, search) => {
 		if (value.includes(search)) return 1;
 		return 0;

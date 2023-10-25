@@ -328,11 +328,12 @@ export function createCommand(props: CommandProps) {
 	}
 
 	function score(value: string | undefined, search: string) {
+		const lowerCaseAndTrimmedValue = value?.toLowerCase().trim();
 		const filterFn = get(filter);
 		if (!filterFn) {
-			return value ? defaultFilter(value, search) : 0;
+			return lowerCaseAndTrimmedValue ? defaultFilter(lowerCaseAndTrimmedValue, search) : 0;
 		}
-		return value ? filterFn(value, search) : 0;
+		return lowerCaseAndTrimmedValue ? filterFn(lowerCaseAndTrimmedValue, search) : 0;
 	}
 
 	function scrollSelectedIntoView() {

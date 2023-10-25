@@ -13,10 +13,15 @@
 	export let value: $$Props['value'] = undefined;
 	export let onValueChange: $$Props['onValueChange'] = undefined;
 	export let loop: $$Props['loop'] = undefined;
-	export let onKeydown: ((e: KeyboardEvent) => void) | undefined = undefined;
+	export let onKeydown: $$Props['onKeydown'] = undefined;
 	export let state: $$Props['state'] = undefined;
 
-	const { commandEl, handleRootKeydown, ids } = createCommand({
+	const {
+		commandEl,
+		handleRootKeydown,
+		ids,
+		state: stateStore
+	} = createCommand({
 		label,
 		shouldFilter,
 		filter,
@@ -30,6 +35,14 @@
 		loop,
 		state
 	});
+
+	function syncValueAndState(value: string | undefined) {
+		if (value && value !== $stateStore.value) {
+			$stateStore.value = value;
+		}
+	}
+
+	$: syncValueAndState(value);
 
 	function rootAction(node: HTMLDivElement) {
 		commandEl.set(node);
