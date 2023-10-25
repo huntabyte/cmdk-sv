@@ -271,7 +271,7 @@
 		margin: 4px 0;
 	}
 
-	*:not([hidden]) + [data-cmdk-group] {
+	& *:not([hidden]) + [data-cmdk-group] {
 		margin-top: 8px;
 	}
 
@@ -295,6 +295,7 @@
 		padding: 8px;
 		border-top: 1px solid var(--gray6);
 		border-radius: 0 0 12px 12px;
+		z-index: 2;
 
 		& svg {
 			width: 20px;
@@ -309,10 +310,6 @@
 			border: 0;
 			background: var(--gray6);
 			margin: 0 4px 0px 12px;
-		}
-
-		@media (prefers-color-scheme: dark) {
-			background: var(--gray2);
 		}
 	}
 
@@ -537,6 +534,14 @@
 	.raycast {
 		[data-cmdk-input] {
 			font-size: 16px;
+		}
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	.raycast {
+		[data-cmdk-raycast-footer] {
+			background: var(--gray2);
 		}
 	}
 }
