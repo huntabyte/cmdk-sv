@@ -40,8 +40,10 @@ export {
 	Item as CommandItem,
 	List as CommandList,
 	Loading as CommandLoading,
-	Separator as CommandSeparator,
-	// Props
+	Separator as CommandSeparator
+};
+
+export type {
 	LoadingProps,
 	DialogProps,
 	CommandProps,
