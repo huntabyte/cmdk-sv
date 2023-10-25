@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, type ComponentType, tick } from 'svelte';
-	import * as Command from '$lib';
+	import { Command } from '$lib';
 	import {
 		AssignToIcon,
 		AssignToMeIcon,

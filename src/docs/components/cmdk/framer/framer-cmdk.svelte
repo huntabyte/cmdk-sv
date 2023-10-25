@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as Command from '$lib';
+	import { Command } from '$lib';
 	import { onMount, type ComponentType, tick } from 'svelte';
 	import {
 		AvatarIcon,

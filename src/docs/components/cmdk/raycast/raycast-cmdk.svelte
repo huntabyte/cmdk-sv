@@ -11,7 +11,7 @@
 	} from '$docs/components/icons';
 	import { ClipboardIcon, HammerIcon, RaycastDarkIcon, RaycastLightIcon } from './icons';
 	import Logo from '$docs/components/logo.svelte';
-	import * as Command from '$lib';
+	import { Command } from '$lib';
 	import SubCommand from './sub-command.svelte';
 	import { onMount, tick } from 'svelte';
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as Command from '$lib';
+	import { Command } from '$lib';
 
 	export let shortcut: string = '';
 	export let onSelect: ((value: string) => void) | undefined = undefined;

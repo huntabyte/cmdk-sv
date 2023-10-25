@@ -20,7 +20,7 @@ npm install cmdk-sv
 
 ```svelte
 <script lang="ts">
-	import * as Command from 'cmdk-sv';
+	import { Command } from 'cmdk-sv';
 </script>
 
 <Command.Root label="Command Menu">
@@ -44,7 +44,7 @@ Or in a dialog:
 
 ```svelte
 <script lang="ts">
-	import * as Command from 'cmdk-sv';
+	import { Command } from 'cmdk-sv';
 </script>
 
 <Command.Dialog label="Command Menu">
@@ -74,7 +74,7 @@ Render this to show the command menu inline, or use [Dialog](#dialog-cmdk-dialog
 
 ```svelte
 <script lang="ts">
-	import * as Command from 'cmdk-sv';
+	import { Command } from 'cmdk-sv';
 
 	let value = 'apple';
 </script>
@@ -146,7 +146,7 @@ All props are forwarded to the underlying `input` element. Can be controlled as 
 
 ```svelte
 <script lang="ts">
-	import * as Command from 'cmdk-sv';
+	import { Command } from 'cmdk-sv';
 
 	let search = '';
 </script>
@@ -221,7 +221,7 @@ You should conditionally render this with `progress` while loading asynchronous 
 
 ```svelte
 <script lang="ts">
-	import * as Command from 'cmdk-sv';
+	import { Command } from 'cmdk-sv';
 
 	let loading = false;
 </script>
@@ -313,7 +313,7 @@ If your items have nested sub-items that you only want to reveal when searching,
 ```svelte
 <!-- SubItem.svelte -->
 <script lang="ts">
-	import * as Command from 'cmdk-sv';
+	import { Command } from 'cmdk-sv';
 
 	type $$Props = Command.ItemProps & {
 		search?: string;
@@ -354,7 +354,7 @@ Using the input value:
 ```svelte
 <!-- CommandMenu.svelte -->
 <script lang="ts">
-	import * as Command from 'cmdk-sv';
+	import { Command } from 'cmdk-sv';
 	import SubItem from './SubItem.svelte';
 	let search: string;
 </script>
@@ -375,7 +375,7 @@ Render the items as they become available. Filtering and sorting will happen aut
 
 ```svelte
 <script lang="ts">
-	import * as Command from 'cmdk-sv';
+	import { Command } from 'cmdk-sv';
 
 	let loading = false;
 	let items: string[] = [];
@@ -416,7 +416,7 @@ Render `Command` inside of the popover content:
 
 ```svelte
 <script lang="ts">
-	import * as Command from 'cmdk-sv';
+	import { Command } from 'cmdk-sv';
 	import { Popover } from 'bits-ui';
 </script>
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as Command from '$lib';
+	import { Command } from '$lib';
 	import { isHTMLElement, kbd } from '$lib/internal';
 	import Home from './home.svelte';
 	import Projects from './projects.svelte';
