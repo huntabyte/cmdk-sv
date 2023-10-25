@@ -1,4 +1,5 @@
 import type { HTMLAttributes } from 'svelte/elements';
+import type { TransitionConfig } from 'svelte/transition';
 
 export type Expand<T> = T extends object
 	? T extends infer O
@@ -22,3 +23,10 @@ export type RenameProperties<T, NewNames extends Partial<Record<keyof T, string>
 			: K
 		: K]: T[K];
 }>;
+
+export type PrefixKeys<T, Prefix extends string> = Expand<{
+	[K in keyof T as `${Prefix}${Capitalize<string & K>}`]: T[K];
+}>;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Transition = (node: Element, params?: any) => TransitionConfig;

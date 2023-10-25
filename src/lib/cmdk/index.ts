@@ -6,10 +6,12 @@ import type {
 	GroupProps,
 	ListProps,
 	InputProps,
-	SeparatorProps
+	SeparatorProps,
+	DialogProps
 } from './types.js';
 
 import Root from './components/Command.svelte';
+import Dialog from './components/CommandDialog.svelte';
 import Empty from './components/CommandEmpty.svelte';
 import Group from './components/CommandGroup.svelte';
 import Input from './components/CommandInput.svelte';
@@ -22,6 +24,7 @@ import { createState } from './command.js';
 export {
 	// Components
 	Root,
+	Dialog,
 	Empty,
 	Group,
 	Input,
@@ -31,6 +34,7 @@ export {
 	Separator,
 	//
 	Root as CommandRoot,
+	Dialog as CommandDialog,
 	Empty as CommandEmpty,
 	Group as CommandGroup,
 	Input as CommandInput,
@@ -40,6 +44,7 @@ export {
 	Separator as CommandSeparator,
 	// Props
 	LoadingProps,
+	DialogProps,
 	CommandProps,
 	EmptyProps,
 	ItemProps,

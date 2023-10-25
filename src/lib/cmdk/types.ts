@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import type { Expand, HTMLDivAttributes } from '$lib/internal';
+import type { Expand, HTMLDivAttributes, Transition, PrefixKeys } from '$lib/internal';
 import type { Dialog as DialogPrimitive } from 'bits-ui';
 import type { HTMLInputAttributes } from 'svelte/elements';
 import type { Writable } from 'svelte/store';
@@ -22,8 +22,6 @@ export type SeparatorProps = {
 	 */
 	alwaysRender?: boolean;
 } & HTMLDivAttributes;
-
-export type DialogProps = DialogPrimitive.Props & {};
 
 type BaseCommandProps = {
 	/**
@@ -134,6 +132,42 @@ export type ItemProps = {
 	 */
 	alwaysRender?: boolean;
 } & HTMLDivAttributes;
+
+type TransitionProps =
+	| 'transition'
+	| 'transitionConfig'
+	| 'inTransition'
+	| 'inTransitionConfig'
+	| 'outTransition'
+	| 'outTransitionConfig';
+
+export type OverlayProps<
+	T extends Transition = Transition,
+	In extends Transition = Transition,
+	Out extends Transition = Transition
+> = PrefixKeys<Pick<DialogPrimitive.OverlayProps<T, In, Out>, TransitionProps>, 'overlay'> & {
+	overlayClasses?: string;
+};
+
+export type ContentProps<
+	T extends Transition = Transition,
+	In extends Transition = Transition,
+	Out extends Transition = Transition
+> = PrefixKeys<Pick<DialogPrimitive.ContentProps<T, In, Out>, TransitionProps>, 'content'> & {
+	contentClasses?: string;
+};
+
+export type DialogProps<
+	ContentT extends Transition = Transition,
+	ContentIn extends Transition = Transition,
+	ContentOut extends Transition = Transition,
+	OverlayT extends Transition = Transition,
+	OverlayIn extends Transition = Transition,
+	OverlayOut extends Transition = Transition
+> = CommandProps &
+	DialogPrimitive.Props &
+	OverlayProps<OverlayT, OverlayIn, OverlayOut> &
+	ContentProps<ContentT, ContentIn, ContentOut>;
 
 //
 // Internal

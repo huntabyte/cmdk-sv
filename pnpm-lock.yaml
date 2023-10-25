@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   bits-ui:
-    specifier: ^0.6.3
-    version: 0.6.3(svelte@4.2.2)
+    specifier: ^0.7.0
+    version: 0.7.0(svelte@4.2.2)
   nanoid:
     specifier: ^5.0.2
     version: 5.0.2
@@ -1354,8 +1354,8 @@ packages:
       file-uri-to-path: 1.0.0
     dev: true
 
-  /bits-ui@0.6.3(svelte@4.2.2):
-    resolution: {integrity: sha512-hekh9UeJKKcNr7lGVsCJkea70j6yAASHaN600oGRuEVjPHmX/C0MwvQ+1xpNGzHZoTQeJaZkWJJhLG43dZYafA==}
+  /bits-ui@0.7.0(svelte@4.2.2):
+    resolution: {integrity: sha512-F9f6xBBh+YW+TieMjmr2V7SamGE9eOIDUDCq6yaSi7Ks5dkNHZLqSs7hcuptJJup6xUcJhUQBFbKJaxtyZBYGA==}
     peerDependencies:
       svelte: ^4.0.0
     dependencies:
