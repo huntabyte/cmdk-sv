@@ -88,6 +88,9 @@ devDependencies:
   svelte-motion:
     specifier: ^0.11.5
     version: 0.11.5(svelte@4.2.2)
+  svelte-seo:
+    specifier: ^1.5.4
+    version: 1.5.4(typescript@5.2.2)
   tslib:
     specifier: ^2.6.2
     version: 2.6.2
@@ -4297,6 +4300,14 @@ packages:
       rimraf: 2.7.1
     dev: true
 
+  /schema-dts@1.1.2(typescript@5.2.2):
+    resolution: {integrity: sha512-MpNwH0dZJHinVxk9bT8XUdjKTxMYrA5bLtrrGmFA6PTLwlOKnhi67XoRd6/ty+Djt6ZC0slR57qFhZDNMI6DhQ==}
+    peerDependencies:
+      typescript: '>=4.1.0'
+    dependencies:
+      typescript: 5.2.2
+    dev: true
+
   /semver@5.7.2:
     resolution: {integrity: sha512-cBznnQ9KjJqU67B52RMC65CMarK2600WFnbkcaiwWq3xy/5haFJlshgnpjovMVJ+Hff49d8GEn0b87C5pDQ10g==}
     hasBin: true
@@ -4688,6 +4699,14 @@ packages:
       strip-indent: 3.0.0
       svelte: 4.2.2
       typescript: 5.2.2
+    dev: true
+
+  /svelte-seo@1.5.4(typescript@5.2.2):
+    resolution: {integrity: sha512-pevGUiWkqLrSWXVkxE0SbkBLNsz2dVaiK8/kBq2eUHYdyzuPEZGbqtUARyJZHouv28xre7IU9t0VnoYt8d4kzA==}
+    dependencies:
+      schema-dts: 1.1.2(typescript@5.2.2)
+    transitivePeerDependencies:
+      - typescript
     dev: true
 
   /svelte2tsx@0.6.23(svelte@4.2.2)(typescript@5.2.2):
