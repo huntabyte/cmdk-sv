@@ -7,8 +7,7 @@ import type {
 	ListProps,
 	InputProps,
 	SeparatorProps,
-	DialogProps,
-	State
+	DialogProps
 } from './types.js';
 
 import Root from './components/Command.svelte';
@@ -20,7 +19,6 @@ import Item from './components/CommandItem.svelte';
 import List from './components/CommandList.svelte';
 import Loading from './components/CommandLoading.svelte';
 import Separator from './components/CommandSeparator.svelte';
-import { createState } from './command.js';
 
 export {
 	// Components
@@ -52,8 +50,5 @@ export {
 	GroupProps,
 	ListProps,
 	InputProps,
-	SeparatorProps,
-	// helpers
-	createState,
-	State
+	SeparatorProps
 };

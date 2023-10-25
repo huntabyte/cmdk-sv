@@ -1,5 +1,5 @@
 export const code = `<script>
-  import * as Command from 'cmdk-sv';
+  import { Command } from 'cmdk-sv';
   let loading = false
 </script>
   
