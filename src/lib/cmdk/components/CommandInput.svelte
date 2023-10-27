@@ -3,6 +3,7 @@
 	import { ITEM_SELECTOR, VALUE_ATTR, getCtx, getState } from '../command.js';
 	import { isBrowser, isHTMLInputElement } from '$lib/internal/index.js';
 	import type { InputProps } from '../types.js';
+	import { onMount } from 'svelte';
 
 	type $$Props = InputProps;
 
@@ -11,9 +12,16 @@
 	const search = derived(state, ($state) => $state.search);
 	const valueStore = derived(state, ($state) => $state.value);
 
+	export let autofocus: $$Props['autofocus'] = undefined;
 	export let el: HTMLElement | undefined = undefined;
 
 	export let value: $$Props['value'] = $search;
+
+	onMount(() => {
+		if (autofocus) {
+			el?.focus();
+		}
+	});
 
 	const selectedItemId = derived([valueStore, commandEl], ([$value, $commandEl]) => {
 		if (!isBrowser) return undefined;

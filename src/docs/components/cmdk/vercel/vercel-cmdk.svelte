@@ -4,10 +4,8 @@
 	import Home from './home.svelte';
 	import Projects from './projects.svelte';
 	import '$styles/cmdk/vercel.postcss';
-	import { onMount, tick } from 'svelte';
 
 	let inputValue: string;
-	let inputEl: HTMLInputElement;
 
 	let pages: string[] = ['home'];
 	$: activePage = pages[pages.length - 1];
@@ -46,10 +44,6 @@
 			bounce(currTarget);
 		}
 	}
-
-	onMount(() => {
-		tick().then(() => inputEl?.focus());
-	});
 </script>
 
 <div class="vercel">
@@ -61,12 +55,7 @@
 				</div>
 			{/each}
 		</div>
-		<Command.Input
-			autofocus
-			placeholder="What do you need?"
-			bind:value={inputValue}
-			bind:el={inputEl}
-		/>
+		<Command.Input autofocus placeholder="What do you need?" bind:value={inputValue} />
 		<Command.List>
 			<Command.Empty>No results found.</Command.Empty>
 			{#if activePage === 'home'}
