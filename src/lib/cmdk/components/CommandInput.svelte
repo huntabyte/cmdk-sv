@@ -4,6 +4,7 @@
 	import { isBrowser, isHTMLInputElement } from '$lib/internal/index.js';
 	import type { InputProps } from '../types.js';
 	import { onMount } from 'svelte';
+	import { sleep } from '$lib/internal/helpers/sleep.js';
 
 	type $$Props = InputProps;
 
@@ -19,7 +20,7 @@
 
 	onMount(() => {
 		if (autofocus) {
-			el?.focus();
+			sleep(10).then(() => el?.focus());
 		}
 	});
 
