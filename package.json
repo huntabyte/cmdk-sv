@@ -65,7 +65,7 @@
 	"types": "./dist/index.d.ts",
 	"type": "module",
 	"dependencies": {
-		"bits-ui": "^0.7.0",
+		"bits-ui": "^0.9.0",
 		"nanoid": "^5.0.2"
 	}
 }
