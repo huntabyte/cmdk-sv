@@ -1,5 +1,11 @@
 # cmdk-sv
 
+## 0.0.4
+
+### Patch Changes
+
+- Fix: input autofocus ([#11](https://github.com/huntabyte/cmdk-sv/pull/11))
+
 ## 0.0.3
 
 ### Patch Changes
