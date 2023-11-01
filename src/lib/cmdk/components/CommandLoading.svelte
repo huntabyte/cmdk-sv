@@ -3,18 +3,24 @@
 
 	type $$Props = LoadingProps;
 	export let progress: $$Props['progress'] = 0;
+	export let asChild: $$Props['asChild'] = false;
+
+	$: attrs = {
+		'data-cmdk-loading': '',
+		role: 'progressbar',
+		'aria-valuenow': progress,
+		'aria-valuemin': 0,
+		'aria-valuemax': 100,
+		'aria-label': 'Loading...'
+	};
 </script>
 
-<div
-	data-cmdk-loading=""
-	role="progressbar"
-	aria-valuenow={progress}
-	aria-valuemin={0}
-	aria-valuemax={100}
-	aria-label="Loading..."
-	{...$$restProps}
->
-	<div aria-hidden>
-		<slot />
+{#if asChild}
+	<slot {attrs} />
+{:else}
+	<div {...attrs} {...$$restProps}>
+		<div aria-hidden>
+			<slot {attrs} />
+		</div>
 	</div>
-</div>
+{/if}

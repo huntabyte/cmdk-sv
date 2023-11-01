@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import type { Expand, HTMLDivAttributes, Transition, PrefixKeys } from '$lib/internal';
 import type { Dialog as DialogPrimitive } from 'bits-ui';
-import type { HTMLInputAttributes } from 'svelte/elements';
+import type { EventHandler, HTMLInputAttributes } from 'svelte/elements';
 import type { Writable } from 'svelte/store';
 
 //
@@ -11,9 +11,25 @@ import type { Writable } from 'svelte/store';
 export type LoadingProps = {
 	/** Estimated loading progress */
 	progress?: number;
+
+	/**
+	 * Whether to delegate rendering to a custom element.
+	 *
+	 * The contents within the `Loading` component should be marked
+	 * as `aria-hidden` to prevent screen readers from reading the
+	 * contents while loading.
+	 */
+	asChild?: boolean;
 } & HTMLDivAttributes;
 
-export type EmptyProps = HTMLDivAttributes;
+export type EmptyProps = {
+	/**
+	 * Whether to delegate rendering to a custom element.
+	 *
+	 * Only receives `attrs`, no `action`.
+	 */
+	asChild?: boolean;
+} & HTMLDivAttributes;
 
 export type SeparatorProps = {
 	/**
@@ -21,6 +37,11 @@ export type SeparatorProps = {
 	 * of the filter.
 	 */
 	alwaysRender?: boolean;
+
+	/**
+	 * Whether to delegate rendering to a custom element.
+	 */
+	asChild?: boolean;
 } & HTMLDivAttributes;
 
 type BaseCommandProps = {
@@ -71,13 +92,36 @@ type BaseCommandProps = {
 	loop?: boolean;
 };
 
-export type CommandProps = Expand<BaseCommandProps> & HTMLDivAttributes;
+export type CommandProps = Expand<
+	BaseCommandProps & {
+		/**
+		 * Optionally provide custom ids for the command menu
+		 * elements. These ids should be unique and are only
+		 * necessary in very specific cases. Use with caution.
+		 */
+		ids?: Partial<CommandIds>;
+	}
+> &
+	HTMLDivAttributes;
 
 export type ListProps = {
 	/**
 	 * The list element
 	 */
 	el?: HTMLElement;
+
+	/**
+	 * Whether to delegate rendering to a custom element.
+	 *
+	 * Provides 2 slot props: `container` & `list`.
+	 * Container only has an `attrs` property, while `list` has
+	 * `attrs` & `action` to be applied to the respective elements.
+	 *
+	 * The `list` wraps the `sizer`, and the `sizer` wraps the `items`, and
+	 * is responsible for measuring the height of the items and setting the
+	 * CSS variable to the height of the items.
+	 */
+	asChild?: boolean;
 } & HTMLDivAttributes;
 
 export type InputProps = {
@@ -85,6 +129,11 @@ export type InputProps = {
 	 * The list element
 	 */
 	el?: HTMLInputElement;
+
+	/**
+	 * Whether to delegate rendering to a custom element.
+	 */
+	asChild?: boolean;
 } & HTMLInputAttributes;
 
 export type GroupProps = {
@@ -104,6 +153,15 @@ export type GroupProps = {
 	 * regardless of filtering.
 	 */
 	alwaysRender?: boolean;
+
+	/**
+	 * Whether to delegate rendering to custom elements.
+	 *
+	 * Provides 3 slot props: `container`, `heading`, and `group`.
+	 * Container has `attrs` & `action`, while `heading` & `group`
+	 * only have `attrs` to be applied to the respective elements.
+	 */
+	asChild?: boolean;
 } & HTMLDivAttributes;
 
 export type ItemProps = {
@@ -131,6 +189,19 @@ export type ItemProps = {
 	 * regardless of filtering.
 	 */
 	alwaysRender?: boolean;
+
+	/**
+	 * Whether to delegate rendering to a custom element.
+	 * Will pass the `attrs` & `action` to be applied to the custom element.
+	 */
+	asChild?: boolean;
+
+	/**
+	 * Optionally override the default `id` generated for this item.
+	 * NOTE: This must be unique across all items and is only necessary
+	 * in very specific cases.
+	 */
+	id?: string;
 } & HTMLDivAttributes;
 
 type TransitionProps =
@@ -168,6 +239,17 @@ export type DialogProps<
 	DialogPrimitive.Props &
 	OverlayProps<OverlayT, OverlayIn, OverlayOut> &
 	ContentProps<ContentT, ContentIn, ContentOut>;
+
+//
+// Events
+//
+
+export type InputEvents<T extends Element = HTMLInputElement> = {
+	blur: EventHandler<FocusEvent, T>;
+	input: EventHandler<Event, T>;
+	focus: EventHandler<FocusEvent, T>;
+	change: EventHandler<Event, T>;
+};
 
 //
 // Internal

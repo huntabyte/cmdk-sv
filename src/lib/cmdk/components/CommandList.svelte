@@ -9,6 +9,7 @@
 	type $$Props = ListProps;
 
 	export let el: $$Props['el'] = undefined;
+	export let asChild: $$Props['asChild'] = false;
 
 	function sizerAction(node: HTMLElement) {
 		let animationFrame: number;
@@ -32,18 +33,35 @@
 			}
 		};
 	}
+
+	const listAttrs = {
+		'data-cmdk-list': '',
+		role: 'listbox',
+		'aria-label': 'Suggestions',
+		id: ids.list,
+		'aria-labelledby': ids.input
+	};
+
+	const sizerAttrs = {
+		'data-cmdk-list-sizer': ''
+	};
+
+	const list = {
+		attrs: listAttrs
+	};
+
+	const sizer = {
+		attrs: sizerAttrs,
+		action: sizerAction
+	};
 </script>
 
-<div
-	data-cmdk-list=""
-	role="listbox"
-	aria-label="Suggestions"
-	id={ids.list}
-	aria-labelledby={ids.input}
-	bind:this={el}
-	{...$$restProps}
->
-	<div data-cmdk-list-sizer="" use:sizerAction>
-		<slot />
+{#if asChild}
+	<slot {list} {sizer} />
+{:else}
+	<div {...listAttrs} bind:this={el} {...$$restProps}>
+		<div {...sizerAttrs} use:sizerAction>
+			<slot />
+		</div>
 	</div>
-</div>
+{/if}

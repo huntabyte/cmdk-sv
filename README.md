@@ -438,6 +438,12 @@ Render `Command` inside of the popover content:
 
 You can find global stylesheets to drop in as a starting point for styling. See [src/styles/cmdk](src/styles/cmdk) for examples.
 
+### Render Delegation
+
+Each of the components (except the dialog) accept an `asChild` prop that can be used to render a custom element in place of the default. When using this prop, you'll need to check the components slot props to see what attributes & actions you'll need to pass to your custom element.
+
+Components that contain only a single element will just have `attrs` & `action` slot props, or just `attrs`. Components that contain multiple elements will have an `attrs` and possibly an `actions` object whose properties are the attributes and actions for each element.
+
 ## FAQ
 
 **Accessible?** Yes. Labeling, aria attributes, and DOM ordering tested with Voice Over and Chrome DevTools. [Dialog](#dialog-cmdk-dialog-cmdk-overlay) composes an accessible Dialog implementation.

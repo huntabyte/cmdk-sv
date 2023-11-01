@@ -30,3 +30,5 @@ export type PrefixKeys<T, Prefix extends string> = Expand<{
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Transition = (node: Element, params?: any) => TransitionConfig;
+
+export type Arrayable<T> = T | T[];
