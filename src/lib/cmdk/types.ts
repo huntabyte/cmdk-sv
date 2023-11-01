@@ -244,11 +244,11 @@ export type DialogProps<
 // Events
 //
 
-export type InputEvents<T extends Element = HTMLInputElement> = {
-	blur: EventHandler<FocusEvent, T>;
-	input: EventHandler<Event, T>;
-	focus: EventHandler<FocusEvent, T>;
-	change: EventHandler<Event, T>;
+export type InputEvents = {
+	blur: FocusEvent;
+	input: Event;
+	focus: FocusEvent;
+	change: Event;
 };
 
 //
