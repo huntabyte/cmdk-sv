@@ -1,10 +1,16 @@
 <script lang="ts">
-	import { srOnlyStyles, styleToString } from '$lib/internal/index.js';
+	import {
+		addEventListener,
+		executeCallbacks,
+		srOnlyStyles,
+		styleToString
+	} from '$lib/internal/index.js';
 	import { createCommand } from '../command.js';
 	import type { CommandProps } from '../types.js';
 
 	type $$Props = CommandProps & {
 		onKeydown?: (e: KeyboardEvent) => void;
+		asChild?: boolean;
 	};
 
 	export let label: $$Props['label'] = undefined;
@@ -15,11 +21,13 @@
 	export let loop: $$Props['loop'] = undefined;
 	export let onKeydown: $$Props['onKeydown'] = undefined;
 	export let state: $$Props['state'] = undefined;
+	export let ids: $$Props['ids'] = undefined;
+	export let asChild: $$Props['asChild'] = false;
 
 	const {
 		commandEl,
 		handleRootKeydown,
-		ids,
+		ids: commandIds,
 		state: stateStore
 	} = createCommand({
 		label,
@@ -33,7 +41,8 @@
 			}
 		},
 		loop,
-		state
+		state,
+		ids
 	});
 
 	function syncValueAndState(value: string | undefined) {
@@ -46,27 +55,47 @@
 
 	function rootAction(node: HTMLDivElement) {
 		commandEl.set(node);
+
+		const unsubEvents = executeCallbacks(addEventListener(node, 'keydown', handleKeydown));
+
+		return {
+			destroy: unsubEvents
+		};
 	}
+
+	const rootAttrs = {
+		role: 'application',
+		id: commandIds.root,
+		'data-cmdk-root': ''
+	};
+
+	const labelAttrs = {
+		'data-cmdk-label': '',
+		for: commandIds.input,
+		id: commandIds.label,
+		style: styleToString(srOnlyStyles)
+	};
 
 	function handleKeydown(e: KeyboardEvent) {
 		onKeydown?.(e);
 		if (e.defaultPrevented) return;
 		handleRootKeydown(e);
 	}
+
+	const root = {
+		action: rootAction,
+		attrs: rootAttrs
+	};
 </script>
 
-<!--  eslint-disable-next-line svelte/valid-compile -->
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<div
-	use:rootAction
-	on:keydown={handleKeydown}
-	role="application"
-	id={ids.root}
-	data-cmdk-root=""
-	{...$$restProps}
->
-	<label data-cmdk-label="" for={ids.input} id={ids.label} style={styleToString(srOnlyStyles)}>
-		{label ?? ''}
-	</label>
-	<slot />
-</div>
+{#if asChild}
+	<slot {root} label={{ attrs: labelAttrs }} />
+{:else}
+	<div use:rootAction {...rootAttrs} {...$$restProps}>
+		<!-- svelte-ignore a11y-label-has-associated-control applied in attrs -->
+		<label {...labelAttrs}>
+			{label ?? ''}
+		</label>
+		<slot {root} label={{ attrs: labelAttrs }} />
+	</div>
+{/if}

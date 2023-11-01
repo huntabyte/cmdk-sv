@@ -10,7 +10,7 @@ module.exports = {
 	plugins: ['@typescript-eslint'],
 	parserOptions: {
 		sourceType: 'module',
-		ecmaVersion: 'lastest',
+		ecmaVersion: 'latest',
 		extraFileExtensions: ['.svelte']
 	},
 	env: {
@@ -18,20 +18,9 @@ module.exports = {
 		es2024: true,
 		node: true
 	},
-	overrides: [
-		{
-			files: ['*.svelte'],
-			parser: 'svelte-eslint-parser',
-			parserOptions: {
-				parser: '@typescript-eslint/parser'
-			}
-		}
-	],
+	globals: { $$Generic: 'readable', NodeJS: true },
 	rules: {
-		// eslint
 		'no-console': 'warn',
-
-		// @typescript-eslint
 		'@typescript-eslint/no-unused-vars': [
 			'warn',
 			{
@@ -39,22 +28,48 @@ module.exports = {
 				varsIgnorePattern: '^_'
 			}
 		],
-
-		// eslint-plugin-svelte
 		'svelte/no-target-blank': 'error',
 		'svelte/no-immutable-reactive-statements': 'error',
 		'svelte/prefer-style-directive': 'error',
 		'svelte/no-reactive-literals': 'error',
 		'svelte/no-useless-mustaches': 'error',
-		// TODO: opt in to these at a later stage
 		'svelte/button-has-type': 'off',
 		'svelte/require-each-key': 'off',
 		'svelte/no-at-html-tags': 'off',
 		'svelte/no-unused-svelte-ignore': 'off',
 		'svelte/require-stores-init': 'off'
 	},
-	globals: {
-		NodeJS: true,
-		$$Generic: 'readable'
-	}
+	overrides: [
+		{
+			files: ['*.svelte'],
+			parser: 'svelte-eslint-parser',
+			parserOptions: {
+				parser: '@typescript-eslint/parser'
+			},
+			rules: {
+				'@typescript-eslint/no-unused-vars': [
+					'warn',
+					{
+						argsIgnorePattern: '^_',
+						varsIgnorePattern: '^\\$\\$(Props|Events|Slots|Generic)$'
+					}
+				]
+			}
+		},
+		{
+			files: ['*.ts'],
+			parser: '@typescript-eslint/parser',
+			rules: {
+				'@typescript-eslint/ban-types': [
+					'error',
+					{
+						extendDefaults: true,
+						types: {
+							'{}': false
+						}
+					}
+				]
+			}
+		}
+	]
 };

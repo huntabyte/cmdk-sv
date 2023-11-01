@@ -73,11 +73,28 @@ const defaults = {
 	loop: false,
 	onValueChange: undefined,
 	value: undefined,
-	filter: defaultFilter
+	filter: defaultFilter,
+	ids: {
+		root: generateId(),
+		list: generateId(),
+		label: generateId(),
+		input: generateId()
+	}
 } satisfies CommandProps;
 
 export function createCommand(props: CommandProps) {
-	const withDefaults = { ...defaults, ...removeUndefined(props) } satisfies CommandProps;
+	const ids = {
+		root: generateId(),
+		list: generateId(),
+		label: generateId(),
+		input: generateId(),
+		...props.ids
+	};
+
+	const withDefaults = {
+		...defaults,
+		...removeUndefined(props)
+	} satisfies CommandProps;
 
 	const state =
 		props.state ??
@@ -90,15 +107,8 @@ export function createCommand(props: CommandProps) {
 	const allIds = writable<Map<string, string>>(new Map()); // id → value
 	const commandEl = writable<HTMLDivElement | null>(null);
 
-	const options = toWritableStores(omit(withDefaults, 'value'));
+	const options = toWritableStores(omit(withDefaults, 'value', 'ids'));
 	const { shouldFilter, loop, filter, label } = options;
-
-	const ids = {
-		root: generateId(),
-		list: generateId(),
-		label: generateId(),
-		input: generateId()
-	};
 
 	const context: Context = {
 		value: (id, value) => {

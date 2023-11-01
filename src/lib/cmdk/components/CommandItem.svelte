@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { generateId, isUndefined } from '$lib/internal';
+	import { addEventListener, executeCallbacks, generateId, isUndefined } from '$lib/internal';
 	import { onMount } from 'svelte';
 	import { VALUE_ATTR, getCtx, getGroup, getState } from '../command.js';
 	import type { ItemProps } from '../types.js';
@@ -11,8 +11,9 @@
 	export let value: string = '';
 	export let onSelect: $$Props['onSelect'] = undefined;
 	export let alwaysRender: $$Props['alwaysRender'] = false;
+	export let asChild: $$Props['asChild'] = false;
+	export let id: string = generateId();
 
-	const id = generateId();
 	const groupContext = getGroup();
 	const context = getCtx();
 	const state = getState();
@@ -33,12 +34,29 @@
 		return unsubItem;
 	});
 
-	function itemAction(node: HTMLElement) {
+	function action(node: HTMLElement) {
 		if (!value && node.textContent) {
 			value = node.textContent.trim().toLowerCase();
 		}
 		context.value(id, value);
 		node.setAttribute(VALUE_ATTR, value);
+
+		const unsubEvents = executeCallbacks(
+			addEventListener(node, 'pointermove', () => {
+				if (disabled) return;
+				select();
+			}),
+			addEventListener(node, 'click', () => {
+				if (disabled) return;
+				handleItemClick();
+			})
+		);
+
+		return {
+			destroy() {
+				unsubEvents();
+			}
+		};
 	}
 
 	function handleItemClick() {
@@ -49,24 +67,27 @@
 	function select() {
 		state.updateState('value', value, true);
 	}
+
+	$: attrs = {
+		'aria-disabled': disabled ? true : undefined,
+		'aria-selected': $selected ? true : undefined,
+		'data-disabled': disabled ? true : undefined,
+		'data-selected': $selected ? true : undefined,
+		'data-cmdk-item': '',
+		'data-value': value,
+		role: 'option',
+		id
+	};
 </script>
 
 {#if $render}
-	<!-- svelte-ignore a11y-interactive-supports-focus -->
-	<div
-		{id}
-		role="option"
-		use:itemAction
-		aria-disabled={disabled || undefined}
-		aria-selected={$selected || undefined}
-		data-disabled={disabled || undefined}
-		data-selected={$selected || undefined}
-		data-cmdk-item=""
-		data-value={value}
-		on:pointermove={disabled ? undefined : select}
-		on:click={disabled ? undefined : handleItemClick}
-		{...$$restProps}
-	>
-		<slot />
-	</div>
+	{#if asChild}
+		<slot {action} {attrs} />
+	{:else}
+		<!-- svelte-ignore a11y-interactive-supports-focus -->
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		<div {...attrs} use:action {...$$restProps}>
+			<slot {action} {attrs} />
+		</div>
+	{/if}
 {/if}

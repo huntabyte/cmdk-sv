@@ -7,6 +7,8 @@
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = EmptyProps;
 
+	export let asChild: $$Props['asChild'] = false;
+
 	let isFirstRender = true;
 
 	onMount(() => {
@@ -15,10 +17,19 @@
 
 	const state = getState();
 	const render = derived(state, ($state) => $state.filtered.count === 0);
+
+	const attrs = {
+		'data-cmdk-empty': '',
+		role: 'presentation'
+	};
 </script>
 
 {#if !isFirstRender && $render}
-	<div data-cmdk-empty="" role="presentation" {...$$restProps}>
-		<slot />
-	</div>
+	{#if asChild}
+		<slot {attrs} />
+	{:else}
+		<div {...attrs} {...$$restProps}>
+			<slot />
+		</div>
+	{/if}
 {/if}

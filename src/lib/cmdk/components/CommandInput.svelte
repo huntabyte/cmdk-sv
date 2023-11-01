@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { derived } from 'svelte/store';
 	import { ITEM_SELECTOR, VALUE_ATTR, getCtx, getState } from '../command.js';
-	import { isBrowser, isHTMLInputElement } from '$lib/internal/index.js';
-	import type { InputProps } from '../types.js';
+	import { addEventListener, isBrowser, isHTMLInputElement } from '$lib/internal/index.js';
+	import type { InputEvents, InputProps } from '../types.js';
 	import { onMount } from 'svelte';
 	import { sleep } from '$lib/internal/helpers/sleep.js';
 
 	type $$Props = InputProps;
+	type $$Events = InputEvents;
 
 	const { ids, commandEl } = getCtx();
 	const state = getState();
@@ -14,15 +15,10 @@
 	const valueStore = derived(state, ($state) => $state.value);
 
 	export let autofocus: $$Props['autofocus'] = undefined;
-	export let el: HTMLElement | undefined = undefined;
-
 	export let value: $$Props['value'] = $search;
+	export let asChild: $$Props['asChild'] = false;
 
-	onMount(() => {
-		if (autofocus) {
-			sleep(10).then(() => el?.focus());
-		}
-	});
+	export let el: HTMLElement | undefined = undefined;
 
 	const selectedItemId = derived([valueStore, commandEl], ([$value, $commandEl]) => {
 		if (!isBrowser) return undefined;
@@ -34,9 +30,20 @@
 		state.updateState('search', v);
 	}
 
-	function handleInputChange(e: Event) {
-		if (!isHTMLInputElement(e.target)) return;
-		state.updateState('search', e.target.value);
+	function action(node: HTMLInputElement) {
+		onMount(() => {
+			if (autofocus) {
+				sleep(10).then(() => node.focus());
+			}
+		});
+		const unsubEvents = addEventListener(node, 'change', (e) => {
+			if (!isHTMLInputElement(e.target)) return;
+			state.updateState('search', e.target.value);
+		});
+
+		return {
+			destroy: unsubEvents
+		};
 	}
 
 	$: handleValueUpdate(value);
@@ -59,4 +66,18 @@
 	};
 </script>
 
-<input bind:this={el} {...attrs} bind:value on:change={handleInputChange} {...$$restProps} />
+{#if asChild}
+	<slot {action} {attrs} />
+{:else}
+	<input
+		bind:this={el}
+		{...attrs}
+		bind:value
+		use:action
+		{...$$restProps}
+		on:input
+		on:focus
+		on:blur
+		on:change
+	/>
+{/if}

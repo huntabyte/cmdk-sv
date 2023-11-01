@@ -10,6 +10,7 @@
 	export let heading: $$Props['heading'] = undefined;
 	export let value = '';
 	export let alwaysRender: $$Props['alwaysRender'] = false;
+	export let asChild: $$Props['asChild'] = false;
 
 	const { id } = createGroup(alwaysRender);
 
@@ -29,7 +30,7 @@
 		return unsubGroup;
 	});
 
-	function groupAction(node: HTMLElement) {
+	function containerAction(node: HTMLElement) {
 		if (value) {
 			context.value(id, value);
 			node.setAttribute(VALUE_ATTR, value);
@@ -45,22 +46,47 @@
 		context.value(id, value);
 		node.setAttribute(VALUE_ATTR, value);
 	}
+
+	$: containerAttrs = {
+		'data-cmdk-group': '',
+		role: 'presentation',
+		hidden: $render ? undefined : true,
+		'data-value': value
+	};
+
+	const headingAttrs = {
+		'data-cmdk-group-heading': '',
+		'aria-hidden': true,
+		id: headingId
+	};
+
+	$: groupAttrs = {
+		'data-cmdk-group-items': '',
+		role: 'group',
+		'aria-labelledby': heading ? headingId : undefined
+	};
+
+	$: container = {
+		action: containerAction,
+		attrs: containerAttrs
+	};
+
+	$: group = {
+		attrs: groupAttrs
+	};
 </script>
 
-<div
-	use:groupAction
-	data-cmdk-group=""
-	role="presentation"
-	hidden={$render ? undefined : true}
-	data-value={value}
-	{...$$restProps}
->
-	{#if heading}
-		<div data-cmdk-group-heading="" aria-hidden id={headingId}>
-			{heading}
+{#if asChild}
+	<slot {container} {group} heading={{ attrs: headingAttrs }} />
+{:else}
+	<div use:containerAction {...containerAttrs} {...$$restProps}>
+		{#if heading}
+			<div {...headingAttrs}>
+				{heading}
+			</div>
+		{/if}
+		<div {...groupAttrs}>
+			<slot {container} {group} heading={{ attrs: headingAttrs }} />
 		</div>
-	{/if}
-	<div data-cmdk-group-items="" role="group" aria-labelledby={heading ? headingId : undefined}>
-		<slot />
 	</div>
-</div>
+{/if}
