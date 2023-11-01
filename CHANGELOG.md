@@ -1,5 +1,11 @@
 # cmdk-sv
 
+## 0.0.5
+
+### Patch Changes
+
+- Add `asChild` prop & forward input events ([#14](https://github.com/huntabyte/cmdk-sv/pull/14))
+
 ## 0.0.4
 
 ### Patch Changes
