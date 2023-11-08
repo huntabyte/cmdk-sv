@@ -213,6 +213,12 @@ export function createCommand(props: CommandProps) {
 				curr = filteredState;
 				const sortedState = sort(curr, $shouldFilter);
 				curr = sortedState;
+				tick().then(() =>
+					state.update((curr) => {
+						curr.value = selectFirstItem() ?? '';
+						return curr;
+					})
+				);
 			} else if (key === 'value') {
 				props.onValueChange?.(curr.value);
 				if (!preventScroll) {
