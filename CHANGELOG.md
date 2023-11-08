@@ -1,5 +1,11 @@
 # cmdk-sv
 
+## 0.0.6
+
+### Patch Changes
+
+- Fix: bug where best match wasnt selected ([#17](https://github.com/huntabyte/cmdk-sv/pull/17))
+
 ## 0.0.5
 
 ### Patch Changes
