@@ -278,8 +278,8 @@ export type CommandIds = Record<'root' | 'label' | 'input' | 'list', string>;
 
 export type Context = {
 	value: (id: string, value: string) => void;
-	item: (id: string, groupId: string | undefined) => void;
-	group: (id: string) => void;
+	item: (id: string, groupId: string | undefined) => () => void;
+	group: (id: string) => () => void;
 	filter: () => boolean;
 	label: string;
 	commandEl: Writable<HTMLElement | null>;
