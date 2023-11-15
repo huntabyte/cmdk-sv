@@ -17,75 +17,67 @@
 	let value = 'linear';
 	let inputEl: HTMLInputElement | undefined;
 	let listEl: HTMLElement | undefined;
-	let inputVal = '';
 </script>
 
 <div class="raycast">
 	<Command.Root bind:value>
 		<div data-cmdk-raycast-top-shine="" />
-		<Command.Input
-			autofocus
-			placeholder="Search for apps and commands..."
-			bind:el={inputEl}
-			bind:value={inputVal}
-		/>
+		<Command.Input autofocus placeholder="Search for apps and commands..." bind:el={inputEl} />
 		<hr data-cmdk-raycast-loader="" />
 		<Command.List bind:el={listEl}>
 			<Command.Empty>No results found.</Command.Empty>
-			{#if inputVal.trim() !== ''}
-				<Command.Group heading="Suggestions">
-					<Item value="linear">
-						<Logo>
-							<LinearIcon style={{ width: 12, height: 12 }} />
-						</Logo>
-						linear
-					</Item>
-					<Item value="figma">
-						<Logo>
-							<FigmaIcon />
-						</Logo>
-						Figma
-					</Item>
-					<Item value="slack">
-						<Logo>
-							<SlackIcon />
-						</Logo>
-						Slack
-					</Item>
-					<Item value="youtube">
-						<Logo>
-							<YouTubeIcon />
-						</Logo>
-						YouTube
-					</Item>
-					<Item value="raycast">
-						<Logo>
-							<RaycastIcon />
-						</Logo>
-						Raycast
-					</Item>
-				</Command.Group>
-				<Command.Group heading="Commands">
-					<Item isCommand value="clipboard history">
-						<Logo>
-							<ClipboardIcon />
-						</Logo>
-						Clipboard History
-					</Item>
-					<Item isCommand value="import extension">
-						<Logo>
-							<HammerIcon />
-						</Logo>
-						Import Extension
-					</Item>
-					<Item isCommand value="manage extensions">
-						<Logo>
-							<HammerIcon />
-						</Logo>
-						Manage Extensions
-					</Item>
-				</Command.Group>
-			{/if}
+			<Command.Group heading="Suggestions">
+				<Item value="linear">
+					<Logo>
+						<LinearIcon style={{ width: 12, height: 12 }} />
+					</Logo>
+					Linear
+				</Item>
+				<Item value="figma">
+					<Logo>
+						<FigmaIcon />
+					</Logo>
+					Figma
+				</Item>
+				<Item value="slack">
+					<Logo>
+						<SlackIcon />
+					</Logo>
+					Slack
+				</Item>
+				<Item value="youtube">
+					<Logo>
+						<YouTubeIcon />
+					</Logo>
+					YouTube
+				</Item>
+				<Item value="raycast">
+					<Logo>
+						<RaycastIcon />
+					</Logo>
+					Raycast
+				</Item>
+			</Command.Group>
+			<Command.Group heading="Commands">
+				<Item isCommand value="clipboard history">
+					<Logo>
+						<ClipboardIcon />
+					</Logo>
+					Clipboard History
+				</Item>
+				<Item isCommand value="import extension">
+					<Logo>
+						<HammerIcon />
+					</Logo>
+					Import Extension
+				</Item>
+				<Item isCommand value="manage extensions">
+					<Logo>
+						<HammerIcon />
+					</Logo>
+					Manage Extensions
+				</Item>
+			</Command.Group>
 		</Command.List>
 
 		<div data-cmdk-raycast-footer="">
