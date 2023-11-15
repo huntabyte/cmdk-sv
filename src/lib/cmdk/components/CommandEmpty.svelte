@@ -3,7 +3,6 @@
 	import { getState } from '../command.js';
 	import type { EmptyProps } from '../types.js';
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = EmptyProps;
 
 	export let asChild: $$Props['asChild'] = false;

@@ -5,7 +5,6 @@
 
 	const { ids } = getCtx();
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = ListProps;
 
 	export let el: $$Props['el'] = undefined;
