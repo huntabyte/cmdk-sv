@@ -27,12 +27,15 @@
 		return currentScore > 0;
 	});
 
-	const selected = derived(state, ($state) => $state.value === value);
+	let isFirstRender = true;
 
 	onMount(() => {
-		const unsubItem = context.item(id, groupContext?.id);
-		return unsubItem;
+		isFirstRender = false;
+		const unsub = context.item(id, groupContext?.id);
+		return unsub;
 	});
+
+	const selected = derived(state, ($state) => $state.value === value);
 
 	function action(node: HTMLElement) {
 		if (!value && node.textContent) {
@@ -80,12 +83,10 @@
 	};
 </script>
 
-{#if $render}
+{#if $render || isFirstRender}
 	{#if asChild}
 		<slot {action} {attrs} />
 	{:else}
-		<!-- svelte-ignore a11y-interactive-supports-focus -->
-		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div {...attrs} use:action {...$$restProps}>
 			<slot {action} {attrs} />
 		</div>

@@ -31,14 +31,14 @@
 		/>
 		<hr data-cmdk-raycast-loader="" />
 		<Command.List bind:el={listEl}>
+			<Command.Empty>No results found.</Command.Empty>
 			{#if inputVal.trim() !== ''}
-				<Command.Empty>No results found.</Command.Empty>
 				<Command.Group heading="Suggestions">
 					<Item value="linear">
 						<Logo>
 							<LinearIcon style={{ width: 12, height: 12 }} />
 						</Logo>
-						Linear
+						linear
 					</Item>
 					<Item value="figma">
 						<Logo>
