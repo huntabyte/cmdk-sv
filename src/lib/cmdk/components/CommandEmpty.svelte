@@ -1,10 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { derived } from 'svelte/store';
 	import { getState } from '../command.js';
 	import type { EmptyProps } from '../types.js';
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = EmptyProps;
 
 	export let asChild: $$Props['asChild'] = false;
@@ -16,7 +14,8 @@
 	});
 
 	const state = getState();
-	const render = derived(state, ($state) => $state.filtered.count === 0);
+
+	$: render = $state.filtered.count === 0;
 
 	const attrs = {
 		'data-cmdk-empty': '',
@@ -24,7 +23,7 @@
 	};
 </script>
 
-{#if !isFirstRender && $render}
+{#if !isFirstRender && render}
 	{#if asChild}
 		<slot {attrs} />
 	{:else}
