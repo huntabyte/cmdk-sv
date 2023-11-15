@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { derived } from 'svelte/store';
 	import { getState } from '../command.js';
 	import type { EmptyProps } from '../types.js';
 
@@ -16,7 +15,8 @@
 	});
 
 	const state = getState();
-	const render = derived(state, ($state) => $state.filtered.count === 0);
+
+	$: render = $state.filtered.count === 0;
 
 	const attrs = {
 		'data-cmdk-empty': '',
@@ -24,7 +24,7 @@
 	};
 </script>
 
-{#if !isFirstRender && $render}
+{#if !isFirstRender && render}
 	{#if asChild}
 		<slot {attrs} />
 	{:else}
