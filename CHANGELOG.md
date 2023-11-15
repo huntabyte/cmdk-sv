@@ -1,5 +1,11 @@
 # cmdk-sv
 
+## 0.0.7
+
+### Patch Changes
+
+- Fix: Bug with conditional rendering ([#22](https://github.com/huntabyte/cmdk-sv/pull/22))
+
 ## 0.0.6
 
 ### Patch Changes
