@@ -8,10 +8,7 @@
 	import { createCommand } from '../command.js';
 	import type { CommandProps } from '../types.js';
 
-	type $$Props = CommandProps & {
-		onKeydown?: (e: KeyboardEvent) => void;
-		asChild?: boolean;
-	};
+	type $$Props = CommandProps;
 
 	export let label: $$Props['label'] = undefined;
 	export let shouldFilter: $$Props['shouldFilter'] = true;

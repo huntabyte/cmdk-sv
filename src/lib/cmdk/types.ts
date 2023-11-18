@@ -102,7 +102,10 @@ export type CommandProps = Expand<
 		ids?: Partial<CommandIds>;
 	}
 > &
-	HTMLDivAttributes;
+	HTMLDivAttributes & {
+		onKeydown?: (e: KeyboardEvent) => void;
+		asChild?: boolean;
+	};
 
 export type ListProps = {
 	/**
