@@ -1,5 +1,11 @@
 # cmdk-sv
 
+## 0.0.10
+
+### Patch Changes
+
+- fix: move Command additional props to types file ([#31](https://github.com/huntabyte/cmdk-sv/pull/31))
+
 ## 0.0.9
 
 ### Patch Changes
