@@ -1,5 +1,11 @@
 # cmdk-sv
 
+## 0.0.9
+
+### Patch Changes
+
+- feat: export `defaultFilter` function ([#29](https://github.com/huntabyte/cmdk-sv/pull/29))
+
 ## 0.0.8
 
 ### Patch Changes
