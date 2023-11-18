@@ -56,14 +56,16 @@
 	};
 </script>
 
-{#key $state.search === ''}
-	{#if asChild}
+{#if asChild}
+	{#key $state.search === ''}
 		<slot {list} {sizer} />
-	{:else}
-		<div {...listAttrs} bind:this={el} {...$$restProps}>
-			<div {...sizerAttrs} use:sizerAction>
+	{/key}
+{:else}
+	<div {...listAttrs} bind:this={el} {...$$restProps}>
+		<div {...sizerAttrs} use:sizerAction>
+			{#key $state.search === ''}
 				<slot />
-			</div>
+			{/key}
 		</div>
-	{/if}
-{/key}
+	</div>
+{/if}
