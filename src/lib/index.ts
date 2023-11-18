@@ -1,4 +1,4 @@
-import { createState } from './cmdk/command.js';
+import { createState, defaultFilter } from './cmdk/command.js';
 import {
 	CommandRoot,
 	CommandDialog,
@@ -13,7 +13,7 @@ import {
 
 export * as Command from './cmdk/index.js';
 export type * from './cmdk/types.js';
-export { createState };
+export { createState, defaultFilter };
 
 export {
 	CommandRoot,
