@@ -3,7 +3,6 @@
 	import { ITEM_SELECTOR, VALUE_ATTR, getCtx, getState } from '../command.js';
 	import { addEventListener, isBrowser, isHTMLInputElement } from '$lib/internal/index.js';
 	import type { InputEvents, InputProps } from '../types.js';
-	import { onMount } from 'svelte';
 	import { sleep } from '$lib/internal/helpers/sleep.js';
 
 	type $$Props = InputProps;
@@ -31,11 +30,10 @@
 	}
 
 	function action(node: HTMLInputElement) {
-		onMount(() => {
-			if (autofocus) {
-				sleep(10).then(() => node.focus());
-			}
-		});
+		if (autofocus) {
+			sleep(10).then(() => node.focus());
+		}
+
 		const unsubEvents = addEventListener(node, 'change', (e) => {
 			if (!isHTMLInputElement(e.target)) return;
 			state.updateState('search', e.target.value);
