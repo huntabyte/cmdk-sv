@@ -24,7 +24,7 @@ export const ITEM_SELECTOR = `[data-cmdk-item]`;
 export const VALID_ITEM_SELECTOR = `${ITEM_SELECTOR}:not([aria-disabled="true"])`;
 export const VALUE_ATTR = `data-value`;
 
-const defaultFilter: (value: string, search: string) => number = (value, search) =>
+export const defaultFilter: (value: string, search: string) => number = (value, search) =>
 	commandScore(value, search);
 
 export function getCtx() {
