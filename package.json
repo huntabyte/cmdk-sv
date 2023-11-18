@@ -1,6 +1,6 @@
 {
 	"name": "cmdk-sv",
-	"version": "0.0.9",
+	"version": "0.0.10",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",
