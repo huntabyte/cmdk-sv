@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { isHTMLElement } from '$lib/internal/index.js';
-	import { getCtx } from '../command.js';
+	import { getCtx, getState } from '../command.js';
 	import type { ListProps } from '../types.js';
 
 	const { ids } = getCtx();
+	const state = getState();
 
 	type $$Props = ListProps;
 
@@ -56,11 +57,15 @@
 </script>
 
 {#if asChild}
-	<slot {list} {sizer} />
+	{#key $state.search === ''}
+		<slot {list} {sizer} />
+	{/key}
 {:else}
 	<div {...listAttrs} bind:this={el} {...$$restProps}>
 		<div {...sizerAttrs} use:sizerAction>
-			<slot />
+			{#key $state.search === ''}
+				<slot />
+			{/key}
 		</div>
 	</div>
 {/if}
