@@ -123,8 +123,8 @@ This component also exposes two additional slot props for `state` (the current r
 
 ```svelte
 <Command.Root {state} let:stateStore>
-    {@const handleUpdateState = debounce(stateStore.updateState, 200)}
-    <CustomCommandInput {handleUpdateState} />
+	{@const handleUpdateState = debounce(stateStore.updateState, 200)}
+	<CustomCommandInput {handleUpdateState} />
 </Command.Root>
 ```
 
