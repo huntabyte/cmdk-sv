@@ -86,13 +86,13 @@
 </script>
 
 {#if asChild}
-	<slot {root} label={{ attrs: labelAttrs }} />
+	<slot {root} state={stateStore} label={{ attrs: labelAttrs }} />
 {:else}
 	<div use:rootAction {...rootAttrs} {...$$restProps}>
 		<!-- svelte-ignore a11y-label-has-associated-control applied in attrs -->
 		<label {...labelAttrs}>
 			{label ?? ''}
 		</label>
-		<slot {root} label={{ attrs: labelAttrs }} />
+		<slot {root} state={stateStore} label={{ attrs: labelAttrs }} />
 	</div>
 {/if}
