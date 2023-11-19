@@ -1,5 +1,11 @@
 # cmdk-sv
 
+## 0.0.11
+
+### Patch Changes
+
+- fix: maintain original list order when clearing search value ([#35](https://github.com/huntabyte/cmdk-sv/pull/35))
+
 ## 0.0.10
 
 ### Patch Changes
