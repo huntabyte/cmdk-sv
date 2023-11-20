@@ -119,6 +119,15 @@ You can make the arrow keys wrap around the list (when you reach the end, it goe
 <Command.Root loop />
 ```
 
+This component also exposes two additional slot props for `state` (the current reactive value of the command state) and `stateStore` (the underlying writable state store). These can be used to implement more advanced use cases, such as debouncing the search updates with the `stateStore.updateState` method:
+
+```svelte
+<Command.Root {state} let:stateStore>
+	{@const handleUpdateState = debounce(stateStore.updateState, 200)}
+	<CustomCommandInput {handleUpdateState} />
+</Command.Root>
+```
+
 ### Dialog `[cmdk-dialog]` `[cmdk-overlay]`
 
 Props are forwarded to [Command](#command-cmdk-root). Composes Bits UI's Dialog component. The overlay is always rendered. See the [Bits Documentation](https://bits-ui.com/docs/) for more information. Can be controlled by binding to the `open` prop.

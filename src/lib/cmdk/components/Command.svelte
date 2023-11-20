@@ -83,16 +83,23 @@
 		action: rootAction,
 		attrs: rootAttrs
 	};
+
+	$: slotProps = {
+		root,
+		label: { attrs: labelAttrs },
+		stateStore,
+		state: $stateStore
+	};
 </script>
 
 {#if asChild}
-	<slot {root} label={{ attrs: labelAttrs }} />
+	<slot {...slotProps} />
 {:else}
 	<div use:rootAction {...rootAttrs} {...$$restProps}>
 		<!-- svelte-ignore a11y-label-has-associated-control applied in attrs -->
 		<label {...labelAttrs}>
 			{label ?? ''}
 		</label>
-		<slot {root} label={{ attrs: labelAttrs }} />
+		<slot {...slotProps} />
 	</div>
 {/if}
