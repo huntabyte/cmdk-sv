@@ -1,5 +1,11 @@
 # cmdk-sv
 
+## 0.0.12
+
+### Patch Changes
+
+- feat: expose state slot prop for Command.Root ([#38](https://github.com/huntabyte/cmdk-sv/pull/38))
+
 ## 0.0.11
 
 ### Patch Changes
