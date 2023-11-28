@@ -435,9 +435,9 @@ Render `Command` inside of the popover content:
 	<Popover.Content>
 		<Command.Root>
 			<Command.Input />
-			<Comand.List>
+			<Command.List>
 				<Command.Item>Apple</Command.Item>
-				</Command.List>
+			</Command.List>
 		</Command.Root>
 	</Popover.Content>
 </Popover.Root>
