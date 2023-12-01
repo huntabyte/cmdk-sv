@@ -5,7 +5,7 @@
 	import Projects from './projects.svelte';
 	import '$styles/cmdk/vercel.postcss';
 
-	let inputValue: string;
+	let inputValue: string = '';
 
 	let pages: string[] = ['home'];
 	$: activePage = pages[pages.length - 1];
