@@ -1,5 +1,11 @@
 # cmdk-sv
 
+## 0.0.13
+
+### Patch Changes
+
+- Fix type resolution and intellisense for most components ([#46](https://github.com/huntabyte/cmdk-sv/pull/46))
+
 ## 0.0.12
 
 ### Patch Changes
