@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import type { Expand, HTMLDivAttributes, Transition, PrefixKeys } from '$lib/internal';
+import type { Expand, HTMLDivAttributes, Transition, PrefixKeys } from '$lib/internal/index.js';
 import type { Dialog as DialogPrimitive } from 'bits-ui';
 import type { EventHandler, HTMLInputAttributes } from 'svelte/elements';
 import type { Writable } from 'svelte/store';
