@@ -129,7 +129,7 @@ export type ListProps = {
 
 export type InputProps = {
 	/**
-	 * The list element
+	 * The input element
 	 */
 	el?: HTMLInputElement;
 
