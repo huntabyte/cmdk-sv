@@ -38,7 +38,7 @@
 		}
 
 		if (heading) {
-			value = heading.trim().toLowerCase();
+			value = String(heading)?.trim()?.toLowerCase();
 		} else if (node.textContent) {
 			value = node.textContent.trim().toLowerCase();
 		}

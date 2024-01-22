@@ -344,7 +344,7 @@ export function createCommand(props: CommandProps) {
 	}
 
 	function score(value: string | undefined, search: string) {
-		const lowerCaseAndTrimmedValue = value?.toLowerCase().trim();
+		const lowerCaseAndTrimmedValue = String(value)?.toLowerCase()?.trim();
 		const filterFn = get(filter);
 		if (!filterFn) {
 			return lowerCaseAndTrimmedValue ? defaultFilter(lowerCaseAndTrimmedValue, search) : 0;
