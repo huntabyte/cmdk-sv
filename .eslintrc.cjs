@@ -30,7 +30,6 @@ module.exports = {
 		],
 		'svelte/no-target-blank': 'error',
 		'svelte/no-immutable-reactive-statements': 'error',
-		'svelte/prefer-style-directive': 'error',
 		'svelte/no-reactive-literals': 'error',
 		'svelte/no-useless-mustaches': 'error',
 		'svelte/button-has-type': 'off',

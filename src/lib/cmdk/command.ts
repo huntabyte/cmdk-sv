@@ -9,7 +9,8 @@ import {
 	isHTMLElement,
 	isUndefined,
 	kbd,
-	removeUndefined
+	removeUndefined,
+	effect
 } from '$lib/internal/index.js';
 
 const NAME = 'Command';
@@ -108,19 +109,50 @@ export function createCommand(props: CommandProps) {
 	const commandEl = writable<HTMLDivElement | null>(null);
 
 	const options = toWritableStores(omit(withDefaults, 'value', 'ids'));
-	const { shouldFilter, loop, filter, label } = options;
+
+	let $allItems = get(allItems);
+	let $allGroups = get(allGroups);
+	let $allIds = get(allIds);
+
+	let shouldFilter = get(options.shouldFilter);
+	let loop = get(options.loop);
+	let label = get(options.label);
+	let filter = get(options.filter);
+
+	effect(options.shouldFilter, ($shouldFilter) => {
+		shouldFilter = $shouldFilter;
+	});
+
+	effect(options.loop, ($loop) => {
+		loop = $loop;
+	});
+	effect(options.filter, ($filter) => {
+		filter = $filter;
+	});
+	effect(options.label, ($label) => {
+		label = $label;
+	});
+
+	effect(allItems, (v) => {
+		$allItems = v;
+	});
+	effect(allGroups, (v) => {
+		$allGroups = v;
+	});
+	effect(allIds, (v) => {
+		$allIds = v;
+	});
 
 	const context: Context = {
 		value: (id, value) => {
-			if (value !== get(allIds).get(id)) {
+			if (value !== $allIds.get(id)) {
 				allIds.update(($allIds) => {
 					$allIds.set(id, value);
 					return $allIds;
 				});
 				state.update(($state) => {
 					$state.filtered.items.set(id, score(value, $state.search));
-					const sortedState = sort($state, get(shouldFilter));
-					return sortedState;
+					return $state;
 				});
 			}
 		},
@@ -139,17 +171,14 @@ export function createCommand(props: CommandProps) {
 					return $allGroups;
 				});
 			}
-
 			state.update(($state) => {
-				const $shouldFilter = get(shouldFilter);
-				const filteredState = filterItems($state, $shouldFilter);
-				const sortedState = sort(filteredState, $shouldFilter);
+				const filteredState = filterItems($state, shouldFilter);
 
-				if (!sortedState.value) {
+				if (!filteredState.value) {
 					const value = selectFirstItem();
-					sortedState.value = value ?? '';
+					filteredState.value = value ?? '';
 				}
-				return sortedState;
+				return filteredState;
 			});
 
 			return () => {
@@ -194,24 +223,23 @@ export function createCommand(props: CommandProps) {
 			};
 		},
 		filter: () => {
-			return get(shouldFilter);
+			return shouldFilter;
 		},
-		label: get(label) || props['aria-label'] || '',
+		label: label || props['aria-label'] || '',
 		commandEl,
 		ids,
 		updateState
 	};
 
 	function updateState<K extends keyof State>(key: K, value: State[K], preventScroll?: boolean) {
-		const $shouldFilter = get(shouldFilter);
 		state.update((curr) => {
 			if (Object.is(curr[key], value)) return curr;
 			curr[key] = value;
 
 			if (key === 'search') {
-				const filteredState = filterItems(curr, $shouldFilter);
+				const filteredState = filterItems(curr, shouldFilter);
 				curr = filteredState;
-				const sortedState = sort(curr, $shouldFilter);
+				const sortedState = sort(curr, shouldFilter);
 				curr = sortedState;
 				tick().then(() =>
 					state.update((curr) => {
@@ -230,9 +258,7 @@ export function createCommand(props: CommandProps) {
 	}
 
 	function filterItems(state: State, shouldFilterVal?: boolean): State {
-		const $shouldFilter = shouldFilterVal ?? get(shouldFilter);
-		const $allItems = get(allItems);
-		const $allIds = get(allIds);
+		const $shouldFilter = shouldFilterVal ?? shouldFilter;
 		if (!state.search || !$shouldFilter) {
 			state.filtered.count = $allItems.size;
 			return state;
@@ -252,7 +278,7 @@ export function createCommand(props: CommandProps) {
 		}
 
 		// Check which groups have at least 1 item shown
-		for (const [groupId, group] of get(allGroups)) {
+		for (const [groupId, group] of $allGroups) {
 			for (const itemId of group) {
 				const rank = state.filtered.items.get(itemId);
 				if (rank && rank > 0) {
@@ -266,7 +292,7 @@ export function createCommand(props: CommandProps) {
 	}
 
 	function sort(state: State, shouldFilterVal?: boolean) {
-		const $shouldFilter = shouldFilterVal ?? get(shouldFilter);
+		const $shouldFilter = shouldFilterVal ?? shouldFilter;
 		if (!state.search || !$shouldFilter) {
 			return state;
 		}
@@ -275,20 +301,19 @@ export function createCommand(props: CommandProps) {
 
 		// sort groups
 		const groups: [string, number][] = [];
-		const $allGroups = get(allGroups);
 
-		state.filtered.groups.forEach((value) => {
+		for (const value of state.filtered.groups) {
 			const items = $allGroups.get(value);
-			if (!items) return;
+			if (!items) continue;
 			// get max score of the group's items
 			let max = 0;
-			items.forEach((item) => {
+			for (const item of items) {
 				const score = scores.get(item);
-				if (isUndefined(score)) return;
+				if (isUndefined(score)) continue;
 				max = Math.max(score, max);
-			});
+			}
 			groups.push([value, max]);
-		});
+		}
 
 		// Sort items within groups to bottom
 		// sort items outside of groups
@@ -297,41 +322,39 @@ export function createCommand(props: CommandProps) {
 		if (!rootEl) return state;
 		const list = rootEl.querySelector(LIST_SELECTOR);
 
-		// Sort the items
-		getValidItems(rootEl)
-			.sort((a, b) => {
-				const valueA = a.getAttribute(VALUE_ATTR) ?? '';
-				const valueB = b.getAttribute(VALUE_ATTR) ?? '';
-				return (scores.get(valueA) ?? 0) - (scores.get(valueB) ?? 0);
-			})
-			.forEach((item) => {
-				const group = item.closest(GROUP_ITEMS_SELECTOR);
-				const closest = item.closest(`${GROUP_ITEMS_SELECTOR} > *`);
-				if (isHTMLElement(group)) {
-					if (item.parentElement === group) {
-						group.appendChild(item);
-					} else {
-						if (!isHTMLElement(closest)) return;
-						group.appendChild(closest);
-					}
-				} else {
-					if (!isHTMLElement(list)) return;
-					if (item.parentElement === list) {
-						list.appendChild(item);
-					} else {
-						if (!isHTMLElement(closest)) return;
-						list.appendChild(closest);
-					}
-				}
-			});
+		const validItems = getValidItems(rootEl).sort((a, b) => {
+			const valueA = a.getAttribute(VALUE_ATTR) ?? '';
+			const valueB = b.getAttribute(VALUE_ATTR) ?? '';
+			return (scores.get(valueA) ?? 0) - (scores.get(valueB) ?? 0);
+		});
 
-		groups
-			.sort((a, b) => b[1] - a[1])
-			.forEach((group) => {
-				const el = rootEl.querySelector(`${GROUP_SELECTOR}[${VALUE_ATTR}="${group[0]}"]`);
-				if (!isHTMLElement(el)) return;
-				el.parentElement?.appendChild(el);
-			});
+		for (const item of validItems) {
+			const group = item.closest(GROUP_ITEMS_SELECTOR);
+			const closest = item.closest(`${GROUP_ITEMS_SELECTOR} > *`);
+			if (group) {
+				if (item.parentElement === group) {
+					group.appendChild(item);
+				} else {
+					if (!closest) continue;
+					group.appendChild(closest);
+				}
+			} else {
+				if (item.parentElement === list) {
+					list?.appendChild(item);
+				} else {
+					if (!closest) continue;
+					list?.appendChild(closest);
+				}
+			}
+		}
+
+		groups.sort((a, b) => b[1] - a[1]);
+
+		for (const group of groups) {
+			const el = rootEl.querySelector(`${GROUP_SELECTOR}[${VALUE_ATTR}="${group[0]}"]`);
+			el?.parentElement?.appendChild(el);
+		}
+
 		return state;
 	}
 
@@ -345,7 +368,7 @@ export function createCommand(props: CommandProps) {
 
 	function score(value: string | undefined, search: string) {
 		const lowerCaseAndTrimmedValue = value?.toLowerCase().trim();
-		const filterFn = get(filter);
+		const filterFn = filter;
 		if (!filterFn) {
 			return lowerCaseAndTrimmedValue ? defaultFilter(lowerCaseAndTrimmedValue, search) : 0;
 		}
@@ -371,7 +394,7 @@ export function createCommand(props: CommandProps) {
 		const rootEl = rootElement ?? document.getElementById(ids.root);
 		if (!rootEl) return [];
 		return Array.from(rootEl.querySelectorAll(VALID_ITEM_SELECTOR)).filter(
-			(el): el is HTMLElement => isHTMLElement(el)
+			(el): el is HTMLElement => (el ? true : false)
 		);
 	}
 
@@ -379,7 +402,7 @@ export function createCommand(props: CommandProps) {
 		const rootEl = rootElement ?? document.getElementById(ids.root);
 		if (!rootEl) return;
 		const selectedEl = rootEl.querySelector(`${VALID_ITEM_SELECTOR}[aria-selected="true"]`);
-		if (!isHTMLElement(selectedEl)) return null;
+		if (!selectedEl) return;
 		return selectedEl;
 	}
 
@@ -399,7 +422,7 @@ export function createCommand(props: CommandProps) {
 		// get item at this index
 		let newSelected = items[index + change];
 
-		if (get(loop)) {
+		if (loop) {
 			if (index + change < 0) {
 				newSelected = items[items.length - 1];
 			} else if (index + change === items.length) {
@@ -482,9 +505,9 @@ export function createCommand(props: CommandProps) {
 				break;
 			case kbd.ENTER: {
 				e.preventDefault();
-				const item = getSelectedItem();
+				const item = getSelectedItem() as HTMLElement;
 				if (item) {
-					item.click();
+					item?.click();
 				}
 			}
 		}

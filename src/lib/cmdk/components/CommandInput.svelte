@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { derived } from 'svelte/store';
+	import { derived, get } from 'svelte/store';
 	import { ITEM_SELECTOR, VALUE_ATTR, getCtx, getState } from '../command.js';
-	import { addEventListener, isBrowser, isHTMLInputElement } from '$lib/internal/index.js';
+	import { addEventListener, isBrowser } from '$lib/internal/index.js';
 	import type { InputEvents, InputProps } from '../types.js';
 	import { sleep } from '$lib/internal/helpers/sleep.js';
 
@@ -14,8 +14,9 @@
 	const valueStore = derived(state, ($state) => $state.value);
 
 	export let autofocus: $$Props['autofocus'] = undefined;
-	export let value: $$Props['value'] = $search;
+	export let value: $$Props['value'] = get(search);
 	export let asChild: $$Props['asChild'] = false;
+	export let withSleep = false;
 
 	export let el: HTMLElement | undefined = undefined;
 
@@ -33,18 +34,27 @@
 		if (autofocus) {
 			sleep(10).then(() => node.focus());
 		}
+		if (asChild) {
+			const unsubEvents = addEventListener(node, 'change', (e) => {
+				const currTarget = e.currentTarget as HTMLInputElement;
+				state.updateState('search', currTarget.value as string);
+			});
 
-		const unsubEvents = addEventListener(node, 'change', (e) => {
-			if (!isHTMLInputElement(e.target)) return;
-			state.updateState('search', e.target.value);
-		});
-
-		return {
-			destroy: unsubEvents
-		};
+			return {
+				destroy: unsubEvents
+			};
+		}
 	}
 
-	$: handleValueUpdate(value);
+	$: if (value !== undefined) {
+		if (withSleep) {
+			sleep(100).then(() => {
+				handleValueUpdate(value);
+			});
+		} else {
+			handleValueUpdate(value);
+		}
+	}
 
 	let attrs: Record<string, unknown>;
 
