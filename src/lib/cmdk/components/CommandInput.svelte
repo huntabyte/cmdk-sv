@@ -48,7 +48,7 @@
 
 	$: if (value !== undefined) {
 		if (withSleep) {
-			sleep(100).then(() => {
+			sleep(1).then(() => {
 				handleValueUpdate(value);
 			});
 		} else {
