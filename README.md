@@ -5,6 +5,11 @@
 # ⌘K-sv [![cmdk package version](https://img.shields.io/npm/v/cmdk-sv.svg?colorB=green)](https://www.npmjs.com/package/cmdk-sv)
 
 <!-- automd:badges license name="cmdk-sv" color="green" github="huntabyte/cmdk-sv" -->
+
+[![npm version](https://flat.badgen.net/npm/v/cmdk-sv?color=green)](https://npmjs.com/package/cmdk-sv)
+[![npm downloads](https://flat.badgen.net/npm/dm/cmdk-sv?color=green)](https://npmjs.com/package/cmdk-sv)
+[![license](https://flat.badgen.net/github/license/huntabyte/cmdk-sv?color=green)](https://github.com/huntabyte/cmdk-sv/blob/main/LICENSE)
+
 <!-- /automd -->
 
 A port of [cmdk](https://cmdk.paco.me), to Svelte.
@@ -487,4 +492,12 @@ This project is supported by the following beautiful people/organizations:
 ## License
 
 <!-- automd:contributors license=MIT author="huntabyte" github="huntabyte/cmdk-sv" -->
+
+Published under the [MIT](https://github.com/huntabyte/cmdk-sv/blob/main/LICENSE) license.
+Made by [@huntabyte](https://github.com/huntabyte) and [community](https://github.com/huntabyte/cmdk-sv/graphs/contributors) 💛
+<br><br>
+<a href="https://github.com/huntabyte/cmdk-sv/graphs/contributors">
+<img src="https://contrib.rocks/image?repo=huntabyte/cmdk-sv" />
+</a>
+
 <!-- /automd -->
