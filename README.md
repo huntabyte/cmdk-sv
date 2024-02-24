@@ -4,6 +4,9 @@
 
 # ⌘K-sv [![cmdk package version](https://img.shields.io/npm/v/cmdk-sv.svg?colorB=green)](https://www.npmjs.com/package/cmdk-sv)
 
+<!-- automd:badges license name="cmdk-sv" color="green" github="huntabyte/cmdk-sv" -->
+<!-- /automd -->
+
 A port of [cmdk](https://cmdk.paco.me), to Svelte.
 
 ⌘K-sv is a command menu Svelte component that can also be used as an accessible combobox. You render items, it filters and sorts them automatically.
@@ -470,3 +473,18 @@ Components that contain only a single element will just have `attrs` & `action` 
 Written in 2019 by Paco ([@pacocoursey](https://twitter.com/pacocoursey)) to see if a composable combobox API was possible. Used for the Vercel command menu and autocomplete by Rauno ([@raunofreiberg](https://twitter.com/raunofreiberg)) in 2020. Re-written independently in 2022 with a simpler and more performant approach. Ideas and help from Shu ([@shuding\_](https://twitter.com/shuding_)).
 
 Ported to Svelte in 2023 by Huntabyte ([@huntabyte](https://twitter.com/huntabyte))
+
+## Sponsors
+
+This project is supported by the following beautiful people/organizations:
+
+<p align="center">
+  <a href="https://github.com/sponsors/huntabyte">
+    <img src='https://cdn.jsdelivr.net/gh/huntabyte/static/sponsors.svg' alt="Logos from Sponsors" />
+  </a>
+</p>
+
+## License
+
+<!-- automd:contributors license=MIT author="huntabyte" github="huntabyte/cmdk-sv" -->
+<!-- /automd -->
