@@ -73,6 +73,7 @@
 		bind:value
 		use:action
 		{...$$restProps}
+		on:keydown
 		on:input
 		on:focus
 		on:blur

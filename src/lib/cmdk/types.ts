@@ -248,6 +248,7 @@ export type DialogProps<
 //
 
 export type InputEvents = {
+	keydown: KeyboardEvent;
 	blur: FocusEvent;
 	input: Event;
 	focus: FocusEvent;
