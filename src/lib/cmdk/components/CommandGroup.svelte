@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { generateId } from '$lib/internal';
+	import { generateId } from '$lib/internal/index.js';
 	import { derived } from 'svelte/store';
 	import { VALUE_ATTR, getCtx, getState, createGroup } from '../command.js';
 	import type { GroupProps } from '../types.js';

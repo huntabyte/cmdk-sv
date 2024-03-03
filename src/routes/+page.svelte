@@ -7,9 +7,9 @@
 		ThemeSwitcher,
 		CodeBlock,
 		Footer
-	} from '$docs/components';
-	import { RaycastCMDK, LinearCMDK, VercelCMDK, FramerCMDK } from '$docs/components/cmdk';
-	import type { Themes } from '$docs/types';
+	} from '$docs/components/index.js';
+	import { RaycastCMDK, LinearCMDK, VercelCMDK, FramerCMDK } from '$docs/components/cmdk/index.js';
+	import type { Themes } from '$docs/types.js';
 
 	let theme: Themes = 'raycast';
 </script>

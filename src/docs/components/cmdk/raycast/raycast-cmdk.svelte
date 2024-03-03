@@ -8,10 +8,10 @@
 		SlackIcon,
 		YouTubeIcon,
 		RaycastIcon
-	} from '$docs/components/icons';
-	import { ClipboardIcon, HammerIcon, RaycastDarkIcon, RaycastLightIcon } from './icons';
+	} from '$docs/components/icons/index.js';
+	import { ClipboardIcon, HammerIcon, RaycastDarkIcon, RaycastLightIcon } from './icons/index.js';
 	import Logo from '$docs/components/logo.svelte';
-	import { Command } from '$lib';
+	import { Command } from '$lib/index.js';
 	import SubCommand from './sub-command.svelte';
 
 	let value = 'linear';

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { Command } from '$lib';
+	import { Command } from '$lib/index.js';
 	import { Popover } from 'bits-ui';
 	import { onMount, tick } from 'svelte';
 	import SubItem from './sub-item.svelte';
-	import { FinderIcon, StarIcon, WindowIcon } from './icons';
+	import { FinderIcon, StarIcon, WindowIcon } from './icons/index.js';
 
 	export let listEl: HTMLElement | undefined;
 	export let inputEl: HTMLInputElement | undefined;

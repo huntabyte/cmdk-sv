@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { CopiedIcon, CopyIcon } from './icons';
+	import { CopiedIcon, CopyIcon } from './icons/index.js';
 	let copied = false;
 
 	function handleCopy() {

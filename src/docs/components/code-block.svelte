@@ -2,9 +2,9 @@
 	import Prism from 'prismjs';
 	import 'prism-svelte';
 	import { code } from '$docs/code.js';
-	import { escape, tokenize } from '$docs/highlight';
-	import { createCopyCodeButton } from '$docs/copy-code';
-	import { CopyIcon } from './icons';
+	import { escape, tokenize } from '$docs/highlight.js';
+	import { createCopyCodeButton } from '$docs/copy-code.js';
+	import { CopyIcon } from './icons/index.js';
 	import '$styles/code.postcss';
 
 	const tokens = tokenize(code, Prism.languages.svelte, 'svelte');

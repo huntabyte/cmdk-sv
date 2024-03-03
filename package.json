@@ -32,9 +32,10 @@
 	"devDependencies": {
 		"@changesets/cli": "^2.26.2",
 		"@playwright/test": "^1.28.1",
-		"@sveltejs/adapter-vercel": "^3.0.3",
-		"@sveltejs/kit": "^1.26.0",
+		"@sveltejs/adapter-vercel": "^4.0.0",
+		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/package": "^2.2.2",
+		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@svitejs/changesets-changelog-github-compact": "^1.1.0",
 		"@types/prismjs": "^1.26.2",
 		"@typescript-eslint/eslint-plugin": "^6.8.0",
@@ -58,8 +59,8 @@
 		"svelte-seo": "^1.5.4",
 		"tslib": "^2.6.2",
 		"typescript": "^5.2.2",
-		"vite": "^4.5.0",
-		"vitest": "^0.34.6"
+		"vite": "^5.0.0",
+		"vitest": "^1.0.0"
 	},
 	"svelte": "./dist/index.js",
 	"types": "./dist/index.d.ts",

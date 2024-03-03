@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Command } from '$lib';
-	import { isHTMLElement, kbd } from '$lib/internal';
+	import { Command } from '$lib/index.js';
+	import { isHTMLElement, kbd } from '$lib/internal/index.js';
 	import Home from './home.svelte';
 	import Projects from './projects.svelte';
 	import '$styles/cmdk/vercel.postcss';

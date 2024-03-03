@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { Themes } from '$docs/types';
-	import { RaycastIcon, LinearIcon, VercelIcon, FramerIcon } from './icons';
-	import { kbd } from '$lib/internal';
+	import type { Themes } from '$docs/types.js';
+	import { RaycastIcon, LinearIcon, VercelIcon, FramerIcon } from './icons/index.js';
+	import { kbd } from '$lib/internal/index.js';
 	import type { ComponentType } from 'svelte';
 	import { crossfade } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';

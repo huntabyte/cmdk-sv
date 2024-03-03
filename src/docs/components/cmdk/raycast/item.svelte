@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Command } from '$lib';
-	import type { ItemProps } from '$lib/cmdk';
+	import { Command } from '$lib/index.js';
+	import type { ItemProps } from '$lib/cmdk/index.js';
 	export let value: string;
 	export let isCommand: boolean = false;
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Command } from '$lib';
+	import { Command } from '$lib/index.js';
 	import type { ComponentType } from 'svelte';
 	import {
 		AvatarIcon,
@@ -10,7 +10,7 @@
 		RadioIcon,
 		SearchIcon,
 		SliderIcon
-	} from './icons';
+	} from './icons/index.js';
 	import '$styles/cmdk/framer.postcss';
 
 	let value = 'Button';

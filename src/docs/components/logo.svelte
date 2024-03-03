@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { styleToString } from '$lib/internal';
+	import { styleToString } from '$lib/internal/index.js';
 	export let size: string = '20px';
 	import '$styles/icons.postcss';
 </script>
