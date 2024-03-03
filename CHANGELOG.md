@@ -1,5 +1,13 @@
 # cmdk-sv
 
+## 0.0.14
+
+### Patch Changes
+
+- Expose keydown event from Input component ([#57](https://github.com/huntabyte/cmdk-sv/pull/57))
+
+- change `moduleResolution` to `NodeNext` ([#62](https://github.com/huntabyte/cmdk-sv/pull/62))
+
 ## 0.0.13
 
 ### Patch Changes
