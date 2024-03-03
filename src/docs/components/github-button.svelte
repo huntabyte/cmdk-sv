@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { GitHubIcon } from './icons';
+	import { GitHubIcon } from './icons/index.js';
 </script>
 
 <a

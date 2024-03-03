@@ -1,6 +1,13 @@
 <script lang="ts">
-	import { Command } from '$lib';
-	import { ContactIcon, DocsIcon, FeedbackIcon, PlusIcon, ProjectsIcon, TeamsIcon } from './icons';
+	import { Command } from '$lib/index.js';
+	import {
+		ContactIcon,
+		DocsIcon,
+		FeedbackIcon,
+		PlusIcon,
+		ProjectsIcon,
+		TeamsIcon
+	} from './icons/index.js';
 	import Item from './item.svelte';
 	export let searchProjects: () => void;
 </script>

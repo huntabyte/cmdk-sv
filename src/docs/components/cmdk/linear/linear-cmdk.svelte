@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ComponentType } from 'svelte';
-	import { Command } from '$lib';
+	import { Command } from '$lib/index.js';
 	import {
 		AssignToIcon,
 		AssignToMeIcon,
