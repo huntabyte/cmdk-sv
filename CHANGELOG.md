@@ -1,5 +1,11 @@
 # cmdk-sv
 
+## 0.0.15
+
+### Patch Changes
+
+- chore: Updated `svelte-package` to fix malformed package build ([#64](https://github.com/huntabyte/cmdk-sv/pull/64))
+
 ## 0.0.14
 
 ### Patch Changes
