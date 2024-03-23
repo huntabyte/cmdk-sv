@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Command } from '$lib';
+	import { Command } from '$lib/index.js';
 	export let shortcut: string;
 </script>
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { styleToString } from '$lib/internal';
+	import { styleToString } from '$lib/internal/index.js';
 	export let style: Record<PropertyKey, string | number | undefined> = {};
 </script>
 

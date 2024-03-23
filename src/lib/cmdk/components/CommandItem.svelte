@@ -1,5 +1,10 @@
 <script lang="ts">
-	import { addEventListener, executeCallbacks, generateId, isUndefined } from '$lib/internal';
+	import {
+		addEventListener,
+		executeCallbacks,
+		generateId,
+		isUndefined
+	} from '$lib/internal/index.js';
 	import { onMount } from 'svelte';
 	import { VALUE_ATTR, getCtx, getGroup, getState } from '../command.js';
 	import type { ItemProps } from '../types.js';

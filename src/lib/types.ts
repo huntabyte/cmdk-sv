@@ -11,7 +11,7 @@ import type {
 	State
 } from './cmdk/types.js';
 
-export {
+export type {
 	LoadingProps,
 	CommandProps,
 	EmptyProps,

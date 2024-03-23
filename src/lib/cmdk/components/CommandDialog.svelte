@@ -2,7 +2,7 @@
 	import type { DialogProps } from '../types.js';
 	import { Dialog as DialogPrimitive } from 'bits-ui';
 	import type { Transition } from '$lib/internal/types.js';
-	import { Command } from '$lib';
+	import { Command } from '$lib/index.js';
 
 	type ContentT = $$Generic<Transition>;
 	type ContentIn = $$Generic<Transition>;
