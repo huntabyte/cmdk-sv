@@ -1,5 +1,11 @@
 # cmdk-sv
 
+## 0.0.16
+
+### Patch Changes
+
+- Fixed bug where page would crash when a large list was rendered ([#55](https://github.com/huntabyte/cmdk-sv/pull/55))
+
 ## 0.0.15
 
 ### Patch Changes
