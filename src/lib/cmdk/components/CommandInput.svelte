@@ -16,7 +16,6 @@
 	export let autofocus: $$Props['autofocus'] = undefined;
 	export let value: $$Props['value'] = get(search);
 	export let asChild: $$Props['asChild'] = false;
-	export let withSleep = false;
 
 	export let el: HTMLElement | undefined = undefined;
 
@@ -46,15 +45,7 @@
 		}
 	}
 
-	$: if (value !== undefined) {
-		if (withSleep) {
-			sleep(1).then(() => {
-				handleValueUpdate(value);
-			});
-		} else {
-			handleValueUpdate(value);
-		}
-	}
+	$: handleValueUpdate(value);
 
 	let attrs: Record<string, unknown>;
 
