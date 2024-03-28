@@ -1,5 +1,11 @@
 # cmdk-sv
 
+## 0.0.17
+
+### Patch Changes
+
+- fix: remove leftover logs ([#70](https://github.com/huntabyte/cmdk-sv/pull/70))
+
 ## 0.0.16
 
 ### Patch Changes
