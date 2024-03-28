@@ -43,7 +43,6 @@
 	});
 
 	function syncValueAndState(value: string | undefined) {
-		console.log('sync value and state');
 		if (value && value !== $stateStore.value) {
 			$stateStore.value = value;
 		}

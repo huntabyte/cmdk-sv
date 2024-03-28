@@ -1,3 +1,4 @@
+/** @type { import("eslint").Linter.Config } */
 module.exports = {
 	root: true,
 	extends: [
@@ -68,6 +69,12 @@ module.exports = {
 						}
 					}
 				]
+			}
+		},
+		{
+			files: ['*.js', '*.svelte', '*.ts'],
+			rules: {
+				'no-console': 'error'
 			}
 		}
 	]
