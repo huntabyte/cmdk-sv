@@ -96,7 +96,12 @@ Render this to show the command menu inline, or use [Dialog](#dialog-cmdk-dialog
 </Command.Root>
 ```
 
+By default, this uses a scoring algorithm to filter and rank items based on the user's search input.
+The algorithm takes into account various factors like continuous matches, word and character jumps among other things. 
+
 You can provide a custom `filter` function that is called to rank each item. Both strings are normalized as lowercase and trimmed.
+
+The following example implements a strict substring match:
 
 ```svelte
 <Command.Root
@@ -106,6 +111,8 @@ You can provide a custom `filter` function that is called to rank each item. Bot
 	}}
 />
 ```
+
+In this strict substring match example, the filter function returns a score of 1 if the item's value contains the search string as a substring, and 0 otherwise, removing it from the result list.
 
 Or disable filtering and sorting entirely:
 
