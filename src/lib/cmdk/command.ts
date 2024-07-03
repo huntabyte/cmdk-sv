@@ -244,6 +244,7 @@ export function createCommand(props: CommandProps) {
 				tick().then(() =>
 					state.update((curr) => {
 						curr.value = selectFirstItem() ?? '';
+						props.onValueChange?.(curr.value);
 						return curr;
 					})
 				);
