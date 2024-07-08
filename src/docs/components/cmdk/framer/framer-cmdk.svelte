@@ -100,10 +100,10 @@
 						<img src="/rauno.jpeg" alt="Avatar of Rauno" />
 					{:else if value === 'Slider'}
 						<div data-cmdk-framer-slider="">
-							<div />
+							<div></div>
 						</div>
 					{:else if value === 'Container'}
-						<div data-cmdk-framer-container="" />
+						<div data-cmdk-framer-container=""></div>
 					{/if}
 				</div>
 			</div>

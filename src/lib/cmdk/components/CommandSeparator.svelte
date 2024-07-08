@@ -21,6 +21,6 @@
 	{#if asChild}
 		<slot {attrs} />
 	{:else}
-		<div {...attrs} {...$$restProps} />
+		<div {...attrs} {...$$restProps}></div>
 	{/if}
 {/if}
