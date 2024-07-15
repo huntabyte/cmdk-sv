@@ -2,4 +2,4 @@
 'cmdk-sv': patch
 ---
 
-Removes self-closing html tags to remove warnings when used with Svelte 5
+fix: Removes self-closing non-void elements to fix Svelte 5 warnings
