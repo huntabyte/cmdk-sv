@@ -2,4 +2,4 @@
 'cmdk-sv': patch
 ---
 
-Support meta key and home/end shortcuts
+fix: Support meta key and home/end shortcuts

@@ -6,7 +6,6 @@ import {
 	omit,
 	generateId,
 	toWritableStores,
-	isHTMLElement,
 	isUndefined,
 	kbd,
 	removeUndefined,
