@@ -37,16 +37,12 @@
 
 	$: handleStyleUpdates(open, listEl);
 
-	const positioning: Popover.Props['positioning'] = {
-		placement: 'top-end'
-	};
-
 	$: if (!open) {
 		tick().then(() => inputEl?.focus());
 	}
 </script>
 
-<Popover.Root bind:open {positioning} preventScroll={true}>
+<Popover.Root bind:open preventScroll={true}>
 	<Popover.Trigger asChild let:builder>
 		<button
 			use:builder.action
@@ -60,7 +56,7 @@
 		</button>
 	</Popover.Trigger>
 	{#if open}
-		<Popover.Content class="raycast-submenu">
+		<Popover.Content class="raycast-submenu" side="top" align="end">
 			<Command.Root>
 				<Command.List>
 					<Command.Group heading={selectedValue}>
