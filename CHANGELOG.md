@@ -1,5 +1,17 @@
 # cmdk-sv
 
+## 0.0.18
+
+### Patch Changes
+
+- chore: Add Svelte 5 as a peer dependency ([#88](https://github.com/huntabyte/cmdk-sv/pull/88))
+
+- fix: select first value after search ([#83](https://github.com/huntabyte/cmdk-sv/pull/83))
+
+- fix: Removes self-closing non-void elements to fix Svelte 5 warnings ([#84](https://github.com/huntabyte/cmdk-sv/pull/84))
+
+- fix: Support meta key and home/end shortcuts ([#78](https://github.com/huntabyte/cmdk-sv/pull/78))
+
 ## 0.0.17
 
 ### Patch Changes
