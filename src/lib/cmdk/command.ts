@@ -6,7 +6,6 @@ import {
 	omit,
 	generateId,
 	toWritableStores,
-	isHTMLElement,
 	isUndefined,
 	kbd,
 	removeUndefined,
@@ -413,6 +412,7 @@ export function createCommand(props: CommandProps) {
 		const items = getValidItems(rootEl);
 		const item = items[index];
 		if (!item) return;
+		updateState('value', item.getAttribute(VALUE_ATTR) ?? '');
 	}
 
 	function updateSelectedByChange(change: 1 | -1) {
