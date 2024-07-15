@@ -93,7 +93,7 @@
 			<svelte:component this={icon} />
 			{key}
 			{#if isActive}
-				<div class="activeTheme" in:send={{ key: 'active' }} out:receive={{ key: 'active' }} />
+				<div class="activeTheme" in:send={{ key: 'active' }} out:receive={{ key: 'active' }}></div>
 			{/if}
 		</button>
 	{/each}

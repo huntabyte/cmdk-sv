@@ -21,7 +21,7 @@
 
 <div class="raycast">
 	<Command.Root bind:value>
-		<div data-cmdk-raycast-top-shine="" />
+		<div data-cmdk-raycast-top-shine=""></div>
 		<Command.Input autofocus placeholder="Search for apps and commands..." bind:el={inputEl} />
 		<hr data-cmdk-raycast-loader="" />
 		<Command.List bind:el={listEl}>

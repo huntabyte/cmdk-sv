@@ -36,8 +36,8 @@
 </script>
 
 <div class="codeBlock">
-	<div class="line2" aria-hidden />
-	<div class="line3" aria-hidden />
+	<div class="line2" aria-hidden></div>
+	<div class="line3" aria-hidden></div>
 	<pre
 		use:setCodeString
 		class="root prism-code language-svelte"
@@ -46,7 +46,7 @@
 		<button aria-label="Copy Code" on:click={copyCode}>
 			<CopyIcon />
 		</button>
-		<div class="shine" />
+		<div class="shine"></div>
 			{@html rawCodeString}
 	</pre>
 </div>

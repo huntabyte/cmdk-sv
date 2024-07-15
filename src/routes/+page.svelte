@@ -48,7 +48,7 @@
 		</div>
 		<ThemeSwitcher bind:theme />
 
-		<div aria-hidden class="line" />
+		<div aria-hidden class="line"></div>
 		<CodeBlock />
 	</div>
 	<Footer />
