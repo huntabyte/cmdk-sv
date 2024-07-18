@@ -1,5 +1,5 @@
-import { nanoid } from 'nanoid/non-secure';
+import { useId } from 'bits-ui';
 
 export function generateId() {
-	return nanoid(10);
+	return useId();
 }

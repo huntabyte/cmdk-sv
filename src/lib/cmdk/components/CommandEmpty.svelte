@@ -1,34 +1,34 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { mergeProps } from 'bits-ui';
 	import { getState } from '../command.js';
 	import type { EmptyProps } from '../types.js';
 
-	type $$Props = EmptyProps;
+	let { children, child, ref = $bindable(null), ...restProps }: EmptyProps = $props();
 
-	export let asChild: $$Props['asChild'] = false;
-
-	let isFirstRender = true;
+	let isFirstRender = $state(true);
 
 	onMount(() => {
 		isFirstRender = false;
 	});
 
-	const state = getState();
+	const cmdkState = getState();
 
-	$: render = $state.filtered.count === 0;
+	const render = $derived($cmdkState.filtered.count === 0);
 
 	const attrs = {
 		'data-cmdk-empty': '',
 		role: 'presentation'
 	};
+
+	const mergedProps = $derived(mergeProps(attrs, restProps));
 </script>
 
 {#if !isFirstRender && render}
-	{#if asChild}
-		<slot {attrs} />
-	{:else}
-		<div {...attrs} {...$$restProps}>
-			<slot />
-		</div>
-	{/if}
+	{#if child}
+		{@render child?.({ props: mergedProps })}
+	{:else}{/if}
+	<div {...mergedProps}>
+		{@render children?.()}
+	</div>
 {/if}

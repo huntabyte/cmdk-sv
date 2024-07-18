@@ -1,12 +1,12 @@
 <script lang="ts">
+	import { createCommand } from '../command.js';
+	import type { CommandProps } from '../types.js';
 	import {
 		addEventListener,
 		executeCallbacks,
 		srOnlyStyles,
 		styleToString
 	} from '$lib/internal/index.js';
-	import { createCommand } from '../command.js';
-	import type { CommandProps } from '../types.js';
 
 	type $$Props = CommandProps;
 
@@ -96,7 +96,7 @@
 	<slot {...slotProps} />
 {:else}
 	<div use:rootAction {...rootAttrs} {...$$restProps}>
-		<!-- svelte-ignore a11y-label-has-associated-control applied in attrs -->
+		<!-- svelte-ignore a11y_label_has_associated_control -->
 		<label {...labelAttrs}>
 			{label ?? ''}
 		</label>

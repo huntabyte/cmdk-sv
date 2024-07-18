@@ -1,8 +1,8 @@
 import {
-	type Writable,
+	type Readable,
 	type Stores,
 	type StoresValues,
-	type Readable,
+	type Writable,
 	derived,
 	writable
 } from 'svelte/store';
