@@ -5,20 +5,23 @@
 	import type { GroupProps } from '../types.js';
 	import { onMount } from 'svelte';
 
-	type $$Props = GroupProps;
-
-	export let heading: $$Props['heading'] = undefined;
-	export let value = '';
-	export let alwaysRender: $$Props['alwaysRender'] = false;
-	export let asChild: $$Props['asChild'] = false;
+	let {
+		value = '',
+		alwaysRender = false,
+		heading,
+		children,
+		child,
+		ref = $bindable(null),
+		...restProps
+	}: GroupProps = $props();
 
 	const { id } = createGroup(alwaysRender);
 
 	const context = getCtx();
-	const state = getState();
+	const cmdkState = getState();
 	const headingId = generateId();
 
-	const render = derived(state, ($state) => {
+	const render = derived(cmdkState, ($state) => {
 		if (alwaysRender) return true;
 		if (context.filter() === false) return true;
 		if (!$state.search) return true;

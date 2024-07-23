@@ -64,9 +64,9 @@
 	"types": "./dist/index.d.ts",
 	"type": "module",
 	"dependencies": {
-		"bits-ui": "0.21.4",
+		"bits-ui": "https://pkg.pr.new/bits-ui@52b86fe",
 		"runed": "^0.15.0",
-		"svelte-toolbelt": "^0.0.2"
+		"svelte-toolbelt": "^0.1.0"
 	},
 	"packageManager": "pnpm@9.5.0"
 }
