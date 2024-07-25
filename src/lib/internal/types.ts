@@ -42,3 +42,20 @@ export type PrefixKeys<T, Prefix extends string> = Expand<{
 export type Transition = (node: Element, params?: any) => TransitionConfig;
 
 export type Arrayable<T> = T | T[];
+
+// eslint-disable-next-line ts/no-empty-object-type
+export type WithRefProps<T = {}> = T &
+	ReadableBoxedValues<{ id: string }> &
+	WritableBoxedValues<{ ref: HTMLElement | null }>;
+
+/**
+ * Constructs a new type by omitting properties from type
+ * 'T' that exist in type 'U'.
+ *
+ * @template T - The base object type from which properties will be omitted.
+ * @template U - The object type whose properties will be omitted from 'T'.
+ * @example
+ * type Result = Without<{ a: number; b: string; }, { b: string; }>;
+ * // Result type will be { a: number; }
+ */
+export type Without<T extends object, U extends object> = Omit<T, keyof U>;

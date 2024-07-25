@@ -27,8 +27,9 @@
 {#if !isFirstRender && render}
 	{#if child}
 		{@render child?.({ props: mergedProps })}
-	{:else}{/if}
-	<div {...mergedProps}>
-		{@render children?.()}
-	</div>
+	{:else}
+		<div {...mergedProps}>
+			{@render children?.()}
+		</div>
+	{/if}
 {/if}

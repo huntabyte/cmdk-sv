@@ -2,7 +2,7 @@ import type { Dialog as DialogPrimitive } from 'bits-ui';
 import type { HTMLAttributes, HTMLInputAttributes } from 'svelte/elements';
 import type { Writable } from 'svelte/store';
 import type { Snippet } from 'svelte';
-import type { Expand, HTMLDivAttributes, PrefixKeys, Transition } from '$lib/internal/index.js';
+import type { Expand } from '$lib/internal/index.js';
 
 export type WithChild<
 	/**
@@ -206,7 +206,7 @@ type UpdateState = <K extends keyof State>(
 	preventScroll?: boolean
 ) => void;
 
-export type ConextStore = Writable<Context>;
+export type ContextStore = Writable<Context>;
 
 export type StateStore = Writable<State> & {
 	updateState: UpdateState;
