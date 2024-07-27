@@ -1,105 +1,61 @@
 <script lang="ts">
-	import { createCommand } from '../command.js';
-	import type { CommandProps } from '../types.js';
-	import {
-		addEventListener,
-		executeCallbacks,
-		srOnlyStyles,
-		styleToString
-	} from '$lib/internal/index.js';
+	import { type WithoutChild, mergeProps, useId } from 'bits-ui';
+	import { box } from 'svelte-toolbelt';
+	import { defaultFilter, useCommandRoot } from '../command-state.svelte.js';
+	import type { RootProps } from '../index.js';
+	import CommandLabel from './CommandLabel.svelte';
 
-	type $$Props = CommandProps;
+	let {
+		id = useId(),
+		ref = $bindable(null),
+		value = $bindable(''),
+		onValueChange = () => {},
+		loop = false,
+		shouldFilter = true,
+		filter = defaultFilter,
+		label = '',
+		children,
+		...restProps
+	}: WithoutChild<RootProps> = $props();
 
-	export let label: $$Props['label'] = undefined;
-	export let shouldFilter: $$Props['shouldFilter'] = true;
-	export let filter: $$Props['filter'] = undefined;
-	export let value: $$Props['value'] = undefined;
-	export let onValueChange: $$Props['onValueChange'] = undefined;
-	export let loop: $$Props['loop'] = undefined;
-	export let onKeydown: $$Props['onKeydown'] = undefined;
-	export let state: $$Props['state'] = undefined;
-	export let ids: $$Props['ids'] = undefined;
-	export let asChild: $$Props['asChild'] = false;
-
-	const {
-		commandEl,
-		handleRootKeydown,
-		ids: commandIds,
-		state: stateStore
-	} = createCommand({
-		label,
-		shouldFilter,
-		filter,
-		value,
-		onValueChange: (next) => {
-			if (next !== value) {
-				value = next;
-				onValueChange?.(next);
+	const rootState = useCommandRoot({
+		id: box.with(() => id),
+		ref: box.with(
+			() => ref,
+			(v) => (ref = v)
+		),
+		filter: box.with(() => filter),
+		shouldFilter: box.with(() => shouldFilter),
+		loop: box.with(() => loop),
+		value: box.with(
+			() => value,
+			(v) => {
+				if (v !== value) {
+					value = v;
+					onValueChange(v);
+				}
 			}
-		},
-		loop,
-		state,
-		ids
+		)
 	});
 
-	function syncValueAndState(value: string | undefined) {
-		if (value && value !== $stateStore.value) {
-			$stateStore.value = value;
-		}
-	}
-
-	$: syncValueAndState(value);
-
-	function rootAction(node: HTMLDivElement) {
-		commandEl.set(node);
-
-		const unsubEvents = executeCallbacks(addEventListener(node, 'keydown', handleKeydown));
-
-		return {
-			destroy: unsubEvents
-		};
-	}
-
-	const rootAttrs = {
-		role: 'application',
-		id: commandIds.root,
-		'data-cmdk-root': ''
-	};
-
-	const labelAttrs = {
-		'data-cmdk-label': '',
-		for: commandIds.input,
-		id: commandIds.label,
-		style: styleToString(srOnlyStyles)
-	};
-
-	function handleKeydown(e: KeyboardEvent) {
-		onKeydown?.(e);
-		if (e.defaultPrevented) return;
-		handleRootKeydown(e);
-	}
-
-	const root = {
-		action: rootAction,
-		attrs: rootAttrs
-	};
-
-	$: slotProps = {
-		root,
-		label: { attrs: labelAttrs },
-		stateStore,
-		state: $stateStore
-	};
+	const mergedProps = $derived(mergeProps(restProps, rootState.props));
 </script>
 
+<div {...mergedProps}>
+	<CommandLabel>
+		{label}
+	</CommandLabel>
+	{@render children?.()}
+</div>
+
+<!--
 {#if asChild}
 	<slot {...slotProps} />
 {:else}
 	<div use:rootAction {...rootAttrs} {...$$restProps}>
-		<!-- svelte-ignore a11y_label_has_associated_control -->
 		<label {...labelAttrs}>
 			{label ?? ''}
 		</label>
 		<slot {...slotProps} />
 	</div>
-{/if}
+{/if} -->

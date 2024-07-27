@@ -1,4 +1,4 @@
-import type { Dialog as DialogPrimitive } from 'bits-ui';
+import type { Dialog as DialogPrimitive, PrimitiveLabelAttributes } from 'bits-ui';
 import type { HTMLAttributes, HTMLInputAttributes } from 'svelte/elements';
 import type { Writable } from 'svelte/store';
 import type { Snippet } from 'svelte';
@@ -50,7 +50,7 @@ export type SeparatorProps = WithChild<{
 	 * Whether this separator is always rendered, regardless
 	 * of the filter.
 	 */
-	alwaysRender?: boolean;
+	forceMount?: boolean;
 }> &
 	PrimitiveDivAttributes;
 
@@ -102,13 +102,19 @@ type BaseCommandProps = {
 	loop?: boolean;
 };
 
-export type CommandProps = Expand<BaseCommandProps> & WithChild<PrimitiveDivAttributes>;
+export type CommandRootProps = Expand<BaseCommandProps> & WithChild<PrimitiveDivAttributes>;
 
-export type ListProps = PrimitiveDivAttributes;
+export type CommandListProps = WithChild<PrimitiveDivAttributes>;
 
-export type InputProps = PrimitiveInputAttributes;
+export type CommandInputProps = WithChild<PrimitiveInputAttributes>;
 
-export type GroupProps = WithChild<
+export type CommandLabelProps = WithChild<PrimitiveLabelAttributes>;
+
+export type CommandGroupHeadingProps = WithChild<PrimitiveDivAttributes>;
+
+export type CommandGroupItemsProps = WithChild<PrimitiveDivAttributes>;
+
+export type CommandGroupProps = WithChild<
 	{
 		/**
 		 * Optional heading to render for the group
@@ -125,11 +131,11 @@ export type GroupProps = WithChild<
 		 * Whether or not this group is always rendered,
 		 * regardless of filtering.
 		 */
-		alwaysRender?: boolean;
+		forceMount?: boolean;
 	} & PrimitiveDivAttributes
 >;
 
-export type ItemProps = WithChild<{
+export type CommandItemProps = WithChild<{
 	/**
 	 * Whether this item is disabled.
 	 */
@@ -139,7 +145,7 @@ export type ItemProps = WithChild<{
 	 * A function called when this item is selected, either
 	 * via click or keyboard selection.
 	 */
-	onSelect?: (value: string) => void;
+	onSelect?: () => void;
 
 	/**
 	 * A unique value for this item.
@@ -153,11 +159,11 @@ export type ItemProps = WithChild<{
 	 * Whether or not this item is always rendered,
 	 * regardless of filtering.
 	 */
-	alwaysRender?: boolean;
+	forceMount?: boolean;
 }> &
 	Omit<PrimitiveDivAttributes, 'disabled'>;
 
-export type DialogProps = CommandProps &
+export type CommandDialogProps = CommandRootProps &
 	DialogPrimitive.RootProps & {
 		contentClasses?: string;
 		overlayClasses?: string;
@@ -168,7 +174,7 @@ export type DialogProps = CommandProps &
 // Internal
 //
 export type CommandOptionStores = {
-	[K in keyof Omit<Required<BaseCommandProps>, 'value'>]: Writable<CommandProps[K]>;
+	[K in keyof Omit<Required<BaseCommandProps>, 'value'>]: Writable<CommandRootProps[K]>;
 };
 
 export type State = {
@@ -214,5 +220,5 @@ export type StateStore = Writable<State> & {
 
 export type Group = {
 	id: string;
-	alwaysRender: boolean;
+	forceMount: boolean;
 };

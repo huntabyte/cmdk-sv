@@ -1,99 +1,38 @@
 <script lang="ts">
-	import {
-		addEventListener,
-		executeCallbacks,
-		generateId,
-		isUndefined
-	} from '$lib/internal/index.js';
-	import { onMount } from 'svelte';
-	import { VALUE_ATTR, getCtx, getGroup, getState } from '../command.js';
-	import type { ItemProps } from '../types.js';
-	import { derived } from 'svelte/store';
+	import { mergeProps, useId } from 'bits-ui';
+	import { box } from 'svelte-toolbelt';
+	import type { CommandItemProps } from '../types.js';
+	import { getCommandGroupContainerContext, useCommandItem } from '../command-state.svelte.js';
 
-	type $$Props = ItemProps;
+	let {
+		id = useId(),
+		ref = $bindable(null),
+		value = '',
+		disabled = false,
+		children,
+		onSelect = () => {},
+		forceMount = false,
+		...restProps
+	}: CommandItemProps = $props();
 
-	export let disabled: $$Props['disabled'] = false;
-	export let value: string = '';
-	export let onSelect: $$Props['onSelect'] = undefined;
-	export let alwaysRender: $$Props['alwaysRender'] = false;
-	export let asChild: $$Props['asChild'] = false;
-	export let id: string = generateId();
+	const group = getCommandGroupContainerContext(null);
 
-	const groupContext = getGroup();
-	const context = getCtx();
-	const state = getState();
-
-	const trueAlwaysRender = alwaysRender ?? groupContext?.alwaysRender;
-
-	const render = derived(state, ($state) => {
-		if (trueAlwaysRender || context.filter() === false || !$state.search) return true;
-		const currentScore = $state.filtered.items.get(id);
-		if (isUndefined(currentScore)) return false;
-		return currentScore > 0;
+	const itemState = useCommandItem({
+		id: box.with(() => id),
+		ref: box.with(
+			() => ref,
+			(v) => (ref = v)
+		),
+		value: box.with(() => value),
+		disabled: box.with(() => disabled),
+		onSelect: box.with(() => onSelect),
+		forceMount: box.with(() => forceMount),
+		group
 	});
 
-	let isFirstRender = true;
-
-	onMount(() => {
-		isFirstRender = false;
-		const unsub = context.item(id, groupContext?.id);
-		return unsub;
-	});
-
-	const selected = derived(state, ($state) => $state.value === value);
-
-	function action(node: HTMLElement) {
-		if (!value && node.textContent) {
-			value = node.textContent.trim().toLowerCase();
-		}
-		context.value(id, value);
-		node.setAttribute(VALUE_ATTR, value);
-
-		const unsubEvents = executeCallbacks(
-			addEventListener(node, 'pointermove', () => {
-				if (disabled) return;
-				select();
-			}),
-			addEventListener(node, 'click', () => {
-				if (disabled) return;
-				handleItemClick();
-			})
-		);
-
-		return {
-			destroy() {
-				unsubEvents();
-			}
-		};
-	}
-
-	function handleItemClick() {
-		select();
-		onSelect?.(value);
-	}
-
-	function select() {
-		state.updateState('value', value, true);
-	}
-
-	$: attrs = {
-		'aria-disabled': disabled ? true : undefined,
-		'aria-selected': $selected ? true : undefined,
-		'data-disabled': disabled ? true : undefined,
-		'data-selected': $selected ? true : undefined,
-		'data-cmdk-item': '',
-		'data-value': value,
-		role: 'option',
-		id
-	};
+	const mergedProps = $derived(mergeProps(restProps, itemState.props));
 </script>
 
-{#if $render || isFirstRender}
-	{#if asChild}
-		<slot {action} {attrs} />
-	{:else}
-		<div {...attrs} use:action {...$$restProps}>
-			<slot {action} {attrs} />
-		</div>
-	{/if}
-{/if}
+<div {...mergedProps}>
+	{@render children?.()}
+</div>

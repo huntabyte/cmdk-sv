@@ -1,6 +1,6 @@
 import { getContext, setContext, tick } from 'svelte';
 import { get, writable } from 'svelte/store';
-import type { CommandProps, Context, Group, State, StateStore } from './types.js';
+import type { CommandRootProps, Context, Group, State, StateStore } from './types.js';
 import { commandScore } from '$lib/internal/command-score.js';
 import {
 	effect,
@@ -80,9 +80,9 @@ const defaults = {
 		label: generateId(),
 		input: generateId()
 	}
-} satisfies CommandProps;
+} satisfies CommandRootProps;
 
-export function createCommand(props: CommandProps) {
+export function createCommand(props: CommandRootProps) {
 	const ids = {
 		root: generateId(),
 		list: generateId(),
@@ -94,7 +94,7 @@ export function createCommand(props: CommandProps) {
 	const withDefaults = {
 		...defaults,
 		...removeUndefined(props)
-	} satisfies CommandProps;
+	} satisfies CommandRootProps;
 
 	const state =
 		props.state ??

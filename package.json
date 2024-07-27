@@ -42,7 +42,7 @@
 		"@types/prismjs": "^1.26.4",
 		"autoprefixer": "^10.4.19",
 		"eslint": "^9.0.0",
-		"eslint-plugin-svelte": "^2.37.0",
+		"eslint-plugin-svelte": "^2.43.0",
 		"mode-watcher": "^0.4.0",
 		"postcss": "^8.4.39",
 		"postcss-load-config": "^6.0.1",
@@ -54,7 +54,7 @@
 		"publint": "^0.1.9",
 		"svelte": "5.0.0-next.190",
 		"svelte-check": "^3.8.4",
-		"svelte-eslint-parser": "^0.39.2",
+		"svelte-eslint-parser": "^0.41.0",
 		"tslib": "^2.6.2",
 		"typescript": "^5.5.3",
 		"vite": "^5.3.3",
@@ -64,7 +64,7 @@
 	"types": "./dist/index.d.ts",
 	"type": "module",
 	"dependencies": {
-		"bits-ui": "https://pkg.pr.new/bits-ui@52b86fe",
+		"bits-ui": "https://pkg.pr.new/huntabyte/bits-ui/bits-ui@8bd07bf",
 		"runed": "^0.15.0",
 		"svelte-toolbelt": "^0.1.0"
 	},

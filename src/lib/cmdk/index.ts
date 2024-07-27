@@ -1,13 +1,14 @@
 import type {
-	LoadingProps,
-	CommandProps,
+	CommandDialogProps,
+	CommandGroupProps,
+	CommandInputProps,
+	CommandItemProps,
+	CommandLabelProps,
+	CommandListProps,
+	CommandRootProps,
 	EmptyProps,
-	ItemProps,
-	GroupProps,
-	ListProps,
-	InputProps,
-	SeparatorProps,
-	DialogProps
+	LoadingProps,
+	SeparatorProps
 } from './types.js';
 
 import Root from './components/Command.svelte';
@@ -45,12 +46,13 @@ export {
 
 export type {
 	LoadingProps,
-	DialogProps,
-	CommandProps,
+	CommandDialogProps as DialogProps,
+	CommandRootProps as RootProps,
 	EmptyProps,
-	ItemProps,
-	GroupProps,
-	ListProps,
-	InputProps,
+	CommandItemProps as ItemProps,
+	CommandGroupProps as GroupProps,
+	CommandListProps as ListProps,
+	CommandInputProps as InputProps,
+	CommandLabelProps as LabelProps,
 	SeparatorProps
 };

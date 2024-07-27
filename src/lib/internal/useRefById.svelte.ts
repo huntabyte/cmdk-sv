@@ -38,13 +38,13 @@ export function useRefById({
 	$effect(() => {
 		// re-run when the ID changes.
 		// eslint-disable-next-line ts/no-unused-expressions
-		id.value;
+		id.current;
 		condition();
 		// re-run when the condition changes.
 		untrack(() => {
-			const node = document.getElementById(id.value);
-			ref.value = node;
-			onRefChange(ref.value);
+			const node = document.getElementById(id.current);
+			ref.current = node;
+			onRefChange(ref.current);
 		});
 	});
 }

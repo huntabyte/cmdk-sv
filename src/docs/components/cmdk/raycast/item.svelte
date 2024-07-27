@@ -1,14 +1,23 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import { Command } from '$lib/index.js';
 	import type { ItemProps } from '$lib/cmdk/index.js';
-	export let value: string;
-	export let isCommand: boolean = false;
 
-	export let onSelect: ItemProps['onSelect'] = undefined;
+	let {
+		value,
+		isCommand = false,
+		onSelect,
+		children
+	}: {
+		value: string;
+		isCommand?: boolean;
+		onSelect?: ItemProps['onSelect'];
+		children: Snippet;
+	} = $props();
 </script>
 
 <Command.Item {value} {onSelect}>
-	<slot />
+	{@render children?.()}
 	<span data-cmdk-raycast-meta="">
 		{#if isCommand}
 			Command

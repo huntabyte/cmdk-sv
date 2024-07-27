@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { DialogProps } from '../types.js';
 	import { Dialog as DialogPrimitive } from 'bits-ui';
+	import type { CommandDialogProps } from '../types.js';
 	import { Command } from '$lib/index.js';
 
 	let {
@@ -12,7 +12,7 @@
 		portalProps,
 		children,
 		...restProps
-	}: DialogProps = $props();
+	}: CommandDialogProps = $props();
 
 	const overlayProps = $derived({
 		class: overlayClasses,

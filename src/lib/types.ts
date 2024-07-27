@@ -1,11 +1,11 @@
 import type {
-	CommandProps,
-	DialogProps,
+	CommandRootProps,
+	CommandDialogProps,
 	EmptyProps,
-	GroupProps,
-	InputProps,
-	ItemProps,
-	ListProps,
+	CommandGroupProps,
+	CommandInputProps,
+	CommandItemProps,
+	CommandListProps,
 	LoadingProps,
 	SeparatorProps,
 	State
@@ -13,13 +13,13 @@ import type {
 
 export type {
 	LoadingProps,
-	CommandProps,
+	CommandRootProps as CommandProps,
 	EmptyProps,
-	ItemProps,
-	GroupProps,
-	ListProps,
-	InputProps,
+	CommandItemProps as ItemProps,
+	CommandGroupProps as GroupProps,
+	CommandListProps as ListProps,
+	CommandInputProps as InputProps,
 	SeparatorProps,
-	DialogProps,
+	CommandDialogProps as DialogProps,
 	State
 };

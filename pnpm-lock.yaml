@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       bits-ui:
-        specifier: https://pkg.pr.new/bits-ui@52b86fe
-        version: https://pkg.pr.new/bits-ui@52b86fe(svelte@5.0.0-next.190)
+        specifier: https://pkg.pr.new/huntabyte/bits-ui/bits-ui@8bd07bf
+        version: https://pkg.pr.new/huntabyte/bits-ui/bits-ui@8bd07bf(svelte@5.0.0-next.190)
       runed:
         specifier: ^0.15.0
         version: 0.15.0(svelte@5.0.0-next.190)
@@ -23,7 +23,7 @@ importers:
         version: 2.27.7
       '@huntabyte/eslint-config':
         specifier: ^0.3.2
-        version: 0.3.2(@vue/compiler-sfc@3.4.32)(eslint-plugin-svelte@2.42.0(eslint@9.7.0)(svelte@5.0.0-next.190))(eslint@9.7.0)(svelte-eslint-parser@0.39.2(svelte@5.0.0-next.190))(svelte@5.0.0-next.190)(typescript@5.5.3)(vitest@1.6.0(@types/node@20.14.10))
+        version: 0.3.2(@vue/compiler-sfc@3.4.32)(eslint-plugin-svelte@2.43.0(eslint@9.7.0)(svelte@5.0.0-next.190))(eslint@9.7.0)(svelte-eslint-parser@0.41.0(svelte@5.0.0-next.190))(svelte@5.0.0-next.190)(typescript@5.5.3)(vitest@1.6.0(@types/node@20.14.10))
       '@huntabyte/eslint-plugin':
         specifier: ^0.1.0
         version: 0.1.0(eslint@9.7.0)
@@ -55,8 +55,8 @@ importers:
         specifier: ^9.0.0
         version: 9.7.0
       eslint-plugin-svelte:
-        specifier: ^2.37.0
-        version: 2.42.0(eslint@9.7.0)(svelte@5.0.0-next.190)
+        specifier: ^2.43.0
+        version: 2.43.0(eslint@9.7.0)(svelte@5.0.0-next.190)
       mode-watcher:
         specifier: ^0.4.0
         version: 0.4.0(svelte@5.0.0-next.190)
@@ -91,8 +91,8 @@ importers:
         specifier: ^3.8.4
         version: 3.8.4(postcss-load-config@6.0.1(postcss@8.4.39)(yaml@2.4.5))(postcss@8.4.39)(svelte@5.0.0-next.190)
       svelte-eslint-parser:
-        specifier: ^0.39.2
-        version: 0.39.2(svelte@5.0.0-next.190)
+        specifier: ^0.41.0
+        version: 0.41.0(svelte@5.0.0-next.190)
       tslib:
         specifier: ^2.6.2
         version: 2.6.2
@@ -1410,8 +1410,8 @@ packages:
   bindings@1.5.0:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
 
-  bits-ui@https://pkg.pr.new/bits-ui@52b86fe:
-    resolution: {tarball: https://pkg.pr.new/bits-ui@52b86fe}
+  bits-ui@https://pkg.pr.new/huntabyte/bits-ui/bits-ui@8bd07bf:
+    resolution: {tarball: https://pkg.pr.new/huntabyte/bits-ui/bits-ui@8bd07bf}
     version: 0.21.4
     engines: {node: '>=18', pnpm: '>=8.7.0'}
     peerDependencies:
@@ -1800,12 +1800,12 @@ packages:
     peerDependencies:
       eslint: '>=8.44.0'
 
-  eslint-plugin-svelte@2.42.0:
-    resolution: {integrity: sha512-mHP6z0DWq97KZvoQcApZHdF9m9epcDV/ICKufeEH18Vh+8vl7S+gwt8WdUohEqKNVMuXRkbvy1suMcVvUDiOGw==}
+  eslint-plugin-svelte@2.43.0:
+    resolution: {integrity: sha512-REkxQWvg2pp7QVLxQNa+dJ97xUqRe7Y2JJbSWkHSuszu0VcblZtXkPBPckkivk99y5CdLw4slqfPylL2d/X4jQ==}
     engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0-0 || ^9.0.0-0
-      svelte: ^3.37.0 || ^4.0.0 || ^5.0.0-next.181
+      svelte: ^3.37.0 || ^4.0.0 || ^5.0.0-next.191
     peerDependenciesMeta:
       svelte:
         optional: true
@@ -3142,20 +3142,11 @@ packages:
     peerDependencies:
       svelte: ^3.55.0 || ^4.0.0-next.0 || ^4.0.0 || ^5.0.0-next.0
 
-  svelte-eslint-parser@0.39.2:
-    resolution: {integrity: sha512-87UwLuWTtDIuzWOhOi1zBL5wYVd07M5BK1qZ57YmXJB5/UmjUNJqGy3XSOhPqjckY1dATNV9y+mx+nI0WH6HPA==}
+  svelte-eslint-parser@0.41.0:
+    resolution: {integrity: sha512-L6f4hOL+AbgfBIB52Z310pg1d2QjRqm7wy3kI1W6hhdhX5bvu7+f0R6w4ykp5HoDdzq+vGhIJmsisaiJDGmVfA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
-      svelte: ^3.37.0 || ^4.0.0 || ^5.0.0-next.115
-    peerDependenciesMeta:
-      svelte:
-        optional: true
-
-  svelte-eslint-parser@0.40.0:
-    resolution: {integrity: sha512-M+v1HhC5T1WKYVxWexUCS4o6oIBS88XKzOZuhl2ew+eGxol7eC21e+VE8TC4rXJ3iT3iXT0qlZsZcpKjVo5/zQ==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    peerDependencies:
-      svelte: ^3.37.0 || ^4.0.0 || ^5.0.0-next.181
+      svelte: ^3.37.0 || ^4.0.0 || ^5.0.0-next.191
     peerDependenciesMeta:
       svelte:
         optional: true
@@ -3502,7 +3493,7 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.20
 
-  '@antfu/eslint-config@2.23.0(@vue/compiler-sfc@3.4.32)(eslint-plugin-svelte@2.42.0(eslint@9.7.0)(svelte@5.0.0-next.190))(eslint@9.7.0)(svelte-eslint-parser@0.39.2(svelte@5.0.0-next.190))(svelte@5.0.0-next.190)(typescript@5.5.3)(vitest@1.6.0(@types/node@20.14.10))':
+  '@antfu/eslint-config@2.23.0(@vue/compiler-sfc@3.4.32)(eslint-plugin-svelte@2.43.0(eslint@9.7.0)(svelte@5.0.0-next.190))(eslint@9.7.0)(svelte-eslint-parser@0.41.0(svelte@5.0.0-next.190))(svelte@5.0.0-next.190)(typescript@5.5.3)(vitest@1.6.0(@types/node@20.14.10))':
     dependencies:
       '@antfu/eslint-plugin-unused-imports': 4.0.0(@typescript-eslint/eslint-plugin@8.0.0-alpha.40(@typescript-eslint/parser@8.0.0-alpha.40(eslint@9.7.0)(typescript@5.5.3))(eslint@9.7.0)(typescript@5.5.3))(eslint@9.7.0)
       '@antfu/install-pkg': 0.3.3
@@ -3523,7 +3514,7 @@ snapshots:
       eslint-plugin-markdown: 5.1.0(eslint@9.7.0)
       eslint-plugin-n: 17.9.0(eslint@9.7.0)
       eslint-plugin-no-only-tests: 3.1.0
-      eslint-plugin-perfectionist: 2.11.0(eslint@9.7.0)(svelte-eslint-parser@0.39.2(svelte@5.0.0-next.190))(svelte@5.0.0-next.190)(typescript@5.5.3)(vue-eslint-parser@9.4.3(eslint@9.7.0))
+      eslint-plugin-perfectionist: 2.11.0(eslint@9.7.0)(svelte-eslint-parser@0.41.0(svelte@5.0.0-next.190))(svelte@5.0.0-next.190)(typescript@5.5.3)(vue-eslint-parser@9.4.3(eslint@9.7.0))
       eslint-plugin-regexp: 2.6.0(eslint@9.7.0)
       eslint-plugin-toml: 0.11.1(eslint@9.7.0)
       eslint-plugin-unicorn: 54.0.0(eslint@9.7.0)
@@ -3541,8 +3532,8 @@ snapshots:
       yaml-eslint-parser: 1.2.3
       yargs: 17.7.2
     optionalDependencies:
-      eslint-plugin-svelte: 2.42.0(eslint@9.7.0)(svelte@5.0.0-next.190)
-      svelte-eslint-parser: 0.39.2(svelte@5.0.0-next.190)
+      eslint-plugin-svelte: 2.43.0(eslint@9.7.0)(svelte@5.0.0-next.190)
+      svelte-eslint-parser: 0.41.0(svelte@5.0.0-next.190)
     transitivePeerDependencies:
       - '@vue/compiler-sfc'
       - supports-color
@@ -4206,9 +4197,9 @@ snapshots:
 
   '@humanwhocodes/retry@0.3.0': {}
 
-  '@huntabyte/eslint-config@0.3.2(@vue/compiler-sfc@3.4.32)(eslint-plugin-svelte@2.42.0(eslint@9.7.0)(svelte@5.0.0-next.190))(eslint@9.7.0)(svelte-eslint-parser@0.39.2(svelte@5.0.0-next.190))(svelte@5.0.0-next.190)(typescript@5.5.3)(vitest@1.6.0(@types/node@20.14.10))':
+  '@huntabyte/eslint-config@0.3.2(@vue/compiler-sfc@3.4.32)(eslint-plugin-svelte@2.43.0(eslint@9.7.0)(svelte@5.0.0-next.190))(eslint@9.7.0)(svelte-eslint-parser@0.41.0(svelte@5.0.0-next.190))(svelte@5.0.0-next.190)(typescript@5.5.3)(vitest@1.6.0(@types/node@20.14.10))':
     dependencies:
-      '@antfu/eslint-config': 2.23.0(@vue/compiler-sfc@3.4.32)(eslint-plugin-svelte@2.42.0(eslint@9.7.0)(svelte@5.0.0-next.190))(eslint@9.7.0)(svelte-eslint-parser@0.39.2(svelte@5.0.0-next.190))(svelte@5.0.0-next.190)(typescript@5.5.3)(vitest@1.6.0(@types/node@20.14.10))
+      '@antfu/eslint-config': 2.23.0(@vue/compiler-sfc@3.4.32)(eslint-plugin-svelte@2.43.0(eslint@9.7.0)(svelte@5.0.0-next.190))(eslint@9.7.0)(svelte-eslint-parser@0.41.0(svelte@5.0.0-next.190))(svelte@5.0.0-next.190)(typescript@5.5.3)(vitest@1.6.0(@types/node@20.14.10))
       '@antfu/install-pkg': 0.3.3
       '@clack/prompts': 0.7.0
       '@huntabyte/eslint-plugin': 0.1.0(eslint@9.7.0)
@@ -4217,10 +4208,10 @@ snapshots:
       chalk: 5.3.0
       eslint: 9.7.0
       eslint-flat-config-utils: 0.2.5
-      eslint-plugin-svelte: 2.42.0(eslint@9.7.0)(svelte@5.0.0-next.190)
+      eslint-plugin-svelte: 2.43.0(eslint@9.7.0)(svelte@5.0.0-next.190)
       local-pkg: 0.5.0
       parse-gitignore: 2.0.0
-      svelte-eslint-parser: 0.39.2(svelte@5.0.0-next.190)
+      svelte-eslint-parser: 0.41.0(svelte@5.0.0-next.190)
       yargs: 17.7.2
     transitivePeerDependencies:
       - '@eslint-react/eslint-plugin'
@@ -4919,7 +4910,7 @@ snapshots:
     dependencies:
       file-uri-to-path: 1.0.0
 
-  bits-ui@https://pkg.pr.new/bits-ui@52b86fe(svelte@5.0.0-next.190):
+  bits-ui@https://pkg.pr.new/huntabyte/bits-ui/bits-ui@8bd07bf(svelte@5.0.0-next.190):
     dependencies:
       '@floating-ui/core': 1.6.4
       '@floating-ui/dom': 1.6.7
@@ -5330,7 +5321,7 @@ snapshots:
 
   eslint-plugin-no-only-tests@3.1.0: {}
 
-  eslint-plugin-perfectionist@2.11.0(eslint@9.7.0)(svelte-eslint-parser@0.39.2(svelte@5.0.0-next.190))(svelte@5.0.0-next.190)(typescript@5.5.3)(vue-eslint-parser@9.4.3(eslint@9.7.0)):
+  eslint-plugin-perfectionist@2.11.0(eslint@9.7.0)(svelte-eslint-parser@0.41.0(svelte@5.0.0-next.190))(svelte@5.0.0-next.190)(typescript@5.5.3)(vue-eslint-parser@9.4.3(eslint@9.7.0)):
     dependencies:
       '@typescript-eslint/utils': 7.16.1(eslint@9.7.0)(typescript@5.5.3)
       eslint: 9.7.0
@@ -5338,7 +5329,7 @@ snapshots:
       natural-compare-lite: 1.4.0
     optionalDependencies:
       svelte: 5.0.0-next.190
-      svelte-eslint-parser: 0.39.2(svelte@5.0.0-next.190)
+      svelte-eslint-parser: 0.41.0(svelte@5.0.0-next.190)
       vue-eslint-parser: 9.4.3(eslint@9.7.0)
     transitivePeerDependencies:
       - supports-color
@@ -5355,7 +5346,7 @@ snapshots:
       regexp-ast-analysis: 0.7.1
       scslre: 0.3.0
 
-  eslint-plugin-svelte@2.42.0(eslint@9.7.0)(svelte@5.0.0-next.190):
+  eslint-plugin-svelte@2.43.0(eslint@9.7.0)(svelte@5.0.0-next.190):
     dependencies:
       '@eslint-community/eslint-utils': 4.4.0(eslint@9.7.0)
       '@jridgewell/sourcemap-codec': 1.5.0
@@ -5368,7 +5359,7 @@ snapshots:
       postcss-safe-parser: 6.0.0(postcss@8.4.39)
       postcss-selector-parser: 6.1.1
       semver: 7.6.2
-      svelte-eslint-parser: 0.40.0(svelte@5.0.0-next.190)
+      svelte-eslint-parser: 0.41.0(svelte@5.0.0-next.190)
     optionalDependencies:
       svelte: 5.0.0-next.190
     transitivePeerDependencies:
@@ -6759,17 +6750,7 @@ snapshots:
       - stylus
       - sugarss
 
-  svelte-eslint-parser@0.39.2(svelte@5.0.0-next.190):
-    dependencies:
-      eslint-scope: 7.2.2
-      eslint-visitor-keys: 3.4.3
-      espree: 9.6.1
-      postcss: 8.4.39
-      postcss-scss: 4.0.9(postcss@8.4.39)
-    optionalDependencies:
-      svelte: 5.0.0-next.190
-
-  svelte-eslint-parser@0.40.0(svelte@5.0.0-next.190):
+  svelte-eslint-parser@0.41.0(svelte@5.0.0-next.190):
     dependencies:
       eslint-scope: 7.2.2
       eslint-visitor-keys: 3.4.3

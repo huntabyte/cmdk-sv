@@ -1,5 +1,6 @@
 import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 import { tick, untrack } from 'svelte';
+import { get } from 'svelte/store';
 import { commandScore } from '$lib/internal/command-score.js';
 import type {
 	ReadableBoxedValues,
@@ -7,7 +8,7 @@ import type {
 	WritableBoxedValues
 } from '$lib/internal/types.js';
 import { useRefById } from '$lib/internal/useRefById.svelte.js';
-import { kbd } from '$lib/internal/index.js';
+import { isUndefined, kbd } from '$lib/internal/index.js';
 import { createContext } from '$lib/internal/createContext.js';
 import { findNextSibling, findPreviousSibling } from '$lib/internal/helpers/siblings.js';
 import { sleep } from '$lib/internal/helpers/sleep.js';
@@ -24,12 +25,21 @@ export function defaultFilter(value: string, search: string): number {
 	return commandScore(value, search);
 }
 
+const [setCommandRootContext, getCommandRootContext] =
+	createContext<CommandRootState>('Command.Root');
+
+export const [setCommandGroupContainerContext, getCommandGroupContainerContext] =
+	createContext<CommandGroupContainerState>('Command.Group');
+
 type CommandRootStateProps = WithRefProps<
 	ReadableBoxedValues<{
 		filter: (value: string, search: string) => number;
 		shouldFilter: boolean;
 		loop: boolean;
-	}>
+	}> &
+		WritableBoxedValues<{
+			value: string;
+		}>
 >;
 
 class CommandRootState {
@@ -43,8 +53,8 @@ class CommandRootState {
 	loop: CommandRootStateProps['loop'];
 	listNode = $state<HTMLElement | null>(null);
 	labelNode = $state<HTMLElement | null>(null);
+	value: CommandRootStateProps['value'];
 	search = $state('');
-	value = $state('');
 	filtered = $state({
 		count: 0,
 		items: new SvelteMap<string, number>(),
@@ -57,6 +67,7 @@ class CommandRootState {
 		this.filter = props.filter;
 		this.shouldFilter = props.shouldFilter;
 		this.loop = props.loop;
+		this.value = props.value;
 
 		useRefById({
 			id: this.id,
@@ -278,8 +289,8 @@ class CommandRootState {
 
 		this.#filterItems();
 
-		if (!this.value) {
-			this.value = this.#selectFirstItem() ?? '';
+		if (!this.value.current) {
+			this.value.current = this.#selectFirstItem() ?? '';
 		}
 
 		return () => {
@@ -291,7 +302,7 @@ class CommandRootState {
 			this.#filterItems();
 
 			if (selectedItem?.getAttribute('id') === id) {
-				this.value = this.#selectFirstItem() ?? '';
+				this.value.current = this.#selectFirstItem() ?? '';
 			}
 		};
 	}
@@ -312,12 +323,12 @@ class CommandRootState {
 		this.#filterItems();
 		this.#sort();
 		tick().then(() => {
-			this.value = this.#selectFirstItem() ?? '';
+			this.value.current = this.#selectFirstItem() ?? '';
 		});
 	}
 
 	setValue(newVal: string, preventScroll?: boolean) {
-		this.value = newVal;
+		this.value.current = newVal;
 		if (preventScroll) return;
 		tick().then(() => this.#scrollSelectedIntoView());
 	}
@@ -403,6 +414,18 @@ class CommandRootState {
 	createLabel(props: CommandInputLabelStateProps) {
 		return new CommandInputLabelState(props, this);
 	}
+
+	createItem(props: CommandItemStateProps) {
+		return new CommandItemState(props, this);
+	}
+
+	createSeparator(props: CommandSeparatorStateProps) {
+		return new CommandSeparatorState(props, this);
+	}
+
+	createList(props: CommandListStateProps) {
+		return new CommandListState(props, this);
+	}
 }
 
 type CommandEmptyStateProps = WithRefProps;
@@ -420,7 +443,8 @@ class CommandEmptyState {
 
 		useRefById({
 			id: this.#id,
-			ref: this.#ref
+			ref: this.#ref,
+			condition: () => this.shouldRender
 		});
 	}
 
@@ -444,37 +468,38 @@ type CommandGroupContainerStateProps = WithRefProps<
 
 class CommandGroupContainerState {
 	#ref: CommandGroupContainerStateProps['ref'];
-	#id: CommandGroupContainerStateProps['id'];
-	#forceMount: CommandGroupContainerStateProps['forceMount'];
+	id: CommandGroupContainerStateProps['id'];
+	forceMount: CommandGroupContainerStateProps['forceMount'];
 	#value: CommandGroupContainerStateProps['value'];
 	#root: CommandRootState;
 	#headingValue: CommandGroupContainerStateProps['heading'];
 	headingNode = $state<HTMLElement | null>(null);
 
 	shouldRender = $derived.by(() => {
-		if (this.#forceMount.current) return true;
+		if (this.forceMount.current) return true;
 		if (this.#root.shouldFilter.current === false) return true;
 		if (!this.#root.search) return true;
-		return this.#root.filtered.groups.has(this.#id.current);
+		return this.#root.filtered.groups.has(this.id.current);
 	});
 	trueValue = $state('');
 
 	constructor(props: CommandGroupContainerStateProps, root: CommandRootState) {
 		this.#ref = props.ref;
-		this.#id = props.id;
+		this.id = props.id;
 		this.#root = root;
-		this.#forceMount = props.forceMount;
+		this.forceMount = props.forceMount;
 		this.#value = props.value;
 		this.trueValue = props.value.current;
 		this.#headingValue = props.heading;
 
 		useRefById({
-			id: this.#id,
-			ref: this.#ref
+			id: this.id,
+			ref: this.#ref,
+			condition: () => this.shouldRender
 		});
 
 		$effect(() => {
-			const unsub = this.#root.registerGroup(this.#id.current);
+			const unsub = this.#root.registerGroup(this.id.current);
 			return unsub;
 		});
 
@@ -482,7 +507,7 @@ class CommandGroupContainerState {
 			untrack(() => {
 				if (this.#value.current) {
 					this.trueValue = this.#value.current;
-					this.#root.registerValue(this.#id.current, this.#value.current);
+					this.#root.registerValue(this.id.current, this.#value.current);
 				} else if (this.#headingValue.current) {
 					this.trueValue = this.#headingValue.current.trim().toLowerCase();
 				} else if (this.#ref.current?.textContent) {
@@ -495,7 +520,7 @@ class CommandGroupContainerState {
 	props = $derived.by(
 		() =>
 			({
-				id: this.#id.current,
+				id: this.id.current,
 				role: 'presentation',
 				hidden: this.shouldRender ? undefined : 'true',
 				'data-value': this.trueValue,
@@ -671,26 +696,120 @@ type CommandItemStateProps = WithRefProps<
 		disabled: boolean;
 		onSelect: () => void;
 		forceMount: boolean;
-	}>
+	}> & {
+		group: CommandGroupContainerState | null;
+	}
 >;
 
 class CommandItemState {
 	#ref: CommandItemStateProps['ref'];
-	#id: CommandItemStateProps['id'];
+	id: CommandItemStateProps['id'];
 	#root: CommandRootState;
 	#value: CommandItemStateProps['value'];
 	#disabled: CommandItemStateProps['disabled'];
 	#onSelect: CommandItemStateProps['onSelect'];
 	#forceMount: CommandItemStateProps['forceMount'];
+	#group: CommandGroupContainerState | null = null;
+	#trueForceMount = $derived.by(() => {
+		return this.#forceMount.current || this.#group?.forceMount.current === true;
+	});
+	trueValue = $state('');
+	shouldRender = $derived.by(() => {
+		if (this.#trueForceMount || this.#root.shouldFilter.current === false || !this.#root.search) {
+			return true;
+		}
+		const currentScore = this.#root.filtered.items.get(this.id.current);
+		if (isUndefined(currentScore)) return false;
+		return currentScore > 0;
+	});
+	isSelected = $derived.by(() => this.#root.value.current === this.trueValue);
 
 	constructor(props: CommandItemStateProps, root: CommandRootState) {
 		this.#ref = props.ref;
-		this.#id = props.id;
+		this.id = props.id;
 		this.#root = root;
 		this.#value = props.value;
 		this.#disabled = props.disabled;
 		this.#onSelect = props.onSelect;
 		this.#forceMount = props.forceMount;
+		this.#group = getCommandGroupContainerContext(null);
+		this.trueValue = props.value.current;
+
+		useRefById({
+			id: this.id,
+			ref: this.#ref,
+			condition: () => this.shouldRender
+		});
+
+		$effect(() => {
+			const id = untrack(() => this.id.current);
+			const groupId = untrack(() => this.#group?.id.current);
+			const unsub = this.#root.registerItem(id, groupId);
+			return unsub;
+		});
+
+		$effect(() => {
+			const value = untrack(() => this.#value.current);
+			const node = this.#ref.current;
+			if (!node) return;
+			if (!value && node.textContent) {
+				this.trueValue = node.textContent.trim().toLowerCase();
+			}
+
+			untrack(() => {
+				this.#root.registerValue(this.id.current, this.trueValue);
+				node.setAttribute(VALUE_ATTR, this.trueValue);
+			});
+		});
+	}
+
+	#select = () => {
+		if (this.#disabled.current) return;
+		this.#root.setValue(this.trueValue, true);
+		this.#onSelect?.current();
+	};
+
+	#onpointermove = () => {
+		if (this.#disabled.current) return;
+		this.#select();
+	};
+
+	#onclick = () => {
+		if (this.#disabled.current) return;
+		this.#select();
+	};
+
+	props = $derived.by(
+		() =>
+			({
+				id: this.id.current,
+				'aria-disabled': this.#disabled.current ? 'true' : undefined,
+				'aria-selected': this.isSelected ? 'true' : undefined,
+				'data-disabled': this.#disabled.current ? 'true' : undefined,
+				'data-selected': this.isSelected ? 'true' : undefined,
+				'data-cmdk-item': '',
+				role: 'option',
+				onclick: this.#onclick,
+				onpointermove: this.#onpointermove
+			}) as const
+	);
+}
+
+type CommandLoadingStateProps = WithRefProps<
+	ReadableBoxedValues<{
+		progress: number;
+	}>
+>;
+
+class CommandLoadingState {
+	#ref: CommandLoadingStateProps['ref'];
+	#id: CommandLoadingStateProps['id'];
+	#progress: CommandLoadingStateProps['progress'];
+
+	constructor(props: CommandLoadingStateProps) {
+		this.#ref = props.ref;
+		this.#id = props.id;
+		this.#progress = props.progress;
 
 		useRefById({
 			id: this.#id,
@@ -702,19 +821,81 @@ class CommandItemState {
 		() =>
 			({
 				id: this.#id.current,
-				role: 'presentation',
-				hidden: this.shouldRender ? undefined : 'true',
-				'data-value': this.trueValue,
-				'data-cmdk-item': ''
+				role: 'progressbar',
+				'aria-valuenow': this.#progress.current,
+				'aria-valuemin': 0,
+				'aria-valuemax': 100,
+				'aria-label': 'Loading...',
+				'data-cmdk-loading': ''
 			}) as const
 	);
 }
 
-const [setCommandRootContext, getCommandRootContext] =
-	createContext<CommandRootState>('Command.Root');
+type CommandSeparatorStateProps = WithRefProps;
 
-const [setCommandGroupContainerContext, getCommandGroupContainerContext] =
-	createContext<CommandGroupContainerState>('Command.Group');
+class CommandSeparatorState {
+	#ref: CommandSeparatorStateProps['ref'];
+	#id: CommandSeparatorStateProps['id'];
+	#root: CommandRootState;
+	shouldRender = $derived.by(() => !this.#root.search);
+
+	constructor(props: CommandSeparatorStateProps, root: CommandRootState) {
+		this.#ref = props.ref;
+		this.#id = props.id;
+		this.#root = root;
+
+		useRefById({
+			id: this.#id,
+			ref: this.#ref,
+			condition: () => this.shouldRender
+		});
+	}
+
+	props = $derived.by(
+		() =>
+			({
+				id: this.#id.current,
+				role: 'separator',
+				'data-cmdk-separator': ''
+			}) as const
+	);
+}
+
+type CommandListStateProps = WithRefProps;
+
+class CommandListState {
+	#ref: CommandListStateProps['ref'];
+	#id: CommandListStateProps['id'];
+	root: CommandRootState;
+
+	constructor(props: CommandListStateProps, root: CommandRootState) {
+		this.#ref = props.ref;
+		this.#id = props.id;
+		this.root = root;
+
+		useRefById({
+			id: this.#id,
+			ref: this.#ref
+		});
+	}
+
+	props = $derived.by(
+		() =>
+			({
+				id: this.#id.current,
+				role: 'listbox',
+				'aria-label': 'Suggestions',
+				'data-cmdk-list': ''
+			}) as const
+	);
+
+	sizerProps = $derived.by(
+		() =>
+			({
+				'data-cmdk-list-sizer': ''
+			}) as const
+	);
+}
 
 export function useCommandRoot(props: CommandRootStateProps) {
 	return setCommandRootContext(new CommandRootState(props));
@@ -722,6 +903,14 @@ export function useCommandRoot(props: CommandRootStateProps) {
 
 export function useCommandEmpty(props: CommandEmptyStateProps) {
 	return getCommandRootContext().createEmpty(props);
+}
+
+export function useCommandItem(props: CommandItemStateProps) {
+	return getCommandRootContext().createItem(props);
+}
+
+export function useCommandLabel(props: CommandInputLabelStateProps) {
+	return getCommandRootContext().createLabel(props);
 }
 
 export function useCommandGroupContainer(props: CommandGroupContainerStateProps) {
@@ -734,4 +923,20 @@ export function useCommandGroupHeading(props: CommandGroupHeadingStateProps) {
 
 export function useCommandGroupItems(props: CommandGroupItemsStateProps) {
 	return getCommandGroupContainerContext().createGroupItems(props);
+}
+
+export function useCommandInput(props: CommandInputStateProps) {
+	return getCommandRootContext().createInput(props);
+}
+
+export function useCommandLoading(props: CommandLoadingStateProps) {
+	return new CommandLoadingState(props);
+}
+
+export function useCommandSeparator(props: CommandSeparatorStateProps) {
+	return getCommandRootContext().createSeparator(props);
+}
+
+export function useCommandList(props: CommandListStateProps) {
+	return getCommandRootContext().createList(props);
 }

@@ -1,35 +1,29 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { mergeProps } from 'bits-ui';
-	import { getState } from '../command.js';
+	import { type WithoutChild, mergeProps, useId } from 'bits-ui';
+	import { box } from 'svelte-toolbelt';
 	import type { EmptyProps } from '../types.js';
+	import { useCommandEmpty } from '../command-state.svelte.js';
 
-	let { children, child, ref = $bindable(null), ...restProps }: EmptyProps = $props();
+	let {
+		id = useId(),
+		ref = $bindable(null),
+		children,
+		...restProps
+	}: WithoutChild<EmptyProps> = $props();
 
-	let isFirstRender = $state(true);
-
-	onMount(() => {
-		isFirstRender = false;
+	const emptyState = useCommandEmpty({
+		id: box.with(() => id),
+		ref: box.with(
+			() => ref,
+			(v) => (ref = v)
+		)
 	});
 
-	const cmdkState = getState();
-
-	const render = $derived($cmdkState.filtered.count === 0);
-
-	const attrs = {
-		'data-cmdk-empty': '',
-		role: 'presentation'
-	};
-
-	const mergedProps = $derived(mergeProps(attrs, restProps));
+	const mergedProps = $derived(mergeProps(emptyState.props, restProps));
 </script>
 
-{#if !isFirstRender && render}
-	{#if child}
-		{@render child?.({ props: mergedProps })}
-	{:else}
-		<div {...mergedProps}>
-			{@render children?.()}
-		</div>
-	{/if}
+{#if emptyState.shouldRender}
+	<div {...mergedProps}>
+		{@render children?.()}
+	</div>
 {/if}

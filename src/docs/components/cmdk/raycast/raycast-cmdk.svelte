@@ -2,29 +2,29 @@
 	import { mode } from 'mode-watcher';
 	import '$styles/cmdk/raycast.postcss';
 	import Item from './item.svelte';
-	import {
-		LinearIcon,
-		FigmaIcon,
-		SlackIcon,
-		YouTubeIcon,
-		RaycastIcon
-	} from '$docs/components/icons/index.js';
 	import { ClipboardIcon, HammerIcon, RaycastDarkIcon, RaycastLightIcon } from './icons/index.js';
+	import SubCommand from './sub-command.svelte';
+	import {
+		FigmaIcon,
+		LinearIcon,
+		RaycastIcon,
+		SlackIcon,
+		YouTubeIcon
+	} from '$docs/components/icons/index.js';
 	import Logo from '$docs/components/logo.svelte';
 	import { Command } from '$lib/index.js';
-	import SubCommand from './sub-command.svelte';
 
-	let value = 'linear';
-	let inputEl: HTMLInputElement | undefined;
-	let listEl: HTMLElement | undefined;
+	let value = $state('linear');
+	let inputEl = $state<HTMLInputElement | null>(null);
+	let listEl = $state<HTMLElement | null>(null);
 </script>
 
 <div class="raycast">
 	<Command.Root bind:value>
 		<div data-cmdk-raycast-top-shine=""></div>
-		<Command.Input autofocus placeholder="Search for apps and commands..." bind:el={inputEl} />
+		<Command.Input autofocus placeholder="Search for apps and commands..." bind:ref={inputEl} />
 		<hr data-cmdk-raycast-loader="" />
-		<Command.List bind:el={listEl}>
+		<Command.List bind:ref={listEl}>
 			<Command.Empty>No results found.</Command.Empty>
 			<Command.Group heading="Suggestions">
 				<Item value="linear">

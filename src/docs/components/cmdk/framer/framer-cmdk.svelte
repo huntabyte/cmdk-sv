@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { Command } from '$lib/index.js';
-	import type { ComponentType } from 'svelte';
+	import type { Component } from 'svelte';
 	import {
 		AvatarIcon,
 		BadgeIcon,
@@ -11,17 +10,18 @@
 		SearchIcon,
 		SliderIcon
 	} from './icons/index.js';
+	import { Command } from '$lib/index.js';
 	import '$styles/cmdk/framer.postcss';
 
-	let value = 'Button';
+	let value = $state('Button');
 
-	type Component = {
+	type Comp = {
 		value: string;
 		subtitle: string;
-		icon: ComponentType;
+		icon: Component;
 	};
 
-	const components: Component[] = [
+	const components: Comp[] = [
 		{
 			value: 'Button',
 			subtitle: 'Trigger actions',

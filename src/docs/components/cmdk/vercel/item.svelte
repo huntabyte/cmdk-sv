@@ -1,12 +1,20 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import { Command } from '$lib/index.js';
 
-	export let shortcut: string = '';
-	export let onSelect: ((value: string) => void) | undefined = undefined;
+	let {
+		shortcut = '',
+		onSelect = () => {},
+		children
+	}: {
+		shortcut?: string;
+		onSelect?: (() => void) | undefined;
+		children: Snippet;
+	} = $props();
 </script>
 
 <Command.Item {onSelect}>
-	<slot />
+	{@render children?.()}
 	{#if shortcut}
 		<div data-cmdk-vercel-shortcuts="">
 			{#each shortcut.split(' ') as key}

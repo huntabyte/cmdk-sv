@@ -1,20 +1,21 @@
 <script lang="ts">
-	import type { Themes } from '$docs/types.js';
-	import { RaycastIcon, LinearIcon, VercelIcon, FramerIcon } from './icons/index.js';
-	import { kbd } from '$lib/internal/index.js';
-	import type { ComponentType } from 'svelte';
+	import type { Component } from 'svelte';
 	import { crossfade } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
+	import { FramerIcon, LinearIcon, RaycastIcon, VercelIcon } from './icons/index.js';
+	import { kbd } from '$lib/internal/index.js';
+	import type { Themes } from '$docs/types.js';
 
-	export let theme: Themes = 'raycast';
-	let showArrowKeyHint = false;
+	let { theme = $bindable('raycast') }: { theme: Themes } = $props();
+
+	let showArrowKeyHint = $state(false);
 
 	function isTheme(value: unknown): value is Themes {
 		return typeof value === 'string' && ['raycast', 'linear', 'vercel', 'framer'].includes(value);
 	}
 
 	type ThemeObj = {
-		icon: ComponentType;
+		icon: Component;
 		key: Themes;
 	};
 
@@ -89,7 +90,7 @@
 	</span>
 	{#each themes as { key, icon }}
 		{@const isActive = theme === key}
-		<button data-selected={isActive} on:click={() => handleButtonClick(key)}>
+		<button data-selected={isActive} onclick={() => handleButtonClick(key)}>
 			<svelte:component this={icon} />
 			{key}
 			{#if isActive}

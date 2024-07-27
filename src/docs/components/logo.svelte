@@ -1,7 +1,8 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import { styleToString } from '$lib/internal/index.js';
-	export let size: string = '20px';
-	import '$styles/icons.postcss';
+
+	let { size = '20px', children }: { size?: string; children: Snippet } = $props();
 </script>
 
 <div
@@ -11,8 +12,10 @@
 		height: size
 	})}
 >
-	<div class="bg" aria-hidden>
-		<slot />
+	<div class="bg" aria-hidden="true">
+		{@render children?.()}
 	</div>
-	<div class="inner"><slot /></div>
+	<div class="inner">
+		{@render children?.()}
+	</div>
 </div>
