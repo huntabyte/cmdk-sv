@@ -1,6 +1,6 @@
-import type { EnvConfig, Token } from './types.js';
 import type { Grammar, Token as PrismToken, TokenStream } from 'prismjs';
 import Prism from 'prismjs';
+import type { EnvConfig, Token } from './types.js';
 
 const newlineRe = /\r\n|\r|\n/;
 
@@ -127,8 +127,8 @@ export function tokenize(code: string, grammar: Grammar, language: string) {
 const entities = [
 	[/</g, '&lt;'],
 	[/>/g, '&gt;'],
-	[/{/g, '&#123;'],
-	[/}/g, '&#125;']
+	[/\{/g, '&#123;'],
+	[/\}/g, '&#125;']
 ];
 
 export function escape(s: string) {

@@ -1,13 +1,13 @@
 import { createState, defaultFilter } from './cmdk/command.js';
 import {
-	CommandRoot,
 	CommandDialog,
 	CommandEmpty,
-	CommandList,
-	CommandItem,
 	CommandGroup,
 	CommandInput,
+	CommandItem,
+	CommandList,
 	CommandLoading,
+	CommandRoot,
 	CommandSeparator
 } from './cmdk/index.js';
 

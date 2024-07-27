@@ -1,92 +1,42 @@
 <script lang="ts">
-	import { generateId } from '$lib/internal/index.js';
-	import { derived } from 'svelte/store';
-	import { VALUE_ATTR, getCtx, getState, createGroup } from '../command.js';
-	import type { GroupProps } from '../types.js';
-	import { onMount } from 'svelte';
+	import { type WithoutChild, mergeProps, useId } from 'bits-ui';
+	import { box } from 'svelte-toolbelt';
+	import type { CommandGroupProps } from '../types.js';
+	import { useCommandGroupContainer } from '../command-state.svelte.js';
+	import CommandGroupHeading from './CommandGroupHeading.svelte';
+	import CommandGroupItems from './CommandGroupItems.svelte';
 
-	type $$Props = GroupProps;
+	let {
+		id = useId(),
+		ref = $bindable(null),
+		value = '',
+		forceMount = false,
+		heading = '',
+		children,
+		...restProps
+	}: WithoutChild<CommandGroupProps> = $props();
 
-	export let heading: $$Props['heading'] = undefined;
-	export let value = '';
-	export let alwaysRender: $$Props['alwaysRender'] = false;
-	export let asChild: $$Props['asChild'] = false;
-
-	const { id } = createGroup(alwaysRender);
-
-	const context = getCtx();
-	const state = getState();
-	const headingId = generateId();
-
-	const render = derived(state, ($state) => {
-		if (alwaysRender) return true;
-		if (context.filter() === false) return true;
-		if (!$state.search) return true;
-		return $state.filtered.groups.has(id);
+	const groupState = useCommandGroupContainer({
+		id: box.with(() => id),
+		ref: box.with(
+			() => ref,
+			(v) => (ref = v)
+		),
+		forceMount: box.with(() => forceMount),
+		value: box.with(() => value),
+		heading: box.with(() => heading)
 	});
 
-	onMount(() => {
-		const unsubGroup = context.group(id);
-		return unsubGroup;
-	});
-
-	function containerAction(node: HTMLElement) {
-		if (value) {
-			context.value(id, value);
-			node.setAttribute(VALUE_ATTR, value);
-			return;
-		}
-
-		if (heading) {
-			value = heading.trim().toLowerCase();
-		} else if (node.textContent) {
-			value = node.textContent.trim().toLowerCase();
-		}
-
-		context.value(id, value);
-		node.setAttribute(VALUE_ATTR, value);
-	}
-
-	$: containerAttrs = {
-		'data-cmdk-group': '',
-		role: 'presentation',
-		hidden: $render ? undefined : true,
-		'data-value': value
-	};
-
-	const headingAttrs = {
-		'data-cmdk-group-heading': '',
-		'aria-hidden': true,
-		id: headingId
-	};
-
-	$: groupAttrs = {
-		'data-cmdk-group-items': '',
-		role: 'group',
-		'aria-labelledby': heading ? headingId : undefined
-	};
-
-	$: container = {
-		action: containerAction,
-		attrs: containerAttrs
-	};
-
-	$: group = {
-		attrs: groupAttrs
-	};
+	const mergedProps = $derived(mergeProps(restProps, groupState.props));
 </script>
 
-{#if asChild}
-	<slot {container} {group} heading={{ attrs: headingAttrs }} />
-{:else}
-	<div use:containerAction {...containerAttrs} {...$$restProps}>
-		{#if heading}
-			<div {...headingAttrs}>
-				{heading}
-			</div>
-		{/if}
-		<div {...groupAttrs}>
-			<slot {container} {group} heading={{ attrs: headingAttrs }} />
-		</div>
-	</div>
-{/if}
+<div {...mergedProps}>
+	{#if heading}
+		<CommandGroupHeading>
+			{heading}
+		</CommandGroupHeading>
+	{/if}
+	<CommandGroupItems>
+		{@render children?.()}
+	</CommandGroupItems>
+</div>

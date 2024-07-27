@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Prism from 'prismjs';
 	import 'prism-svelte';
+	import { CopyIcon } from './icons/index.js';
 	import { code } from '$docs/code.js';
 	import { escape, tokenize } from '$docs/highlight.js';
 	import { createCopyCodeButton } from '$docs/copy-code.js';
-	import { CopyIcon } from './icons/index.js';
 	import '$styles/code.postcss';
 
 	const tokens = tokenize(code, Prism.languages.svelte, 'svelte');
@@ -36,8 +36,8 @@
 </script>
 
 <div class="codeBlock">
-	<div class="line2" aria-hidden></div>
-	<div class="line3" aria-hidden></div>
+	<div class="line2" aria-hidden="true"></div>
+	<div class="line3" aria-hidden="true"></div>
 	<pre
 		use:setCodeString
 		class="root prism-code language-svelte"
@@ -47,6 +47,7 @@
 			<CopyIcon />
 		</button>
 		<div class="shine"></div>
+			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 			{@html rawCodeString}
 	</pre>
 </div>

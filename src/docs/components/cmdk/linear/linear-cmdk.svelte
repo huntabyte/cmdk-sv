@@ -1,6 +1,5 @@
 <script lang="ts">
-	import type { ComponentType } from 'svelte';
-	import { Command } from '$lib/index.js';
+	import type { Component } from 'svelte';
 	import {
 		AssignToIcon,
 		AssignToMeIcon,
@@ -10,10 +9,11 @@
 		RemoveLabelIcon,
 		SetDueDateIcon
 	} from './icons/index.js';
+	import { Command } from '$lib/index.js';
 	import '$styles/cmdk/linear.postcss';
 
 	type Item = {
-		icon: ComponentType;
+		icon: Component;
 		label: string;
 		shortcut: string[];
 	};

@@ -1,25 +1,25 @@
 import type {
-	LoadingProps,
-	CommandProps,
+	CommandRootProps,
+	CommandDialogProps,
 	EmptyProps,
-	ItemProps,
-	GroupProps,
-	ListProps,
-	InputProps,
+	CommandGroupProps,
+	CommandInputProps,
+	CommandItemProps,
+	CommandListProps,
+	LoadingProps,
 	SeparatorProps,
-	DialogProps,
 	State
 } from './cmdk/types.js';
 
 export type {
 	LoadingProps,
-	CommandProps,
+	CommandRootProps as CommandProps,
 	EmptyProps,
-	ItemProps,
-	GroupProps,
-	ListProps,
-	InputProps,
+	CommandItemProps as ItemProps,
+	CommandGroupProps as GroupProps,
+	CommandListProps as ListProps,
+	CommandInputProps as InputProps,
 	SeparatorProps,
-	DialogProps,
+	CommandDialogProps as DialogProps,
 	State
 };

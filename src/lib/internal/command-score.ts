@@ -3,6 +3,7 @@
 //
 // The best case, this character is a match, and either this is the start
 // of the string, or the previous character was also a match.
+// eslint-disable-next-line one-var
 const SCORE_CONTINUE_MATCH = 1,
 	// A new match at the start of a word scores better than a new match
 	// elsewhere as it's more likely that the user will type the starts
@@ -44,6 +45,7 @@ const SCORE_CONTINUE_MATCH = 1,
 	// with the number of tokens.
 	PENALTY_NOT_COMPLETE = 0.99;
 
+// eslint-disable-next-line one-var
 const IS_GAP_REGEXP = /[\\/_+.#"@[({&]/,
 	COUNT_GAPS_REGEXP = /[\\/_+.#"@[({&]/g,
 	IS_SPACE_REGEXP = /[\s-]/,
@@ -93,18 +95,18 @@ function commandScoreInner(
 				score *= SCORE_NON_SPACE_WORD_JUMP;
 				wordBreaks = string.slice(stringIndex, index - 1).match(COUNT_GAPS_REGEXP);
 				if (wordBreaks && stringIndex > 0) {
-					score *= Math.pow(PENALTY_SKIPPED, wordBreaks.length);
+					score *= PENALTY_SKIPPED ** wordBreaks.length;
 				}
 			} else if (IS_SPACE_REGEXP.test(string.charAt(index - 1))) {
 				score *= SCORE_SPACE_WORD_JUMP;
 				spaceBreaks = string.slice(stringIndex, index - 1).match(COUNT_SPACE_REGEXP);
 				if (spaceBreaks && stringIndex > 0) {
-					score *= Math.pow(PENALTY_SKIPPED, spaceBreaks.length);
+					score *= PENALTY_SKIPPED ** spaceBreaks.length;
 				}
 			} else {
 				score *= SCORE_CHARACTER_JUMP;
 				if (stringIndex > 0) {
-					score *= Math.pow(PENALTY_SKIPPED, index - stringIndex);
+					score *= PENALTY_SKIPPED ** (index - stringIndex);
 				}
 			}
 

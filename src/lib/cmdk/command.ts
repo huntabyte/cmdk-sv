@@ -1,15 +1,15 @@
 import { getContext, setContext, tick } from 'svelte';
-import { commandScore } from '$lib/internal/command-score.js';
-import type { CommandProps, Context, Group, State, StateStore } from './types.js';
 import { get, writable } from 'svelte/store';
+import type { CommandRootProps, Context, Group, State, StateStore } from './types.js';
+import { commandScore } from '$lib/internal/command-score.js';
 import {
-	omit,
+	effect,
 	generateId,
-	toWritableStores,
 	isUndefined,
 	kbd,
+	omit,
 	removeUndefined,
-	effect
+	toWritableStores
 } from '$lib/internal/index.js';
 
 const NAME = 'Command';
@@ -80,9 +80,9 @@ const defaults = {
 		label: generateId(),
 		input: generateId()
 	}
-} satisfies CommandProps;
+} satisfies CommandRootProps;
 
-export function createCommand(props: CommandProps) {
+export function createCommand(props: CommandRootProps) {
 	const ids = {
 		root: generateId(),
 		list: generateId(),
@@ -94,7 +94,7 @@ export function createCommand(props: CommandProps) {
 	const withDefaults = {
 		...defaults,
 		...removeUndefined(props)
-	} satisfies CommandProps;
+	} satisfies CommandRootProps;
 
 	const state =
 		props.state ??
@@ -394,7 +394,7 @@ export function createCommand(props: CommandProps) {
 		const rootEl = rootElement ?? document.getElementById(ids.root);
 		if (!rootEl) return [];
 		return Array.from(rootEl.querySelectorAll(VALID_ITEM_SELECTOR)).filter(
-			(el): el is HTMLElement => (el ? true : false)
+			(el): el is HTMLElement => !!el
 		);
 	}
 
@@ -441,7 +441,7 @@ export function createCommand(props: CommandProps) {
 	function updateSelectedToGroup(change: 1 | -1) {
 		const selected = getSelectedItem();
 		let group = selected?.closest(GROUP_SELECTOR);
-		let item: HTMLElement | undefined | null = undefined;
+		let item: HTMLElement | undefined | null;
 
 		while (group && !item) {
 			group =

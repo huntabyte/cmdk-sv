@@ -1,48 +1,58 @@
-/* eslint-disable @typescript-eslint/ban-types */
-import type { Expand, HTMLDivAttributes, Transition, PrefixKeys } from '$lib/internal/index.js';
-import type { Dialog as DialogPrimitive } from 'bits-ui';
-import type { HTMLInputAttributes } from 'svelte/elements';
+import type { Dialog as DialogPrimitive, PrimitiveLabelAttributes } from 'bits-ui';
+import type { HTMLAttributes, HTMLInputAttributes } from 'svelte/elements';
 import type { Writable } from 'svelte/store';
+import type { Snippet } from 'svelte';
+import type { Expand } from '$lib/internal/index.js';
+
+export type WithChild<
+	/**
+	 * The props that the component accepts.
+	 */
+	// eslint-disable-next-line ts/no-empty-object-type
+	Props extends Record<PropertyKey, unknown> = {},
+	/**
+	 * The props that are passed to the `child` and `children` snippets. The `ElementProps` are
+	 * merged with these props for the `child` snippet.
+	 */
+	SnippetProps extends Record<PropertyKey, unknown> = { _default: never },
+	/**
+	 * The underlying DOM element being rendered. You can bind to this prop to
+	 * programatically interact with the element.
+	 */
+	Ref = HTMLElement
+> = Omit<Props, 'child' | 'children'> & {
+	child?: SnippetProps extends { _default: never }
+		? Snippet<[{ props: Record<string, unknown> }]>
+		: Snippet<[SnippetProps & { props: Record<string, unknown> }]>;
+	children?: SnippetProps extends { _default: never } ? Snippet : Snippet<[SnippetProps]>;
+	ref?: Ref | null;
+};
+
+type Primitive<T> = Omit<T, 'id' | 'children'> & { id?: string };
+
+export type PrimitiveDivAttributes = Primitive<HTMLAttributes<HTMLDivElement>>;
+export type PrimitiveInputAttributes = Primitive<HTMLInputAttributes>;
 
 //
 // PROPS
 //
 
-export type LoadingProps = {
+export type LoadingProps = WithChild<{
 	/** Estimated loading progress */
 	progress?: number;
+}> &
+	PrimitiveDivAttributes;
 
-	/**
-	 * Whether to delegate rendering to a custom element.
-	 *
-	 * The contents within the `Loading` component should be marked
-	 * as `aria-hidden` to prevent screen readers from reading the
-	 * contents while loading.
-	 */
-	asChild?: boolean;
-} & HTMLDivAttributes;
+export type EmptyProps = WithChild<PrimitiveDivAttributes>;
 
-export type EmptyProps = {
-	/**
-	 * Whether to delegate rendering to a custom element.
-	 *
-	 * Only receives `attrs`, no `action`.
-	 */
-	asChild?: boolean;
-} & HTMLDivAttributes;
-
-export type SeparatorProps = {
+export type SeparatorProps = WithChild<{
 	/**
 	 * Whether this separator is always rendered, regardless
 	 * of the filter.
 	 */
-	alwaysRender?: boolean;
-
-	/**
-	 * Whether to delegate rendering to a custom element.
-	 */
-	asChild?: boolean;
-} & HTMLDivAttributes;
+	forceMount?: boolean;
+}> &
+	PrimitiveDivAttributes;
 
 type BaseCommandProps = {
 	/**
@@ -92,82 +102,40 @@ type BaseCommandProps = {
 	loop?: boolean;
 };
 
-export type CommandProps = Expand<
-	BaseCommandProps & {
+export type CommandRootProps = Expand<BaseCommandProps> & WithChild<PrimitiveDivAttributes>;
+
+export type CommandListProps = WithChild<PrimitiveDivAttributes>;
+
+export type CommandInputProps = WithChild<PrimitiveInputAttributes>;
+
+export type CommandLabelProps = WithChild<PrimitiveLabelAttributes>;
+
+export type CommandGroupHeadingProps = WithChild<PrimitiveDivAttributes>;
+
+export type CommandGroupItemsProps = WithChild<PrimitiveDivAttributes>;
+
+export type CommandGroupProps = WithChild<
+	{
 		/**
-		 * Optionally provide custom ids for the command menu
-		 * elements. These ids should be unique and are only
-		 * necessary in very specific cases. Use with caution.
+		 * Optional heading to render for the group
 		 */
-		ids?: Partial<CommandIds>;
-	}
-> &
-	HTMLDivAttributes & {
-		onKeydown?: (e: KeyboardEvent) => void;
-		asChild?: boolean;
-	};
+		heading?: string;
 
-export type ListProps = {
-	/**
-	 * The list element
-	 */
-	el?: HTMLElement;
+		/**
+		 * If heading isn't provided, you must provide a unique
+		 * value for the group.
+		 */
+		value?: string;
 
-	/**
-	 * Whether to delegate rendering to a custom element.
-	 *
-	 * Provides 2 slot props: `container` & `list`.
-	 * Container only has an `attrs` property, while `list` has
-	 * `attrs` & `action` to be applied to the respective elements.
-	 *
-	 * The `list` wraps the `sizer`, and the `sizer` wraps the `items`, and
-	 * is responsible for measuring the height of the items and setting the
-	 * CSS variable to the height of the items.
-	 */
-	asChild?: boolean;
-} & HTMLDivAttributes;
+		/**
+		 * Whether or not this group is always rendered,
+		 * regardless of filtering.
+		 */
+		forceMount?: boolean;
+	} & PrimitiveDivAttributes
+>;
 
-export type InputProps = {
-	/**
-	 * The input element
-	 */
-	el?: HTMLInputElement;
-
-	/**
-	 * Whether to delegate rendering to a custom element.
-	 */
-	asChild?: boolean;
-} & HTMLInputAttributes;
-
-export type GroupProps = {
-	/**
-	 * Optional heading to render for the group
-	 */
-	heading?: string;
-
-	/**
-	 * If heading isn't provided, you must provide a unique
-	 * value for the group.
-	 */
-	value?: string;
-
-	/**
-	 * Whether or not this group is always rendered,
-	 * regardless of filtering.
-	 */
-	alwaysRender?: boolean;
-
-	/**
-	 * Whether to delegate rendering to custom elements.
-	 *
-	 * Provides 3 slot props: `container`, `heading`, and `group`.
-	 * Container has `attrs` & `action`, while `heading` & `group`
-	 * only have `attrs` to be applied to the respective elements.
-	 */
-	asChild?: boolean;
-} & HTMLDivAttributes;
-
-export type ItemProps = {
+export type CommandItemProps = WithChild<{
 	/**
 	 * Whether this item is disabled.
 	 */
@@ -177,7 +145,7 @@ export type ItemProps = {
 	 * A function called when this item is selected, either
 	 * via click or keyboard selection.
 	 */
-	onSelect?: (value: string) => void;
+	onSelect?: () => void;
 
 	/**
 	 * A unique value for this item.
@@ -191,75 +159,22 @@ export type ItemProps = {
 	 * Whether or not this item is always rendered,
 	 * regardless of filtering.
 	 */
-	alwaysRender?: boolean;
+	forceMount?: boolean;
+}> &
+	Omit<PrimitiveDivAttributes, 'disabled'>;
 
-	/**
-	 * Whether to delegate rendering to a custom element.
-	 * Will pass the `attrs` & `action` to be applied to the custom element.
-	 */
-	asChild?: boolean;
-
-	/**
-	 * Optionally override the default `id` generated for this item.
-	 * NOTE: This must be unique across all items and is only necessary
-	 * in very specific cases.
-	 */
-	id?: string;
-} & HTMLDivAttributes;
-
-type TransitionProps =
-	| 'transition'
-	| 'transitionConfig'
-	| 'inTransition'
-	| 'inTransitionConfig'
-	| 'outTransition'
-	| 'outTransitionConfig';
-
-export type OverlayProps<
-	T extends Transition = Transition,
-	In extends Transition = Transition,
-	Out extends Transition = Transition
-> = PrefixKeys<Pick<DialogPrimitive.OverlayProps<T, In, Out>, TransitionProps>, 'overlay'> & {
-	overlayClasses?: string;
-};
-
-export type ContentProps<
-	T extends Transition = Transition,
-	In extends Transition = Transition,
-	Out extends Transition = Transition
-> = PrefixKeys<Pick<DialogPrimitive.ContentProps<T, In, Out>, TransitionProps>, 'content'> & {
-	contentClasses?: string;
-};
-
-export type DialogProps<
-	ContentT extends Transition = Transition,
-	ContentIn extends Transition = Transition,
-	ContentOut extends Transition = Transition,
-	OverlayT extends Transition = Transition,
-	OverlayIn extends Transition = Transition,
-	OverlayOut extends Transition = Transition
-> = CommandProps &
-	DialogPrimitive.Props &
-	OverlayProps<OverlayT, OverlayIn, OverlayOut> &
-	ContentProps<ContentT, ContentIn, ContentOut>;
-
-//
-// Events
-//
-
-export type InputEvents = {
-	keydown: KeyboardEvent;
-	blur: FocusEvent;
-	input: Event;
-	focus: FocusEvent;
-	change: Event;
-};
+export type CommandDialogProps = CommandRootProps &
+	DialogPrimitive.RootProps & {
+		contentClasses?: string;
+		overlayClasses?: string;
+		portalProps?: DialogPrimitive.PortalProps;
+	};
 
 //
 // Internal
 //
 export type CommandOptionStores = {
-	[K in keyof Omit<Required<BaseCommandProps>, 'value'>]: Writable<CommandProps[K]>;
+	[K in keyof Omit<Required<BaseCommandProps>, 'value'>]: Writable<CommandRootProps[K]>;
 };
 
 export type State = {
@@ -297,7 +212,7 @@ type UpdateState = <K extends keyof State>(
 	preventScroll?: boolean
 ) => void;
 
-export type ConextStore = Writable<Context>;
+export type ContextStore = Writable<Context>;
 
 export type StateStore = Writable<State> & {
 	updateState: UpdateState;
@@ -305,5 +220,5 @@ export type StateStore = Writable<State> & {
 
 export type Group = {
 	id: string;
-	alwaysRender: boolean;
+	forceMount: boolean;
 };

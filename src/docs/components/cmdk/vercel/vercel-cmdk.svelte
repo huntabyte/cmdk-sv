@@ -1,15 +1,16 @@
 <script lang="ts">
-	import { Command } from '$lib/index.js';
-	import { isHTMLElement, kbd } from '$lib/internal/index.js';
 	import Home from './home.svelte';
 	import Projects from './projects.svelte';
+	import { Command } from '$lib/index.js';
+	import { isHTMLElement, kbd } from '$lib/internal/index.js';
 	import '$styles/cmdk/vercel.postcss';
 
-	let inputValue: string = '';
+	let inputValue = $state('');
 
-	let pages: string[] = ['home'];
-	$: activePage = pages[pages.length - 1];
-	$: isHome = activePage === 'home';
+	let pages = $state<string[]>(['home']);
+
+	const activePage = $derived(pages[pages.length - 1]);
+	const isHome = $derived(activePage === 'home');
 
 	function popPage() {
 		const next = [...pages];
@@ -47,7 +48,7 @@
 </script>
 
 <div class="vercel">
-	<Command.Root onKeydown={handleKeydown}>
+	<Command.Root onkeydown={handleKeydown}>
 		<div>
 			{#each pages as page}
 				<div data-cmdk-vercel-badge="">

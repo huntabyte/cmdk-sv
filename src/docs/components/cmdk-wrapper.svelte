@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { flyAndScale, type FlyAndScaleParams } from '$docs/utils.js';
+	import { type FlyAndScaleParams, flyAndScale } from '$docs/utils.js';
 
 	const outConf: FlyAndScaleParams = {
 		y: 0,

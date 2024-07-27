@@ -1,15 +1,26 @@
 <script lang="ts">
+	import { type WithoutChild, mergeProps, useId } from 'bits-ui';
+	import { box } from 'svelte-toolbelt';
+	import type { CommandListProps } from '../types.js';
+	import { useCommandList } from '../command-state.svelte.js';
 	import { isHTMLElement } from '$lib/internal/index.js';
-	import { getCtx, getState } from '../command.js';
-	import type { ListProps } from '../types.js';
 
-	const { ids } = getCtx();
-	const state = getState();
+	let {
+		id = useId(),
+		ref = $bindable(null),
+		children,
+		...restProps
+	}: WithoutChild<CommandListProps> = $props();
 
-	type $$Props = ListProps;
+	const listState = useCommandList({
+		id: box.with(() => id),
+		ref: box.with(
+			() => ref,
+			(v) => (ref = v)
+		)
+	});
 
-	export let el: $$Props['el'] = undefined;
-	export let asChild: $$Props['asChild'] = false;
+	const mergedProps = $derived(mergeProps(restProps, listState.props));
 
 	function sizerAction(node: HTMLElement) {
 		let animationFrame: number;
@@ -21,7 +32,7 @@
 		const observer = new ResizeObserver(() => {
 			animationFrame = requestAnimationFrame(() => {
 				const height = node.offsetHeight;
-				listEl.style.setProperty('--cmdk-list-height', height.toFixed(1) + 'px');
+				listEl.style.setProperty('--cmdk-list-height', `${height.toFixed(1)}px`);
 			});
 		});
 
@@ -33,39 +44,12 @@
 			}
 		};
 	}
-
-	const listAttrs = {
-		'data-cmdk-list': '',
-		role: 'listbox',
-		'aria-label': 'Suggestions',
-		id: ids.list,
-		'aria-labelledby': ids.input
-	};
-
-	const sizerAttrs = {
-		'data-cmdk-list-sizer': ''
-	};
-
-	const list = {
-		attrs: listAttrs
-	};
-
-	const sizer = {
-		attrs: sizerAttrs,
-		action: sizerAction
-	};
 </script>
 
-{#if asChild}
-	{#key $state.search === ''}
-		<slot {list} {sizer} />
-	{/key}
-{:else}
-	<div {...listAttrs} bind:this={el} {...$$restProps}>
-		<div {...sizerAttrs} use:sizerAction>
-			{#key $state.search === ''}
-				<slot />
-			{/key}
-		</div>
+<div {...mergedProps}>
+	<div {...listState.sizerProps} use:sizerAction>
+		{#key listState.root.search === ''}
+			{@render children?.()}
+		{/key}
 	</div>
-{/if}
+</div>

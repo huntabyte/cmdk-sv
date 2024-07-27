@@ -1,14 +1,14 @@
 <script lang="ts">
 	import {
-		VersionBadge,
-		InstallButton,
-		GitHubButton,
 		CMDKWrapper,
-		ThemeSwitcher,
 		CodeBlock,
-		Footer
+		Footer,
+		GitHubButton,
+		InstallButton,
+		ThemeSwitcher,
+		VersionBadge
 	} from '$docs/components/index.js';
-	import { RaycastCMDK, LinearCMDK, VercelCMDK, FramerCMDK } from '$docs/components/cmdk/index.js';
+	import { FramerCMDK, LinearCMDK, RaycastCMDK, VercelCMDK } from '$docs/components/cmdk/index.js';
 	import type { Themes } from '$docs/types.js';
 
 	let theme: Themes = 'raycast';
@@ -48,7 +48,7 @@
 		</div>
 		<ThemeSwitcher bind:theme />
 
-		<div aria-hidden class="line"></div>
+		<div aria-hidden="true" class="line"></div>
 		<CodeBlock />
 	</div>
 	<Footer />

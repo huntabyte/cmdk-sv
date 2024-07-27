@@ -1,14 +1,19 @@
 <script lang="ts">
-	import { Command } from '$lib/index.js';
 	import { Popover } from 'bits-ui';
 	import { onMount, tick } from 'svelte';
 	import SubItem from './sub-item.svelte';
 	import { FinderIcon, StarIcon, WindowIcon } from './icons/index.js';
+	import { Command } from '$lib/index.js';
 
-	export let listEl: HTMLElement | undefined;
-	export let inputEl: HTMLInputElement | undefined;
-	export let selectedValue: string;
-	let open = false;
+	type Props = {
+		listEl: HTMLElement | null;
+		inputEl: HTMLInputElement | null;
+		selectedValue: string;
+	};
+
+	let { listEl, inputEl, selectedValue = $bindable() }: Props = $props();
+
+	let open = $state(false);
 
 	onMount(() => {
 		function handleKeydown(e: KeyboardEvent) {
@@ -25,38 +30,34 @@
 		};
 	});
 
-	function handleStyleUpdates(open: boolean, el: HTMLElement | undefined) {
-		if (!el) return;
-
+	$effect(() => {
+		if (!listEl) return;
 		if (open) {
-			el.style.overflow = 'hidden';
+			listEl.style.overflow = 'hidden';
 		} else {
-			el.style.overflow = '';
+			listEl.style.overflow = '';
 		}
-	}
+	});
 
-	$: handleStyleUpdates(open, listEl);
-
-	$: if (!open) {
-		tick().then(() => inputEl?.focus());
-	}
+	$effect(() => {
+		if (!open) {
+			tick().then(() => inputEl?.focus());
+		}
+	});
 </script>
 
-<Popover.Root bind:open preventScroll={true}>
-	<Popover.Trigger asChild let:builder>
-		<button
-			use:builder.action
-			{...builder}
-			data-cmdk-raycast-subcommand-trigger=""
-			aria-expanded={open}
-		>
-			Actions
-			<kbd>⌘</kbd>
-			<kbd>K</kbd>
-		</button>
+<Popover.Root bind:open>
+	<Popover.Trigger>
+		{#snippet child({ props })}
+			<button {...props} data-cmdk-raycast-subcommand-trigger="" aria-expanded={open}>
+				Actions
+				<kbd>⌘</kbd>
+				<kbd>K</kbd>
+			</button>
+		{/snippet}
 	</Popover.Trigger>
 	{#if open}
-		<Popover.Content class="raycast-submenu" side="top" align="end">
+		<Popover.Content preventScroll={true} class="raycast-submenu" side="top" align="end">
 			<Command.Root>
 				<Command.List>
 					<Command.Group heading={selectedValue}>

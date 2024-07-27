@@ -1,4 +1,4 @@
-import type { Token as PrismToken, Grammar } from 'prismjs';
+import type { Grammar, Token as PrismToken } from 'prismjs';
 
 export type Language = string;
 export type PrismGrammar = Grammar;

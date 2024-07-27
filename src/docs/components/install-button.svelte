@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { CopiedIcon, CopyIcon } from './icons/index.js';
-	let copied = false;
+	let copied = $state(false);
 
 	function handleCopy() {
 		navigator.clipboard.writeText('npm install cmdk-sv');
@@ -11,7 +11,7 @@
 	}
 </script>
 
-<button class="installButton" on:click={handleCopy}>
+<button class="installButton" onclick={handleCopy}>
 	npm install cmdk-sv
 	<span>
 		{#if copied}

@@ -3,6 +3,8 @@
 	import '../styles/globals.postcss';
 	import '../styles/app.postcss';
 
+	let { children } = $props();
+
 	const title = '⌘K-sv';
 	const description = 'Fast, composable, unstyled command menu for Svelte';
 	const siteUrl = 'https://www.cmdk-sv.com';
@@ -36,4 +38,4 @@
 
 <ModeWatcher />
 
-<slot />
+{@render children?.()}

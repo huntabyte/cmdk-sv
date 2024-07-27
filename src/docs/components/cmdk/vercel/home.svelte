@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Command } from '$lib/index.js';
 	import {
 		ContactIcon,
 		DocsIcon,
@@ -9,7 +8,9 @@
 		TeamsIcon
 	} from './icons/index.js';
 	import Item from './item.svelte';
-	export let searchProjects: () => void;
+	import { Command } from '$lib/index.js';
+
+	let { searchProjects }: { searchProjects: () => void } = $props();
 </script>
 
 <Command.Group heading="Projects">

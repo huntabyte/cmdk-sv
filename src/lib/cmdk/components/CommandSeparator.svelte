@@ -1,26 +1,30 @@
 <script lang="ts">
-	import { derived } from 'svelte/store';
-	import { getState } from '../command.js';
+	import { mergeProps, useId } from 'bits-ui';
+	import { box } from 'svelte-toolbelt';
 	import type { SeparatorProps } from '../types.js';
+	import { useCommandSeparator } from '../command-state.svelte.js';
 
-	type $$Props = SeparatorProps;
+	let {
+		id = useId(),
+		ref = $bindable(null),
+		forceMount = false,
+		children,
+		...restProps
+	}: SeparatorProps = $props();
 
-	export let alwaysRender: $$Props['alwaysRender'] = false;
-	export let asChild: $$Props['asChild'] = false;
+	const separatorState = useCommandSeparator({
+		id: box.with(() => id),
+		ref: box.with(
+			() => ref,
+			(v) => (ref = v)
+		)
+	});
 
-	const state = getState();
-	const render = derived(state, ($state) => !$state.search);
-
-	const attrs = {
-		'data-cmdk-separator': '',
-		role: 'separator'
-	};
+	const mergedProps = $derived(mergeProps(restProps, separatorState.props));
 </script>
 
-{#if $render || alwaysRender}
-	{#if asChild}
-		<slot {attrs} />
-	{:else}
-		<div {...attrs} {...$$restProps}></div>
-	{/if}
+{#if separatorState.shouldRender || forceMount}
+	<div {...mergedProps}>
+		{@render children?.()}
+	</div>
 {/if}
