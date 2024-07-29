@@ -10,7 +10,7 @@ import type { Writable } from 'svelte/store';
 
 export type LoadingProps = {
 	/** Estimated loading progress */
-	progress?: number;
+	progress?: number | undefined;
 
 	/**
 	 * Whether to delegate rendering to a custom element.
@@ -19,7 +19,7 @@ export type LoadingProps = {
 	 * as `aria-hidden` to prevent screen readers from reading the
 	 * contents while loading.
 	 */
-	asChild?: boolean;
+	asChild?: boolean | undefined;
 } & HTMLDivAttributes;
 
 export type EmptyProps = {
@@ -28,7 +28,7 @@ export type EmptyProps = {
 	 *
 	 * Only receives `attrs`, no `action`.
 	 */
-	asChild?: boolean;
+	asChild?: boolean | undefined;
 } & HTMLDivAttributes;
 
 export type SeparatorProps = {
@@ -36,12 +36,12 @@ export type SeparatorProps = {
 	 * Whether this separator is always rendered, regardless
 	 * of the filter.
 	 */
-	alwaysRender?: boolean;
+	alwaysRender?: boolean | undefined;
 
 	/**
 	 * Whether to delegate rendering to a custom element.
 	 */
-	asChild?: boolean;
+	asChild?: boolean | undefined;
 } & HTMLDivAttributes;
 
 type BaseCommandProps = {
@@ -49,20 +49,20 @@ type BaseCommandProps = {
 	 * Controlled state store for the command menu.
 	 * Initialize state using the `createState` function.
 	 */
-	state?: Writable<State>;
+	state?: Writable<State> | undefined;
 
 	/**
 	 * An accessible label for the command menu.
 	 * Not visible & only used for screen readers.
 	 */
-	label?: string;
+	label?: string | undefined;
 
 	/**
 	 * Optionally set to `false` to turn off the automatic filtering
 	 * and sorting. If `false`, you must conditionally render valid
 	 * items yourself.
 	 */
-	shouldFilter?: boolean;
+	shouldFilter?: boolean | undefined;
 
 	/**
 	 * A custom filter function for whether each command item should
@@ -72,24 +72,24 @@ type BaseCommandProps = {
 	 *
 	 * By default, it will use the `command-score` package to score.
 	 */
-	filter?: (value: string, search: string) => number;
+	filter?: ((value: string, search: string) => number) | undefined;
 
 	/**
 	 * Optionally provide or bind to the selected command menu item.
 	 */
-	value?: string;
+	value?: string | undefined;
 
 	/**
 	 * A function that is called when the selected command menu item
 	 * changes. It receives the new value as an argument.
 	 */
-	onValueChange?: (value: string) => void;
+	onValueChange?: ((value: string) => void) | undefined;
 
 	/**
 	 * Optionally set to `true` to enable looping through the items
 	 * when the user reaches the end of the list using the keyboard.
 	 */
-	loop?: boolean;
+	loop?: boolean | undefined;
 };
 
 export type CommandProps = Expand<
@@ -99,19 +99,19 @@ export type CommandProps = Expand<
 		 * elements. These ids should be unique and are only
 		 * necessary in very specific cases. Use with caution.
 		 */
-		ids?: Partial<CommandIds>;
+		ids?: Partial<CommandIds> | undefined;
 	}
 > &
 	HTMLDivAttributes & {
-		onKeydown?: (e: KeyboardEvent) => void;
-		asChild?: boolean;
+		onKeydown?: ((e: KeyboardEvent) => void) | undefined;
+		asChild?: boolean | undefined;
 	};
 
 export type ListProps = {
 	/**
 	 * The list element
 	 */
-	el?: HTMLElement;
+	el?: HTMLElement | undefined;
 
 	/**
 	 * Whether to delegate rendering to a custom element.
@@ -124,38 +124,38 @@ export type ListProps = {
 	 * is responsible for measuring the height of the items and setting the
 	 * CSS variable to the height of the items.
 	 */
-	asChild?: boolean;
+	asChild?: boolean | undefined;
 } & HTMLDivAttributes;
 
 export type InputProps = {
 	/**
 	 * The input element
 	 */
-	el?: HTMLInputElement;
+	el?: HTMLInputElement | undefined;
 
 	/**
 	 * Whether to delegate rendering to a custom element.
 	 */
-	asChild?: boolean;
+	asChild?: boolean | undefined;
 } & HTMLInputAttributes;
 
 export type GroupProps = {
 	/**
 	 * Optional heading to render for the group
 	 */
-	heading?: string;
+	heading?: string | undefined;
 
 	/**
 	 * If heading isn't provided, you must provide a unique
 	 * value for the group.
 	 */
-	value?: string;
+	value?: string | undefined;
 
 	/**
 	 * Whether or not this group is always rendered,
 	 * regardless of filtering.
 	 */
-	alwaysRender?: boolean;
+	alwaysRender?: boolean | undefined;
 
 	/**
 	 * Whether to delegate rendering to custom elements.
@@ -164,20 +164,20 @@ export type GroupProps = {
 	 * Container has `attrs` & `action`, while `heading` & `group`
 	 * only have `attrs` to be applied to the respective elements.
 	 */
-	asChild?: boolean;
+	asChild?: boolean | undefined;
 } & HTMLDivAttributes;
 
 export type ItemProps = {
 	/**
 	 * Whether this item is disabled.
 	 */
-	disabled?: boolean;
+	disabled?: boolean | undefined;
 
 	/**
 	 * A function called when this item is selected, either
 	 * via click or keyboard selection.
 	 */
-	onSelect?: (value: string) => void;
+	onSelect?: ((value: string) => void) | undefined;
 
 	/**
 	 * A unique value for this item.
@@ -185,26 +185,26 @@ export type ItemProps = {
 	 * `textContent`. If your `textContent` is dynamic, you must
 	 * provide a stable unique `value`.
 	 */
-	value?: string;
+	value?: string | undefined;
 
 	/**
 	 * Whether or not this item is always rendered,
 	 * regardless of filtering.
 	 */
-	alwaysRender?: boolean;
+	alwaysRender?: boolean | undefined;
 
 	/**
 	 * Whether to delegate rendering to a custom element.
 	 * Will pass the `attrs` & `action` to be applied to the custom element.
 	 */
-	asChild?: boolean;
+	asChild?: boolean | undefined;
 
 	/**
 	 * Optionally override the default `id` generated for this item.
 	 * NOTE: This must be unique across all items and is only necessary
 	 * in very specific cases.
 	 */
-	id?: string;
+	id?: string | undefined;
 } & HTMLDivAttributes;
 
 type TransitionProps =
@@ -220,7 +220,7 @@ export type OverlayProps<
 	In extends Transition = Transition,
 	Out extends Transition = Transition
 > = PrefixKeys<Pick<DialogPrimitive.OverlayProps<T, In, Out>, TransitionProps>, 'overlay'> & {
-	overlayClasses?: string;
+	overlayClasses?: string | undefined;
 };
 
 export type ContentProps<
@@ -228,7 +228,7 @@ export type ContentProps<
 	In extends Transition = Transition,
 	Out extends Transition = Transition
 > = PrefixKeys<Pick<DialogPrimitive.ContentProps<T, In, Out>, TransitionProps>, 'content'> & {
-	contentClasses?: string;
+	contentClasses?: string | undefined;
 };
 
 export type DialogProps<
@@ -294,7 +294,7 @@ export type Context = {
 type UpdateState = <K extends keyof State>(
 	key: K,
 	value: State[K],
-	preventScroll?: boolean
+	preventScroll?: boolean | undefined
 ) => void;
 
 export type ConextStore = Writable<Context>;
