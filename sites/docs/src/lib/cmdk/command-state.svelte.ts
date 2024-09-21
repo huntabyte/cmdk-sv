@@ -11,8 +11,6 @@ import { isUndefined, kbd } from "$lib/internal/index.js";
 import { createContext } from "$lib/internal/createContext.js";
 import { findNextSibling, findPreviousSibling } from "$lib/internal/helpers/siblings.js";
 import { sleep } from "$lib/internal/helpers/sleep.js";
-import { type ScheduleEffect, useScheduleEffect } from "$lib/internal/useScheduledEffect.svelte.js";
-import { useLazyBox } from "$lib/internal/useLazyBox.svelte.js";
 import { afterSleep } from "$lib/internal/helpers/afterSleep.js";
 
 export const LIST_SELECTOR = `[data-cmdk-list-sizer]`;
@@ -63,7 +61,6 @@ class CommandRootState {
 	state = $state.raw<State>(null!);
 	// internal state that we mutate in batches and publish to the `state` at once
 	#state = $state<State>(null!);
-	schedule: ScheduleEffect;
 	snapshot = () => this.#state;
 	setState: SetState = (key, value, opts) => {
 		if (Object.is(this.#state[key], value)) return;
@@ -73,12 +70,12 @@ class CommandRootState {
 			// Filter synchronously before emitting back to children
 			this.#filterItems();
 			this.#sort();
-			this.schedule(1, this.#selectFirstItem);
+			this.#selectFirstItem();
 		} else if (key === "value") {
 			// opts is a boolean referring to whether it should NOT be scrolled into view
 			if (!opts) {
 				// Scroll the selected item into view
-				this.schedule(5, this.#scrollSelectedIntoView);
+				this.#scrollSelectedIntoView();
 			}
 		}
 		// notify subscribers that the state has changed
@@ -112,8 +109,6 @@ class CommandRootState {
 		this.#state = defaultState;
 		this.state = defaultState;
 
-		this.schedule = useScheduleEffect();
-
 		useRefById({
 			id: this.id,
 			ref: this.ref,
@@ -121,7 +116,7 @@ class CommandRootState {
 
 		$effect(() => {
 			untrack(() => {
-				this.schedule(6, this.#scrollSelectedIntoView);
+				this.#scrollSelectedIntoView();
 			});
 		});
 	}
@@ -330,10 +325,8 @@ class CommandRootState {
 		if (value === this.allIds.get(id)?.value) return;
 		this.allIds.set(id, { value, keywords });
 		this.#state.filtered.items.set(id, this.#score(value, keywords));
-		this.schedule(2, () => {
-			this.#sort();
-			this.emit();
-		});
+		this.#sort();
+		this.emit();
 	};
 
 	registerItem = (id: string, groupId: string | undefined) => {
@@ -350,17 +343,15 @@ class CommandRootState {
 
 		// Batch this, multiple items can mount in one pass
 		// and we should not be filtering/sorting/emitting each time
-		this.schedule(3, () => {
-			this.#filterItems();
-			this.#sort();
+		this.#filterItems();
+		this.#sort();
 
-			// Could be initial mount, select the first item if none already selected
-			if (!this.#state.value) {
-				this.#selectFirstItem();
-			}
+		// Could be initial mount, select the first item if none already selected
+		if (!this.#state.value) {
+			this.#selectFirstItem();
+		}
 
-			this.emit();
-		});
+		this.emit();
 
 		return () => {
 			this.allIds.delete(id);
@@ -371,15 +362,13 @@ class CommandRootState {
 			this.#filterItems();
 
 			// Batch this, multiple items could be removed in one pass
-			this.schedule(4, () => {
-				this.#filterItems();
+			this.#filterItems();
 
-				// The item removed have been the selected one,
-				// so selection should be moved to the first
-				if (selectedItem?.getAttribute("id") === id) this.#selectFirstItem();
+			// The item removed have been the selected one,
+			// so selection should be moved to the first
+			if (selectedItem?.getAttribute("id") === id) this.#selectFirstItem();
 
-				this.emit();
-			});
+			this.emit();
 		};
 	};
 
