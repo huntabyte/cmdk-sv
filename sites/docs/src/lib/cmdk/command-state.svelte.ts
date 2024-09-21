@@ -13,6 +13,7 @@ import { findNextSibling, findPreviousSibling } from "$lib/internal/helpers/sibl
 import { sleep } from "$lib/internal/helpers/sleep.js";
 import { type ScheduleEffect, useScheduleEffect } from "$lib/internal/useScheduledEffect.svelte.js";
 import { useLazyBox } from "$lib/internal/useLazyBox.svelte.js";
+import { afterSleep } from "$lib/internal/helpers/afterSleep.js";
 
 export const LIST_SELECTOR = `[data-cmdk-list-sizer]`;
 export const GROUP_SELECTOR = `[data-cmdk-group]`;
@@ -63,8 +64,6 @@ class CommandRootState {
 	// internal state that we mutate in batches and publish to the `state` at once
 	#state = $state<State>(null!);
 	schedule: ScheduleEffect;
-	listeners = useLazyBox<Set<() => void>>(() => new Set());
-
 	snapshot = () => this.#state;
 	setState: SetState = (key, value, opts) => {
 		if (Object.is(this.#state[key], value)) return;
@@ -194,12 +193,19 @@ class CommandRootState {
 			});
 	};
 
+	setValue = (value: string, opts?: boolean) => {
+		this.setState("value", value, opts);
+		this.valueProp.current = value;
+	};
+
 	#selectFirstItem = () => {
-		const item = this.#getValidItems().find(
-			(item) => item.getAttribute("aria-disabled") !== "true"
-		);
-		const value = item?.getAttribute(VALUE_ATTR);
-		this.setState("value", value || "");
+		afterSleep(1, () => {
+			const item = this.#getValidItems().find(
+				(item) => item.getAttribute("aria-disabled") !== "true"
+			);
+			const value = item?.getAttribute(VALUE_ATTR);
+			this.setValue(value || "");
+		});
 	};
 
 	#filterItems = () => {
@@ -272,7 +278,9 @@ class CommandRootState {
 	#updateSelectedToIndex = (index: number) => {
 		const items = this.#getValidItems();
 		const item = items[index];
-		if (item) this.setState("value", item.getAttribute(VALUE_ATTR) ?? "");
+		if (item) {
+			this.setValue(item.getAttribute(VALUE_ATTR) ?? "");
+		}
 	};
 
 	#updateSelectedByItem = (change: 1 | -1) => {
@@ -292,7 +300,9 @@ class CommandRootState {
 						: items[index + change];
 		}
 
-		if (newSelected) this.setState("value", newSelected.getAttribute(VALUE_ATTR) ?? "");
+		if (newSelected) {
+			this.setValue(newSelected.getAttribute(VALUE_ATTR) ?? "");
+		}
 	};
 
 	#updateSelectedByGroup = (change: 1 | -1) => {
@@ -309,7 +319,7 @@ class CommandRootState {
 		}
 
 		if (item) {
-			this.setState("value", item.getAttribute(VALUE_ATTR) ?? "");
+			this.setValue(item.getAttribute(VALUE_ATTR) ?? "");
 		} else {
 			this.#updateSelectedByItem(change);
 		}
@@ -449,6 +459,7 @@ class CommandRootState {
 				id: this.id.current,
 				role: "application",
 				"data-cmdk-root": "",
+				tabindex: -1,
 				onkeydown: this.#onkeydown,
 			}) as const
 	);
@@ -703,6 +714,14 @@ class CommandInputState {
 	#value: CommandInputStateProps["value"];
 	#autofocus: CommandInputStateProps["autofocus"];
 
+	#selectedItemId = $derived.by(() => {
+		const item = this.#root.listNode?.querySelector<HTMLElement>(
+			`${ITEM_SELECTOR}[${VALUE_ATTR}="${encodeURIComponent(this.#value.current)}"]`
+		);
+		if (!item) return;
+		return item?.getAttribute("id") ?? undefined;
+	});
+
 	constructor(props: CommandInputStateProps, root: CommandRootState) {
 		this.#ref = props.ref;
 		this.#id = props.id;
@@ -748,7 +767,7 @@ class CommandInputState {
 				"aria-expanded": "true",
 				"aria-controls": this.#root.listNode?.id ?? undefined,
 				"aria-labelledby": this.#root.labelNode?.id ?? undefined,
-				"aria-activedescendant": "", // TODO
+				"aria-activedescendant": this.#selectedItemId, // TODO
 			}) as const
 	);
 }
@@ -789,6 +808,7 @@ class CommandItemState {
 		if (isUndefined(currentScore)) return false;
 		return currentScore > 0;
 	});
+
 	isSelected = $derived.by(() => this.#root.valueProp.current === this.trueValue);
 
 	constructor(props: CommandItemStateProps, root: CommandRootState) {
@@ -819,7 +839,7 @@ class CommandItemState {
 		});
 
 		$effect(() => {
-			const value = untrack(() => this.#value.current);
+			const value = this.#value.current;
 			const node = this.#ref.current;
 			if (!node) return;
 			if (!value && node.textContent) {
@@ -835,7 +855,7 @@ class CommandItemState {
 
 	#select = () => {
 		if (this.#disabled.current) return;
-		this.#root.setState("value", this.trueValue, true);
+		this.#root.setValue(this.trueValue, true);
 		this.#onSelect?.current();
 	};
 
